@@ -337,6 +337,43 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
   </div>
 </section>
 
+<!-- VR TRY-ON STANDALONE SECTION -->
+<section id="vrSection" style="display:none; padding:0 3rem 2rem;">
+  <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--violet);margin-bottom:1rem;">◈ VR Try-On Programme — Separate Plan &amp; Budget (USA only)</div>
+
+  <div style="background:var(--violet-pale);border:1px solid #ddd6fe;border-radius:14px;padding:1.25rem 1.75rem;margin-bottom:1.5rem;line-height:1.7;">
+    <p style="font-size:13px;color:var(--ink-2);"><strong>What this is:</strong> A virtual try-on feature built into henigdiamonds.com — customers use their phone camera to see how a ring looks on their hand, without visiting a store. It runs as a separate build project running alongside the main marketing plan.</p>
+    <p style="font-size:12px;color:var(--violet);margin-top:8px;">When the VR Try-On tick is checked in the controls above, these costs are added on top of your main phase budgets. This section shows the VR plan and costs independently regardless of whether the tick is on.</p>
+  </div>
+
+  <!-- Budget comparison table: all 3 levels -->
+  <div class="summary-card" style="margin-bottom:1.5rem;">
+    <div class="summary-header">
+      <div class="summary-title" style="color:var(--violet);">VR Try-On — Budget at a Glance</div>
+      <div style="font-size:12px;color:var(--ink-3);">All three budget levels shown — currently selected level is highlighted.</div>
+    </div>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Conservative</th>
+          <th>Moderate</th>
+          <th>Aggressive</th>
+        </tr>
+      </thead>
+      <tbody id="vrBudgetBody"></tbody>
+    </table>
+    <div style="padding:1rem 1.75rem;font-size:12px;color:var(--ink-3);border-top:1px solid var(--border);line-height:1.7;background:var(--surface);">
+      <strong>Conservative = Scenario B:</strong> VR agency is not engaged in Phase 1 — build starts Phase 2, feature goes live after the holiday peak. Lower Year 1 cost but misses the highest-traffic window.<br>
+      <strong>Moderate / Aggressive = Scenario A:</strong> Full Year 1 build — agency starts Phase 1, feature is live before the holiday peak in Phase 3. This is the recommended approach.
+    </div>
+  </div>
+
+  <!-- VR phase cards -->
+  <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--violet);margin-bottom:1rem;">VR Try-On — Phase-by-Phase Plan</div>
+  <div class="phases-grid" id="vrPhaseCards"></div>
+</section>
+
 <section style="padding:0 3rem 2rem;">
   <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.5rem 2rem;">
     <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;">Key Events, Terms &amp; Abbreviations</div>
@@ -1231,12 +1268,96 @@ function render() {
   }).join('');
   document.getElementById('barChartRows').innerHTML = barRows;
 
-  /* --- Channels note in banner (append) --- */
+  /* --- VR standalone section --- */
+  const vrSec = document.getElementById('vrSection');
+  if (currentCountry === 'USA') {
+    vrSec.style.display = '';
+    renderVRSection();
+  } else {
+    vrSec.style.display = 'none';
+  }
 }
 
 function scrollToPhase(i) {
   const el = document.getElementById('phase-card-' + i);
   if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* ============================================================
+   RENDER VR SECTION
+   ============================================================ */
+function renderVRSection() {
+  const b = currentBudget;
+
+  // Budget table — all 3 levels, highlight current
+  const hl = (level) => level === b ? ' style="background:var(--violet-pale);color:var(--violet);font-weight:600;"' : '';
+  const tableRows = VR_DATA.phases.map((ph, i) =>
+    `<tr>
+      <td style="text-align:left;">Phase ${i+1} — ${ph.title}</td>
+      <td${hl('low')}>${fmt(ph.total.low)}</td>
+      <td${hl('mid')}>${fmt(ph.total.mid)}</td>
+      <td${hl('high')}>${fmt(ph.total.high)}</td>
+    </tr>`
+  ).join('');
+  const totalRow = `<tr style="background:var(--violet-pale);color:var(--violet);font-weight:600;">
+    <td style="text-align:left;">Year 1 Total</td>
+    <td>${fmt(VR_DATA.annualSpend.low)}</td>
+    <td>${fmt(VR_DATA.annualSpend.mid)}</td>
+    <td>${fmt(VR_DATA.annualSpend.high)}</td>
+  </tr>`;
+  document.getElementById('vrBudgetBody').innerHTML = tableRows + totalRow;
+
+  // Phase cards
+  document.getElementById('vrPhaseCards').innerHTML = VR_DATA.phases.map((ph, i) => {
+    const maxCost = Math.max(...ph.channels.map(c => c.costs[b]));
+    const chRows = ph.channels.map(ch => {
+      const cost = ch.costs[b];
+      const pct  = maxCost > 0 ? Math.round((cost / maxCost) * 100) : 0;
+      return `<div class="channel-row">
+        <div class="ch-icon ${ch.cls}">${ch.icon}</div>
+        <div class="ch-info">
+          <div class="ch-name">${ch.name}</div>
+          <div class="ch-bar-wrap">
+            <div class="ch-bar-track"><div class="ch-bar-fill" style="width:${pct}%;background:var(--violet);"></div></div>
+          </div>
+        </div>
+        <div class="ch-cost" style="color:var(--violet);">${fmt(cost)}</div>
+      </div>`;
+    }).join('');
+
+    return `<div class="phase-card" style="border-color:#ddd6fe;">
+      <div class="phase-header" style="border-bottom-color:var(--violet-pale);">
+        <div class="phase-num-row">
+          <span class="phase-num" style="color:var(--violet);">VR Phase ${i+1} of 4</span>
+        </div>
+        <div class="phase-name">${ph.title}</div>
+        <div class="phase-tagline">Virtual try-on build activities</div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-activities">
+          <div class="activities-label">Activities</div>
+          ${ph.activities.map(a => `<div class="activity-item"><span class="activity-dot" style="background:var(--violet);"></span>${a}</div>`).join('')}
+        </div>
+        <div class="channels-label">Channels &amp; spend</div>
+        ${chRows}
+      </div>
+      <div class="phase-footer">
+        <div class="phase-total-block">
+          <div class="phase-total-label">VR Phase ${i+1} budget</div>
+          <div class="phase-total-val" style="color:var(--violet);">${fmt(ph.total[b])}</div>
+        </div>
+        <div class="phase-kpi">
+          <div class="kpi-label">What unlocks next</div>
+          <div class="kpi-text">${[
+            'Agency contracted, 3D asset brief approved, photography brief sent.',
+            'Feature in quality assurance — soft launch on 10% of site traffic.',
+            'Full public launch — VR is live and amplified at holiday peak.',
+            'Conversion rate optimised — VR funnel data feeds Year 2 decisions.'
+          ][i]}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 /* ============================================================
