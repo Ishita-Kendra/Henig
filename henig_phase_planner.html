@@ -342,7 +342,12 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
   <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--violet);margin-bottom:1rem;">◈ VR Try-On Programme — Separate Plan &amp; Budget (USA only)</div>
 
   <div style="background:var(--violet-pale);border:1px solid #ddd6fe;border-radius:14px;padding:1.25rem 1.75rem;margin-bottom:1.5rem;line-height:1.7;">
-    <p style="font-size:13px;color:var(--ink-2);"><strong>What this is:</strong> A virtual try-on feature built into henigdiamonds.com — customers use their phone camera to see how a ring looks on their hand, without visiting a store. It runs as a separate build project running alongside the main marketing plan.</p>
+    <p style="font-size:13px;color:var(--ink-2);"><strong>What this is:</strong> A virtual try-on feature built into henigdiamonds.com — customers use their phone camera to see how a ring looks on their hand, without visiting a store. It runs as a separate build project alongside the main marketing plan.</p>
+    <p style="font-size:13px;color:var(--ink-2);margin-top:8px;"><strong>Recommended platforms:</strong>
+      <strong style="color:var(--violet);">Zakeke</strong> (3D product visualisation + customisation, integrates directly with website, good for showing multiple variants and engraving options) or
+      <strong style="color:var(--violet);">GlamAR</strong> (augmented reality jewellery try-on via phone camera, no app download required, specialised for rings and necklaces).
+      Both integrate with henigdiamonds.com. Platform choice is confirmed in Phase 1 during the agency brief.
+    </p>
     <p style="font-size:12px;color:var(--violet);margin-top:8px;">When the VR Try-On tick is checked in the controls above, these costs are added on top of your main phase budgets. This section shows the VR plan and costs independently regardless of whether the tick is on.</p>
   </div>
 
@@ -394,7 +399,7 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>CPC</strong> — Cost per click. Used mainly for Pinterest and Google Shopping. Canada/Australia: $1.50–$3.00.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>ASP</strong> — Average Selling Price. USA: $3,500 · Germany: $2,800 · France: $2,900 · Canada: $2,700 · Ireland: $2,800.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>ROI</strong> — Return on Investment. Phase success targets are based on achieving at least 60% of the model ROI midpoint in Year 1.</div>
-      <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>VR Try-On</strong> — Virtual reality diamond try-on feature for henigdiamonds.com. USA-only add-on. Conservative = Scenario B (build starts Phase 2); Moderate/Aggressive = Scenario A (full Year 1 build).</div>
+      <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>VR Try-On (Zakeke / GlamAR)</strong> — Virtual try-on feature for henigdiamonds.com. Customers use their phone camera to see a ring on their hand — no app download needed. Two platform options: <strong>Zakeke</strong> (3D visualisation + customisation, good for showing variants) or <strong>GlamAR</strong> (augmented reality, specialised for rings and necklaces). USA-only add-on. Conservative = Scenario B (build starts Phase 2); Moderate/Aggressive = Scenario A (full Year 1 build, live before holiday peak).</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>Email &amp; SMS Marketing</strong> — Automated sequences for gift guides, cart abandonment reminders, and post-purchase follow-ups. Sent directly to customers who sign up on henigdiamonds.com.</div>
     </div>
   </div>
@@ -947,9 +952,9 @@ const VR_DATA = {
   phases: [
     {
       title:'VR Agency + Build Kickoff',
-      activities:['Agency proposal process → contract signed → discovery begins','Website backend preparation, analytics event setup for virtual try-on','Photography re-shoots feeding the 3D asset pipeline'],
+      activities:['Platform selection: Zakeke vs GlamAR evaluation, decision, and contract signed','Agency proposal process → brief issued → discovery and scoping begins','Website backend preparation, analytics event setup for virtual try-on','Photography re-shoots feeding the 3D asset pipeline'],
       channels:[
-        {name:'Agency Build Fee', icon:'B', cls:'agency-icon', costs:{low:0,     mid:80000,high:92000}},
+        {name:'Platform (Zakeke/GlamAR) + Agency Build Fee', icon:'B', cls:'agency-icon', costs:{low:0,     mid:80000,high:92000}},
         {name:'3D Asset Creation', icon:'3', cls:'asset-icon', costs:{low:0,     mid:25000,high:29000}},
         {name:'Website Integration', icon:'X', cls:'prod-icon', costs:{low:0,    mid:8000, high:9000}},
       ],
@@ -959,7 +964,7 @@ const VR_DATA = {
       title:'Build + Soft Launch',
       activities:['Build → quality assurance → soft launch on 10% traffic (end of phase)','Product page integration live on henigdiamonds.com, landing page','Organic social teaser posts; Google Search ad copy refresh'],
       channels:[
-        {name:'Agency Build Fee', icon:'B', cls:'agency-icon', costs:{low:80000, mid:70000,high:80000}},
+        {name:'Platform (Zakeke/GlamAR) + Agency Build Fee', icon:'B', cls:'agency-icon', costs:{low:80000, mid:70000,high:80000}},
         {name:'3D Asset Creation', icon:'3', cls:'asset-icon', costs:{low:25000, mid:30000,high:35000}},
         {name:'Hosting + SaaS Licences', icon:'H', cls:'host-icon', costs:{low:0,     mid:4000, high:5000}},
         {name:'Website Integration', icon:'X', cls:'prod-icon', costs:{low:8000,  mid:15000,high:17000}},
