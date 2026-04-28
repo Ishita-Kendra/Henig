@@ -250,16 +250,6 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
         <button class="b-pill" onclick="setBudget('high',this)">Aggressive</button>
       </div>
     </div>
-    <div class="ctrl" id="vrCtrl" style="display:none;">
-      <div class="ctrl-lbl">Add-on (USA only)</div>
-      <label class="vr-toggle" id="vrToggle" onclick="toggleVR()">
-        <input type="checkbox" id="vrCheck" style="pointer-events:none;"> VR Try-On Programme
-      </label>
-      <div style="font-size:11px;color:var(--violet);margin-top:5px;line-height:1.5;" id="vrCostHint">
-        Adds agency build, 3D asset creation &amp; hosting on top of base plan.<br>
-        <strong id="vrCostVal"></strong> additional Year 1 cost — broken down per phase below when ticked.
-      </div>
-    </div>
   </div>
   <div class="custom-event-row" id="customRow">
     <span style="font-size:12px;color:var(--ink-3);">Custom event:</span>
@@ -335,48 +325,6 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
       <div id="barChartRows"></div>
     </div>
   </div>
-</section>
-
-<!-- VR TRY-ON STANDALONE SECTION -->
-<section id="vrSection" style="display:none; padding:0 3rem 2rem;">
-  <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--violet);margin-bottom:1rem;">◈ VR Try-On Programme — Separate Plan &amp; Budget (USA only)</div>
-
-  <div style="background:var(--violet-pale);border:1px solid #ddd6fe;border-radius:14px;padding:1.25rem 1.75rem;margin-bottom:1.5rem;line-height:1.7;">
-    <p style="font-size:13px;color:var(--ink-2);"><strong>What this is:</strong> A virtual try-on feature built into henigdiamonds.com — customers use their phone camera to see how a ring looks on their hand, without visiting a store. It runs as a separate build project alongside the main marketing plan.</p>
-    <p style="font-size:13px;color:var(--ink-2);margin-top:8px;"><strong>Recommended platforms:</strong>
-      <strong style="color:var(--violet);">Zakeke</strong> (3D product visualisation + customisation, integrates directly with website, good for showing multiple variants and engraving options) or
-      <strong style="color:var(--violet);">GlamAR</strong> (augmented reality jewellery try-on via phone camera, no app download required, specialised for rings and necklaces).
-      Both integrate with henigdiamonds.com. Platform choice is confirmed in Phase 1 during the agency brief.
-    </p>
-    <p style="font-size:12px;color:var(--violet);margin-top:8px;">When the VR Try-On tick is checked in the controls above, these costs are added on top of your main phase budgets. This section shows the VR plan and costs independently regardless of whether the tick is on.</p>
-  </div>
-
-  <!-- Budget comparison table: all 3 levels -->
-  <div class="summary-card" style="margin-bottom:1.5rem;">
-    <div class="summary-header">
-      <div class="summary-title" style="color:var(--violet);">VR Try-On — Budget at a Glance</div>
-      <div style="font-size:12px;color:var(--ink-3);">All three budget levels shown — currently selected level is highlighted.</div>
-    </div>
-    <table class="summary-table">
-      <thead>
-        <tr>
-          <th>Phase</th>
-          <th>Conservative</th>
-          <th>Moderate</th>
-          <th>Aggressive</th>
-        </tr>
-      </thead>
-      <tbody id="vrBudgetBody"></tbody>
-    </table>
-    <div style="padding:1rem 1.75rem;font-size:12px;color:var(--ink-3);border-top:1px solid var(--border);line-height:1.7;background:var(--surface);">
-      <strong>Conservative = Scenario B:</strong> VR agency is not engaged in Phase 1 — build starts Phase 2, feature goes live after the holiday peak. Lower Year 1 cost but misses the highest-traffic window.<br>
-      <strong>Moderate / Aggressive = Scenario A:</strong> Full Year 1 build — agency starts Phase 1, feature is live before the holiday peak in Phase 3. This is the recommended approach.
-    </div>
-  </div>
-
-  <!-- VR phase cards -->
-  <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--violet);margin-bottom:1rem;">VR Try-On — Phase-by-Phase Plan</div>
-  <div class="phases-grid" id="vrPhaseCards"></div>
 </section>
 
 <section style="padding:0 3rem 2rem;">
@@ -638,7 +586,6 @@ const PHASE_TEMPLATES = {
         'Post-show follow-up: sample orders, payment terms negotiation, first invoices',
         'ROI assessment vs Germany Mid-Luxury expansion case ($5K–$16K/month incremental)',
         'Year-2 decision gates: Germany Mid-Luxury, Ireland follow-on, France entry',
-        'VR Try-On Inhorgenta demo (if VR programme is active) — key differentiator when pitching to boutique stores',
       ],
       channels:[
         {name:'Inhorgenta Stand (activation)', icon:'T', cls:'trade-icon', costs:{low:19000,mid:42000,high:65000}},
@@ -946,62 +893,6 @@ const TARGET_EVENTS = {
   ],
 };
 
-/* VR Try-On data (USA only, Scenario A = Moderate) */
-const VR_DATA = {
-  annualSpend: {low:327000, mid:390000, high:448000},
-  phases: [
-    {
-      title:'VR Agency + Build Kickoff',
-      activities:['Platform selection: Zakeke vs GlamAR evaluation, decision, and contract signed','Agency proposal process → brief issued → discovery and scoping begins','Website backend preparation, analytics event setup for virtual try-on','Photography re-shoots feeding the 3D asset pipeline'],
-      channels:[
-        {name:'Platform (Zakeke/GlamAR) + Agency Build Fee', icon:'B', cls:'agency-icon', costs:{low:0,     mid:80000,high:92000}},
-        {name:'3D Asset Creation', icon:'3', cls:'asset-icon', costs:{low:0,     mid:25000,high:29000}},
-        {name:'Website Integration', icon:'X', cls:'prod-icon', costs:{low:0,    mid:8000, high:9000}},
-      ],
-      total:{low:0,mid:113000,high:130000},
-    },
-    {
-      title:'Build + Soft Launch',
-      activities:['Build → quality assurance → soft launch on 10% traffic (end of phase)','Product page integration live on henigdiamonds.com, landing page','Organic social teaser posts; Google Search ad copy refresh'],
-      channels:[
-        {name:'Platform (Zakeke/GlamAR) + Agency Build Fee', icon:'B', cls:'agency-icon', costs:{low:80000, mid:70000,high:80000}},
-        {name:'3D Asset Creation', icon:'3', cls:'asset-icon', costs:{low:25000, mid:30000,high:35000}},
-        {name:'Hosting + SaaS Licences', icon:'H', cls:'host-icon', costs:{low:0,     mid:4000, high:5000}},
-        {name:'Website Integration', icon:'X', cls:'prod-icon', costs:{low:8000,  mid:15000,high:17000}},
-        {name:'Paid Social Demo Creative', icon:'M', cls:'meta-icon', costs:{low:0,  mid:6000, high:7000}},
-        {name:'PR + Launch Story', icon:'P', cls:'pr-icon', costs:{low:0,         mid:3000, high:3000}},
-      ],
-      total:{low:113000,mid:128000,high:147000},
-    },
-    {
-      title:'Public Live + Holiday Amplify',
-      activities:['Full amplification at holiday peak — VR is headline feature','Meta/Instagram Reels demos, Pinterest pins, YouTube how-to','Influencer try-on content + Google Search ad extensions'],
-      channels:[
-        {name:'3D Assets (ongoing)', icon:'3', cls:'asset-icon', costs:{low:30000, mid:8000, high:9000}},
-        {name:'Hosting + SaaS', icon:'H', cls:'host-icon', costs:{low:4000,  mid:6000, high:7000}},
-        {name:'Website / Site Updates', icon:'X', cls:'prod-icon', costs:{low:15000, mid:4000, high:5000}},
-        {name:'Paid Social Demo Creative', icon:'M', cls:'meta-icon', costs:{low:0,  mid:28000,high:32000}},
-        {name:'PR + Launch Story', icon:'P', cls:'pr-icon', costs:{low:3000,  mid:18000,high:21000}},
-        {name:'Influencer Try-On Content', icon:'I', cls:'influencer-icon', costs:{low:70000,mid:22000,high:25000}},
-      ],
-      total:{low:122000,mid:86000,high:99000},
-    },
-    {
-      title:'Optimise + Inhorgenta Demo',
-      activities:['Conversion optimisation + A/B testing on try-on funnel','German-language site integration for Inhorgenta demo (if DE active)','Live VR demo on Inhorgenta stand — key differentiator when pitching to boutique stores'],
-      channels:[
-        {name:'3D Assets (updates)', icon:'3', cls:'asset-icon', costs:{low:10000, mid:8000, high:9000}},
-        {name:'Hosting + SaaS', icon:'H', cls:'host-icon', costs:{low:6000,  mid:6000, high:7000}},
-        {name:'Website / DE Integration', icon:'X', cls:'prod-icon', costs:{low:10000, mid:10000,high:12000}},
-        {name:'Paid Social Demo Creative', icon:'M', cls:'meta-icon', costs:{low:22000, mid:12000,high:14000}},
-        {name:'PR + Launch Story', icon:'P', cls:'pr-icon', costs:{low:15000, mid:5000, high:6000}},
-        {name:'Influencer Try-On Content', icon:'I', cls:'influencer-icon', costs:{low:15000, mid:8000, high:9000}},
-        {name:'Inhorgenta Demo Build', icon:'T', cls:'trade-icon', costs:{low:14000, mid:14000,high:16000}},
-      ],
-      total:{low:92000,mid:63000,high:73000},
-    },
-  ],
-};
 
 /* ============================================================
    STATE
@@ -1009,7 +900,6 @@ const VR_DATA = {
 let currentCountry = 'USA';
 let currentBudget  = 'mid';
 let currentEvent   = null;
-let vrEnabled      = false;
 
 /* ============================================================
    CALENDAR HELPERS
@@ -1121,24 +1011,18 @@ function render() {
   startPill.className = 'start-pill' + (tight ? ' tight' : '');
 
   const annualMain = meta.annualSpend[currentBudget];
-  const annualVR   = (vrEnabled && currentCountry === 'USA') ? VR_DATA.annualSpend[currentBudget] : 0;
-  const annualTotal = annualMain + annualVR;
-
-  // Update VR cost hint with current budget figure
-  const vrCostValEl = document.getElementById('vrCostVal');
-  if (vrCostValEl) vrCostValEl.textContent = fmt(VR_DATA.annualSpend[currentBudget]);
 
   document.getElementById('bannerStats').innerHTML = `
     <div class="banner-stat"><div class="banner-stat-val accent">${meta.score}/10</div><div class="banner-stat-lbl">Opportunity Score</div></div>
     <div class="banner-stat"><div class="banner-stat-val">${meta.tam}</div><div class="banner-stat-lbl">Market Size 2025</div></div>
     <div class="banner-stat"><div class="banner-stat-val">${meta.yoy}</div><div class="banner-stat-lbl">Annual Growth Rate</div></div>
-    <div class="banner-stat"><div class="banner-stat-val accent">${fmt(annualTotal)}</div><div class="banner-stat-lbl">Year 1 ${currentBudget==='low'?'conservative':currentBudget==='mid'?'moderate':'aggressive'}${annualVR?'+VR':''}</div></div>
+    <div class="banner-stat"><div class="banner-stat-val accent">${fmt(annualMain)}</div><div class="banner-stat-lbl">Year 1 ${currentBudget==='low'?'conservative':currentBudget==='mid'?'moderate':'aggressive'}</div></div>
   `;
 
   /* --- Timeline --- */
   const tlHTML = windows.map((w, i) => {
     const ph = phases[i];
-    const total = ph.total[currentBudget] + (vrEnabled && currentCountry==='USA' ? VR_DATA.phases[i].total[currentBudget] : 0);
+    const total = ph.total[currentBudget];
     return `<div class="tl-phase" onclick="scrollToPhase(${i})">
       <div class="tl-num">Phase ${i+1}</div>
       <div class="tl-name">${ph.name}${w.hasEvent ? `<span class="tl-event-dot"></span>` : ''}</div>
@@ -1154,9 +1038,6 @@ function render() {
     const channels = resolveChannels(ph, currentBudget);
     const maxCost  = Math.max(...channels.map(c => c.cost));
     const phaseTotal = ph.total[currentBudget];
-    const vrPhase = (vrEnabled && currentCountry === 'USA') ? VR_DATA.phases[i] : null;
-    const vrTotal = vrPhase ? vrPhase.total[currentBudget] : 0;
-    const grandTotal = phaseTotal + vrTotal;
 
     const evBadge = w.hasEvent && ev.badge ? `<span class="phase-event-badge" style="background:${meta.tierColor}22;color:${meta.tierColor}">${ev.badge}</span>` : '';
 
@@ -1173,18 +1054,6 @@ function render() {
         <div class="ch-cost">${fmt(ch.cost)}</div>
       </div>`;
     }).join('');
-
-    let vrHTML = '';
-    if (vrPhase && vrTotal > 0) {
-      const vrChRows = vrPhase.channels.map(c => `<div class="vr-channel-row"><div class="ch-icon ${c.cls}" style="width:22px;height:22px;font-size:10px;">${c.icon}</div><div class="vr-ch-name">${c.name}</div><div class="vr-ch-cost">${fmt(c.costs[currentBudget])}</div></div>`).join('');
-      vrHTML = `<div class="vr-addon visible">
-        <div class="vr-addon-title">VR Try-On add-on — ${vrPhase.title}</div>
-        ${vrPhase.activities.map(a=>`<div style="font-size:11px;color:var(--ink-3);margin-bottom:3px;">· ${a}</div>`).join('')}
-        <div style="margin-top:8px;">${vrChRows}</div>
-      </div>`;
-    }
-
-    const vrTotalLine = vrTotal > 0 ? `<div class="phase-total-vr">+ VR: ${fmt(vrTotal)}</div>` : '';
 
     return `<div class="phase-card${w.hasEvent?' event-phase':''}" id="phase-card-${i}">
       <div class="phase-header">
@@ -1203,13 +1072,11 @@ function render() {
         </div>
         <div class="channels-label">Channels &amp; spend</div>
         ${chRows}
-        ${vrHTML}
       </div>
       <div class="phase-footer">
         <div class="phase-total-block">
           <div class="phase-total-label">Phase ${i+1} budget</div>
-          <div class="phase-total-val">${fmt(grandTotal)}</div>
-          ${vrTotalLine}
+          <div class="phase-total-val">${fmt(phaseTotal)}</div>
         </div>
         <div class="phase-kpi">
           <div class="kpi-label">Phase Success Target</div>
@@ -1223,64 +1090,30 @@ function render() {
 
   /* --- Summary Table --- */
   const mainTotals = phases.map(ph => ph.total[currentBudget]);
-  const vrTotals   = phases.map((_,i) => vrEnabled && currentCountry==='USA' ? VR_DATA.phases[i].total[currentBudget] : 0);
   const mainY1     = mainTotals.reduce((a,b)=>a+b,0);
-  const vrY1       = vrTotals.reduce((a,b)=>a+b,0);
-  const grandY1    = mainY1 + vrY1;
 
   document.getElementById('summaryTitle').textContent = `${meta.flag} ${meta.name} ${meta.segment} — Year 1 Programme`;
-  document.getElementById('summaryTotal').textContent = fmt(grandY1);
+  document.getElementById('summaryTotal').textContent = fmt(mainY1);
 
-  const mainRow = `<tr>
+  document.getElementById('summaryBody').innerHTML = `<tr>
     <td>${meta.flag} ${meta.name} ${meta.segment}</td>
     ${mainTotals.map(t=>`<td>${fmt(t)}</td>`).join('')}
     <td>${fmt(mainY1)}</td>
   </tr>`;
 
-  let vrRow = '';
-  if (vrEnabled && currentCountry === 'USA' && vrY1 > 0) {
-    vrRow = `<tr class="vr-row">
-      <td>VR Try-On Programme</td>
-      ${vrTotals.map(t=>`<td>${fmt(t)}</td>`).join('')}
-      <td>${fmt(vrY1)}</td>
-    </tr>`;
-  }
-
-  const totalRow = `<tr>
-    <td>Combined Year 1</td>
-    ${phases.map((_,i)=>`<td>${fmt(mainTotals[i]+vrTotals[i])}</td>`).join('')}
-    <td>${fmt(grandY1)}</td>
-  </tr>`;
-
-  document.getElementById('summaryBody').innerHTML = mainRow + vrRow + (vrRow ? totalRow : '');
-
   /* --- Bar chart --- */
-  const maxBar = Math.max(...phases.map((_,i)=>mainTotals[i]+vrTotals[i]));
-  const barRows = phases.map((_,i) => {
-    const main = mainTotals[i];
-    const vr   = vrTotals[i];
-    const total = main + vr;
-    const mainW = maxBar > 0 ? (main/maxBar*100).toFixed(1) : 0;
-    const vrW   = maxBar > 0 ? (vr/maxBar*100).toFixed(1) : 0;
+  const maxBar = Math.max(...mainTotals);
+  const barRows = phases.map((ph, i) => {
+    const w = maxBar > 0 ? (mainTotals[i]/maxBar*100).toFixed(1) : 0;
     return `<div class="bar-chart-row">
-      <span class="bar-chart-pname">Phase ${i+1} · ${phases[i].name}</span>
+      <span class="bar-chart-pname">Phase ${i+1} · ${ph.name}</span>
       <div class="bar-chart-track">
-        <div class="bar-seg bar-main" style="width:${mainW}%"></div>
-        <div class="bar-seg bar-vr" style="width:${vrW}%"></div>
+        <div class="bar-seg bar-main" style="width:${w}%"></div>
       </div>
-      <span class="bar-chart-val">${fmt(total)}</span>
+      <span class="bar-chart-val">${fmt(mainTotals[i])}</span>
     </div>`;
   }).join('');
   document.getElementById('barChartRows').innerHTML = barRows;
-
-  /* --- VR standalone section --- */
-  const vrSec = document.getElementById('vrSection');
-  if (currentCountry === 'USA') {
-    vrSec.style.display = '';
-    renderVRSection();
-  } else {
-    vrSec.style.display = 'none';
-  }
 }
 
 function scrollToPhase(i) {
@@ -1288,82 +1121,6 @@ function scrollToPhase(i) {
   if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
-/* ============================================================
-   RENDER VR SECTION
-   ============================================================ */
-function renderVRSection() {
-  const b = currentBudget;
-
-  // Budget table — all 3 levels, highlight current
-  const hl = (level) => level === b ? ' style="background:var(--violet-pale);color:var(--violet);font-weight:600;"' : '';
-  const tableRows = VR_DATA.phases.map((ph, i) =>
-    `<tr>
-      <td style="text-align:left;">Phase ${i+1} — ${ph.title}</td>
-      <td${hl('low')}>${fmt(ph.total.low)}</td>
-      <td${hl('mid')}>${fmt(ph.total.mid)}</td>
-      <td${hl('high')}>${fmt(ph.total.high)}</td>
-    </tr>`
-  ).join('');
-  const totalRow = `<tr style="background:var(--violet-pale);color:var(--violet);font-weight:600;">
-    <td style="text-align:left;">Year 1 Total</td>
-    <td>${fmt(VR_DATA.annualSpend.low)}</td>
-    <td>${fmt(VR_DATA.annualSpend.mid)}</td>
-    <td>${fmt(VR_DATA.annualSpend.high)}</td>
-  </tr>`;
-  document.getElementById('vrBudgetBody').innerHTML = tableRows + totalRow;
-
-  // Phase cards
-  document.getElementById('vrPhaseCards').innerHTML = VR_DATA.phases.map((ph, i) => {
-    const maxCost = Math.max(...ph.channels.map(c => c.costs[b]));
-    const chRows = ph.channels.map(ch => {
-      const cost = ch.costs[b];
-      const pct  = maxCost > 0 ? Math.round((cost / maxCost) * 100) : 0;
-      return `<div class="channel-row">
-        <div class="ch-icon ${ch.cls}">${ch.icon}</div>
-        <div class="ch-info">
-          <div class="ch-name">${ch.name}</div>
-          <div class="ch-bar-wrap">
-            <div class="ch-bar-track"><div class="ch-bar-fill" style="width:${pct}%;background:var(--violet);"></div></div>
-          </div>
-        </div>
-        <div class="ch-cost" style="color:var(--violet);">${fmt(cost)}</div>
-      </div>`;
-    }).join('');
-
-    return `<div class="phase-card" style="border-color:#ddd6fe;">
-      <div class="phase-header" style="border-bottom-color:var(--violet-pale);">
-        <div class="phase-num-row">
-          <span class="phase-num" style="color:var(--violet);">VR Phase ${i+1} of 4</span>
-        </div>
-        <div class="phase-name">${ph.title}</div>
-        <div class="phase-tagline">Virtual try-on build activities</div>
-      </div>
-      <div class="phase-body">
-        <div class="phase-activities">
-          <div class="activities-label">Activities</div>
-          ${ph.activities.map(a => `<div class="activity-item"><span class="activity-dot" style="background:var(--violet);"></span>${a}</div>`).join('')}
-        </div>
-        <div class="channels-label">Channels &amp; spend</div>
-        ${chRows}
-      </div>
-      <div class="phase-footer">
-        <div class="phase-total-block">
-          <div class="phase-total-label">VR Phase ${i+1} budget</div>
-          <div class="phase-total-val" style="color:var(--violet);">${fmt(ph.total[b])}</div>
-        </div>
-        <div class="phase-kpi">
-          <div class="kpi-label">What unlocks next</div>
-          <div class="kpi-text">${[
-            'Agency contracted, 3D asset brief approved, photography brief sent.',
-            'Feature in quality assurance — soft launch on 10% of site traffic.',
-            'Full public launch — VR is live and amplified at holiday peak.',
-            'Conversion rate optimised — VR funnel data feeds Year 2 decisions.'
-          ][i]}</div>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-}
 
 /* ============================================================
    RENDER ALL COUNTRIES
@@ -1505,12 +1262,9 @@ function onCountryChange() {
   currentCountry = document.getElementById('countrySel').value;
 
   const eventCtrl = document.getElementById('eventCtrl');
-  const vrCtrl    = document.getElementById('vrCtrl');
 
   if (currentCountry === 'all') {
     eventCtrl.style.display = 'none';
-    vrCtrl.style.display = 'none';
-    vrEnabled = false;
     document.getElementById('customRow').classList.remove('visible');
     document.getElementById('phasesLabel').textContent = 'Phase-by-phase breakdown — all 5 countries';
     renderAll();
@@ -1520,12 +1274,6 @@ function onCountryChange() {
   eventCtrl.style.display = '';
   document.getElementById('phasesLabel').textContent = 'Phase-by-phase breakdown';
   populateEventDropdown();
-  vrCtrl.style.display = currentCountry === 'USA' ? '' : 'none';
-  if (currentCountry !== 'USA') {
-    vrEnabled = false;
-    document.getElementById('vrCheck').checked = false;
-    document.getElementById('vrToggle').classList.remove('active');
-  }
   render();
 }
 
@@ -1540,15 +1288,6 @@ function setBudget(level, btn) {
   render();
 }
 
-function toggleVR() {
-  // Toggle the checkbox state (click fires before state changes in label)
-  const cb = document.getElementById('vrCheck');
-  // We need to invert since the click hasn't been processed yet
-  vrEnabled = !cb.checked;
-  cb.checked = vrEnabled;
-  document.getElementById('vrToggle').classList.toggle('active', vrEnabled);
-  render();
-}
 
 function populateEventDropdown() {
   const sel = document.getElementById('eventSel');
