@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Henig Diamonds — Phased Marketing Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111318; --ink-2: #3d4149; --ink-3: #8a909c;
+  --white: #ffffff; --surface: #f7f8fa; --surface-2: #eef0f4;
+  --border: #e2e5eb; --border-2: #d0d4dc;
+  --accent: #2563eb; --accent-pale: #eff4ff; --accent-mid: #93b4f8;
+  --emerald: #15803d; --emerald-pale: #dcfce7;
+  --ruby: #b91c1c; --ruby-pale: #fee2e2;
+  --amber: #92400e; --amber-pale: #fef3c7;
+  --gold: #b45309; --gold-pale: #fef9ef;
+  --violet: #7c3aed; --violet-pale: #f5f3ff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--ink); min-height: 100vh; }
+
+/* HEADER */
+header {
+  background: var(--white); border-bottom: 1px solid var(--border);
+  padding: 0 3rem; display: flex; align-items: center;
+  justify-content: space-between; height: 60px;
+  position: sticky; top: 0; z-index: 100;
+}
+.logo { display: flex; align-items: baseline; gap: 12px; }
+.logo-main { font-family: 'Playfair Display', serif; font-size: 17px; letter-spacing: 0.06em; }
+.logo-sub { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+.header-badge { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); border: 1px solid var(--border); padding: 4px 12px; border-radius: 100px; background: var(--surface); }
+
+/* HERO */
+.hero { background: var(--white); border-bottom: 1px solid var(--border); padding: 2.5rem 3rem 2rem; position: relative; overflow: hidden; }
+.hero::before { content: '◆'; position: absolute; right: 3rem; top: 50%; transform: translateY(-50%); font-size: 160px; color: rgba(37,99,235,0.04); font-family: serif; pointer-events: none; }
+.hero-tag { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 400; line-height: 1.2; margin-bottom: 0.75rem; max-width: 560px; }
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero-sub { font-size: 13px; color: var(--ink-3); max-width: 500px; line-height: 1.7; }
+
+/* CONTROLS */
+.controls-section { padding: 1.5rem 3rem; background: var(--surface); }
+.controls-bar { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.75rem; display: flex; align-items: flex-end; gap: 2rem; flex-wrap: wrap; }
+.ctrl { display: flex; flex-direction: column; gap: 6px; }
+.ctrl-lbl { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+select { font-family: 'DM Sans', sans-serif; font-size: 13px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 7px 28px 7px 10px; color: var(--ink); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a909c'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; min-width: 220px; }
+.budget-pills { display: flex; gap: 6px; }
+.b-pill { padding: 7px 16px; border-radius: 100px; border: 1px solid var(--border); background: transparent; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--ink-2); cursor: pointer; transition: all 0.15s; }
+.b-pill:hover { border-color: var(--accent); color: var(--accent); }
+.b-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.vr-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 7px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--white); font-size: 12px; color: var(--ink-2); transition: all 0.15s; white-space: nowrap; }
+.vr-toggle:hover { border-color: var(--violet); color: var(--violet); }
+.vr-toggle.active { background: var(--violet-pale); border-color: var(--violet); color: var(--violet); }
+.vr-toggle input { accent-color: var(--violet); }
+
+.custom-event-row { display: none; margin-top: 0.75rem; align-items: center; gap: 1rem; flex-wrap: wrap; padding: 0.75rem 1rem; background: var(--surface-2); border-radius: 8px; }
+.custom-event-row.visible { display: flex; }
+.custom-event-row input[type=text] { font-family: 'DM Sans', sans-serif; font-size: 13px; border: 1px solid var(--border); border-radius: 8px; padding: 7px 12px; color: var(--ink); background: var(--white); width: 200px; }
+.custom-event-row select { min-width: 180px; }
+
+/* LAUNCH BANNER */
+.launch-banner { padding: 0 3rem 1rem; }
+.banner-inner { border-radius: 14px; padding: 1.5rem 2rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+.banner-inner.tier-1 { background: linear-gradient(135deg, #eff4ff 0%, #dbeafe 100%); border: 1px solid var(--accent-mid); }
+.banner-inner.tier-2 { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); border: 1px solid #86efac; }
+.banner-inner.tier-3 { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border: 1px solid #c4b5fd; }
+.banner-inner.tier-4 { background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); border: 1px solid #fdba74; }
+.banner-inner.tier-5 { background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%); border: 1px solid var(--border); }
+
+.banner-left {}
+.banner-tag { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+.banner-title { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 6px; color: var(--ink); }
+.banner-note { font-size: 13px; color: var(--ink-2); line-height: 1.6; max-width: 520px; }
+
+.banner-right { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: flex-start; }
+.banner-stat { text-align: right; }
+.banner-stat-val { font-size: 20px; font-weight: 500; color: var(--ink); }
+.banner-stat-val.accent { color: var(--accent); }
+.banner-stat-val.green { color: var(--emerald); }
+.banner-stat-lbl { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-top: 2px; }
+
+.start-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: white; font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 100px; margin-top: 10px; }
+.start-pill.tight { background: var(--amber); }
+
+/* TIMELINE STRIP */
+.timeline-section { padding: 0 3rem 1.5rem; }
+.timeline-strip { background: var(--white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.timeline-phases { display: grid; grid-template-columns: repeat(4, 1fr); }
+.tl-phase { padding: 1rem 1.25rem; border-right: 1px solid var(--border); position: relative; cursor: pointer; transition: background 0.15s; }
+.tl-phase:last-child { border-right: none; }
+.tl-phase:hover { background: var(--surface); }
+.tl-phase.active-phase { background: var(--accent-pale); border-bottom: 3px solid var(--accent); }
+.tl-num { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.tl-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+.tl-window { font-size: 11px; color: var(--ink-3); }
+.tl-event-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-left: 5px; vertical-align: middle; }
+.tl-total { font-size: 12px; font-weight: 500; color: var(--accent); margin-top: 6px; }
+
+/* PHASE CARDS */
+.phases-section { padding: 0 3rem 2rem; }
+.section-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 1rem; }
+.phases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.phase-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: box-shadow 0.2s; }
+.phase-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.phase-card.event-phase { border-color: var(--accent-mid); }
+
+.phase-header { padding: 1.25rem 1.5rem 1rem; border-bottom: 1px solid var(--surface-2); }
+.phase-num-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.phase-num { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+.phase-event-badge { font-size: 10px; letter-spacing: 0.08em; padding: 2px 9px; border-radius: 100px; font-weight: 500; }
+.phase-name { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 3px; }
+.phase-window { font-size: 12px; color: var(--ink-3); margin-bottom: 8px; }
+.phase-tagline { font-size: 12px; color: var(--ink-2); font-style: italic; }
+
+.phase-body { padding: 1rem 1.5rem; }
+.phase-activities { margin-bottom: 1rem; }
+.activities-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+.activity-item { display: flex; align-items: flex-start; gap: 7px; font-size: 12px; color: var(--ink-2); line-height: 1.5; margin-bottom: 5px; }
+.activity-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 5px; }
+
+.channels-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+.channel-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.ch-icon { width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+.trade-icon { background: #f0f0f0; color: #444; }
+.google-icon { background: #fce8e6; color: #ea4335; }
+.meta-icon { background: #e7f0fd; color: #1877f2; }
+.pr-icon { background: #fef3c7; color: #92400e; }
+.pinterest-icon { background: #fde8e8; color: #e60023; }
+.prod-icon { background: var(--surface-2); color: var(--ink-3); }
+.agent-icon { background: #dcfce7; color: #15803d; }
+.press-icon { background: #f5f3ff; color: #7c3aed; }
+.influencer-icon { background: var(--gold-pale); color: var(--gold); }
+.esg-icon { background: #dcfce7; color: #15803d; }
+.coop-icon { background: #fef9ef; color: #b45309; }
+.agency-icon { background: var(--violet-pale); color: var(--violet); }
+.asset-icon { background: #f0fdf4; color: #16a34a; }
+.host-icon { background: var(--surface-2); color: var(--ink-2); }
+
+.ch-info { flex: 1; min-width: 0; }
+.ch-name { font-size: 11.5px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ch-bar-wrap { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+.ch-bar-track { flex: 1; height: 4px; background: var(--surface-2); border-radius: 2px; overflow: hidden; }
+.ch-bar-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width 0.4s; }
+.ch-cost { font-size: 12px; font-weight: 500; color: var(--accent); min-width: 50px; text-align: right; flex-shrink: 0; }
+
+.phase-footer { padding: 0.875rem 1.5rem; background: var(--surface); border-top: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.phase-total-block {}
+.phase-total-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2px; }
+.phase-total-val { font-size: 18px; font-weight: 500; color: var(--ink); }
+.phase-total-vr { font-size: 11px; color: var(--violet); margin-top: 2px; }
+.phase-kpi { max-width: 55%; }
+.kpi-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2px; }
+.kpi-text { font-size: 11px; color: var(--ink-2); line-height: 1.5; }
+.kpi-fail { font-size: 10.5px; color: var(--ruby); margin-top: 3px; line-height: 1.4; }
+
+/* VR ADD-ON */
+.vr-addon { margin-top: 0.75rem; padding: 0.75rem 1rem; background: var(--violet-pale); border: 1px solid #ddd6fe; border-radius: 10px; display: none; }
+.vr-addon.visible { display: block; }
+.vr-addon-title { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--violet); margin-bottom: 8px; font-weight: 500; }
+.vr-channel-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.vr-ch-name { font-size: 11px; color: var(--ink-2); flex: 1; }
+.vr-ch-cost { font-size: 11px; font-weight: 500; color: var(--violet); }
+
+/* SUMMARY TABLE */
+.summary-section { padding: 0 3rem 2rem; }
+.summary-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.summary-header { padding: 1.25rem 1.75rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.summary-title { font-family: 'Playfair Display', serif; font-size: 18px; }
+.summary-total-row { display: flex; align-items: baseline; gap: 6px; }
+.summary-total-label { font-size: 12px; color: var(--ink-3); }
+.summary-total-val { font-size: 20px; font-weight: 500; color: var(--accent); }
+
+.summary-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.summary-table th { padding: 10px 16px; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); background: var(--surface); border-bottom: 1px solid var(--border); text-align: right; font-weight: 500; }
+.summary-table th:first-child { text-align: left; }
+.summary-table td { padding: 13px 16px; border-bottom: 1px solid var(--surface-2); text-align: right; }
+.summary-table td:first-child { text-align: left; font-weight: 500; }
+.summary-table tr:last-child td { border-bottom: none; font-weight: 500; background: var(--accent-pale); color: var(--accent); }
+.summary-table tr.vr-row td { color: var(--violet); background: var(--violet-pale); }
+.summary-table tr.vr-row td:first-child { font-style: italic; }
+
+/* PHASE BAR CHART */
+.phase-bar-chart { padding: 1.25rem 1.75rem; border-top: 1px solid var(--border); }
+.bar-chart-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 1rem; }
+.bar-chart-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.bar-chart-pname { font-size: 11px; color: var(--ink-2); min-width: 80px; }
+.bar-chart-track { flex: 1; height: 20px; background: var(--surface-2); border-radius: 4px; overflow: hidden; display: flex; }
+.bar-seg { height: 100%; transition: width 0.4s; }
+.bar-main { background: var(--accent); }
+.bar-vr { background: var(--violet); }
+.bar-chart-val { font-size: 12px; font-weight: 500; color: var(--ink-2); min-width: 60px; text-align: right; }
+
+/* FOOTER */
+footer { background: var(--white); border-top: 1px solid var(--border); color: var(--ink-3); padding: 1.25rem 3rem; font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
+footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--ink); letter-spacing: 0.08em; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  header, .hero, .controls-section, .launch-banner, .timeline-section, .phases-section, .summary-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .phases-grid { grid-template-columns: 1fr; }
+  .timeline-phases { grid-template-columns: 1fr 1fr; }
+  .banner-right { justify-content: flex-start; }
+  .banner-stat { text-align: left; }
+  footer { flex-direction: column; gap: 8px; padding: 1rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-main">HENIG</span>
+    <span class="logo-sub">Phased Marketing Planner</span>
+  </div>
+  <span class="header-badge">12-Month Launch Model · May 2026–Apr 2027</span>
+</header>
+
+<section class="hero">
+  <div class="hero-tag">◆ Phase-by-Phase Launch Intelligence</div>
+  <h1>Plan your <em>phased launch</em><br>by country and event</h1>
+  <p class="hero-sub">Select a country and target season or trade show. The planner calculates when to start, what to do in each phase, which channels to use, and how much to budget — at three spend intensities.</p>
+</section>
+
+<section class="controls-section">
+  <div class="controls-bar">
+    <div class="ctrl">
+      <div class="ctrl-lbl">Country</div>
+      <select id="countrySel" onchange="onCountryChange()">
+        <option value="USA">🇺🇸 USA — Luxury</option>
+        <option value="Germany">🇩🇪 Germany — Luxury</option>
+        <option value="France">🇫🇷 France — Luxury</option>
+        <option value="Canada">🇨🇦 Canada — Luxury</option>
+        <option value="Ireland">🇮🇪 Ireland — Luxury</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-lbl">Target season or event</div>
+      <select id="eventSel" onchange="onEventChange()"></select>
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-lbl">Budget intensity</div>
+      <div class="budget-pills">
+        <button class="b-pill" onclick="setBudget('low',this)">Conservative</button>
+        <button class="b-pill active" onclick="setBudget('mid',this)">Moderate</button>
+        <button class="b-pill" onclick="setBudget('high',this)">Aggressive</button>
+      </div>
+    </div>
+    <div class="ctrl" id="vrCtrl" style="display:none;">
+      <div class="ctrl-lbl">Add-on</div>
+      <label class="vr-toggle" id="vrToggle" onclick="toggleVR()">
+        <input type="checkbox" id="vrCheck" style="pointer-events:none;"> VR Try-On Programme
+      </label>
+    </div>
+  </div>
+  <div class="custom-event-row" id="customRow">
+    <span style="font-size:12px;color:var(--ink-3);">Custom event:</span>
+    <input type="text" id="customName" placeholder="e.g. Diwali, Eid, Passover..." oninput="render()">
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">Event month</span>
+      <select id="customMonth" onchange="render()">
+        <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+        <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+        <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+        <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+      </select>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">Peak in phase</span>
+      <select id="customAnchor" onchange="render()">
+        <option value="2">Phase 2 — Activation</option>
+        <option value="3">Phase 3 — Peak</option>
+        <option value="4" selected>Phase 4 — Final push</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="launch-banner">
+  <div class="banner-inner" id="bannerInner">
+    <div class="banner-left">
+      <div class="banner-tag">Launch recommendation</div>
+      <div class="banner-title" id="bannerTitle">—</div>
+      <div class="banner-note" id="bannerNote">—</div>
+      <div class="start-pill" id="startPill">Start Phase 1: —</div>
+    </div>
+    <div class="banner-right" id="bannerStats"></div>
+  </div>
+</section>
+
+<section class="timeline-section">
+  <div class="timeline-strip">
+    <div class="timeline-phases" id="timelinePhases"></div>
+  </div>
+</section>
+
+<section class="phases-section">
+  <div class="section-label">Phase-by-phase breakdown</div>
+  <div class="phases-grid" id="phasesGrid"></div>
+</section>
+
+<section class="summary-section">
+  <div class="section-label">Programme summary</div>
+  <div class="summary-card">
+    <div class="summary-header">
+      <div class="summary-title" id="summaryTitle">Year 1 — Total Programme</div>
+      <div class="summary-total-row">
+        <span class="summary-total-label">Year 1 total:</span>
+        <span class="summary-total-val" id="summaryTotal">—</span>
+      </div>
+    </div>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Programme</th>
+          <th>Phase 1</th>
+          <th>Phase 2</th>
+          <th>Phase 3</th>
+          <th>Phase 4</th>
+          <th>Year 1 Total</th>
+        </tr>
+      </thead>
+      <tbody id="summaryBody"></tbody>
+    </table>
+    <div class="phase-bar-chart">
+      <div class="bar-chart-label">Spend distribution across phases</div>
+      <div id="barChartRows"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-brand">HENIG DIAMONDS</span>
+  <span>Spend based on launch plan (May 2026–Apr 2027). Moderate = recommended scenario. All campaigns via henigdiamonds.com — no Shopify. Sources: Henig Launch Plan · B2C App · VR Try-On Addendum · 2026</span>
+</footer>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+
+const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTHS_FULL  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+/* Country meta */
+const COUNTRY_META = {
+  USA: {
+    flag:'🇺🇸', name:'USA', segment:'Luxury',
+    score: 9.3, tam: '$13.5B', yoy: '+5.1%', asp: '$3,500',
+    annualSpend: {low:346000, mid:928000, high:1508000},
+    tier: 1, tierColor: '#2563eb',
+    rec: 'Launch here first — largest TAM at $13.5B (72% of all 5 markets). Highest opportunity score at 9.3/10. USA Phase 1 & 2 KPIs determine whether Canada and other markets unlock.',
+    recLabel: '1st Priority Launch',
+    channels_note: 'Meta CPMs $25–$35 · Google Search dominant for bridal intent · Macro influencer ($12K–$50K/campaign) · LGD awareness 84%',
+  },
+  Germany: {
+    flag:'🇩🇪', name:'Germany', segment:'Luxury',
+    score: 8.3, tam: '$1.71B', yoy: '+4.3%', asp: '$2,800',
+    annualSpend: {low:108000, mid:234000, high:361000},
+    tier: 2, tierColor: '#15803d',
+    rec: 'Launch in parallel with USA — adds only 20% to combined spend. EU April 2025 conflict-free sourcing regulations are a one-time access advantage. RJC + KP credentials are already held.',
+    recLabel: '2nd Priority — EU Anchor',
+    channels_note: 'Google dominant over Meta · Micro-influencers €200–€700/post · ESG narrative drives conversion · Goldschmiede hold 70% of luxury sales',
+  },
+  France: {
+    flag:'🇫🇷', name:'France', segment:'Luxury',
+    score: 7.7, tam: '$1.06B', yoy: '+6.0%', asp: '$2,900',
+    annualSpend: {low:108000, mid:234000, high:360000},
+    tier: 3, tierColor: '#7c3aed',
+    rec: 'Year 2 priority — highest EU growth rate at 6.0% YoY, but requires USA + Germany to validate the model first. Haute couture narrative and GIA certification are the core entry credentials.',
+    recLabel: '3rd Priority — Year 2',
+    channels_note: 'Meta CPMs €12–€22 · Haute couture micro-influencer partnerships · Boutique events over mass media · Self-gifting women 28–45 = 31% of sales',
+  },
+  Canada: {
+    flag:'🇨🇦', name:'Canada', segment:'Luxury',
+    score: 7.2, tam: '$0.83B', yoy: '+5.1%', asp: '$2,700',
+    annualSpend: {low:108000, mid:234000, high:360000},
+    tier: 4, tierColor: '#ea580c',
+    rec: 'USA fast-follow — mirrors USA luxury trends with a 6–12 month lag and 15–20% lower ASP. Unlock at end of Phase 2 if USA wholesale pipeline is on-plan. Estimated incremental Year 2 spend $216K.',
+    recLabel: 'USA Fast-Follow',
+    channels_note: 'Mirrors USA channel mix · Add Pinterest discovery ($1.5–$3 CPC) · GIA positioning identical to USA · LGD ~50% penetration — lead with choice',
+  },
+  Ireland: {
+    flag:'🇮🇪', name:'Ireland', segment:'Luxury',
+    score: 6.9, tam: '$0.26B', yoy: '+18.2%', asp: '$2,800',
+    annualSpend: {low:48000, mid:108000, high:168000},
+    tier: 5, tierColor: '#0891b2',
+    rec: 'Lowest-risk EU proof-of-concept — digital-only, minimal wholesale infrastructure needed. Ideal low-cost test before committing to France. Fastest growth rate of all 5 markets at 18.2% YoY.',
+    recLabel: 'EU Proof-of-Concept',
+    channels_note: 'Highest e-commerce rate in EU at 30% · Micro-influencers €150–€400/post · Celtic provenance + post-Brexit narrative · Meta-first strategy',
+  },
+};
+
+/* Phase templates per country */
+const PHASE_TEMPLATES = {
+  USA: [
+    {
+      name:'Foundation', tagline:'Wholesale anchor + digital launch',
+      activities:[
+        'Couture Las Vegas — stand, catalogue collateral, after-hours buyer events',
+        'Wholesale outreach: Signet, Kay Jewelers, top-10 metro independent jewellers',
+        'GIA/IGI launch lookbooks, sample sets, certification documentation packs',
+        'Google Search live: "engagement ring," "GIA certified," "3 carat," conquest terms',
+        'henigdiamonds.com US pages: catalogue, pricing, GA4 + Meta Pixel, Klaviyo flows',
+      ],
+      channels:[
+        {name:'Trade Shows (Couture LV)', icon:'T', cls:'trade-icon', costs:{low:52000,mid:140000,high:228000}},
+        {name:'Google Search', icon:'G', cls:'google-icon', costs:{low:13000,mid:35000,high:57000}},
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', costs:{low:7000,mid:20000,high:33000}},
+        {name:'PR + Events', icon:'P', cls:'pr-icon', costs:{low:6000,mid:15000,high:24000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:4000,mid:10000,high:16000}},
+        {name:'Website + CRM + Analytics', icon:'X', cls:'prod-icon', costs:{low:7000,mid:18000,high:29000}},
+      ],
+      total:{low:89000,mid:238000,high:387000},
+      kpi:'≥ 25 qualified Couture buyer meetings; 10+ wholesale RFQ responses',
+      kpiFail:'Hold Phase 2 paid-media at 50%; double down on wholesale outreach',
+    },
+    {
+      name:'Activation', tagline:'JA New York + influencer launch',
+      activities:[
+        'JA New York trade show — second wholesale touchpoint, covers 80%+ of US luxury buyers',
+        'Macro Instagram influencer campaign: 1–3 partners, 500K–2M followers each',
+        'Bridal PR placements: Vogue Brides, The Knot, Brides.com, NY/LA boutique events',
+        'First wholesale deliveries to Couture + JA NY accounts; retail co-op unlocks',
+        'Self-purchasing women campaign begins: Meta Reels + Google Display, women 30–50',
+      ],
+      channels:[
+        {name:'Trade Shows (JA New York)', icon:'T', cls:'trade-icon', costs:{low:37000,mid:100000,high:163000}},
+        {name:'Google Search', icon:'G', cls:'google-icon', costs:{low:17000,mid:45000,high:73000}},
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', costs:{low:18000,mid:50000,high:81000}},
+        {name:'PR + Events', icon:'P', cls:'pr-icon', costs:{low:17000,mid:45000,high:73000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:7000,mid:18000,high:29000}},
+        {name:'Retail Co-op (wholesale)', icon:'R', cls:'coop-icon', costs:{low:3000,mid:8000,high:13000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:1000,mid:4000,high:7000}},
+      ],
+      total:{low:100000,mid:270000,high:439000},
+      kpi:'≥ 4 active wholesale accounts; first orders shipped',
+      kpiFail:'Cut retail co-op; redirect budget to Google Search performance',
+    },
+    {
+      name:'Amplify', tagline:'Holiday + Valentine\'s peak spend',
+      activities:[
+        'Maximum paid-media: holiday + Valentine\'s bridal season — highest spend window',
+        'Retail co-op marketing with all Phase 1/2 wholesale partners at full activation',
+        'Self-purchasing women at peak: Reels, Google Display, influencer content',
+        'YouTube certification how-to series + Pinterest bridal boards at full scale',
+        'Email/SMS gift guide sequences via Klaviyo: holiday, Christmas, Valentine\'s',
+      ],
+      channels:[
+        {name:'Trade Shows (minimal)', icon:'T', cls:'trade-icon', costs:{low:6000,mid:15000,high:24000}},
+        {name:'Google Search', icon:'G', cls:'google-icon', costs:{low:31000,mid:85000,high:138000}},
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', costs:{low:30000,mid:80000,high:130000}},
+        {name:'PR + Events', icon:'P', cls:'pr-icon', costs:{low:15000,mid:40000,high:65000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:12000,mid:32000,high:52000}},
+        {name:'Retail Co-op (peak)', icon:'R', cls:'coop-icon', costs:{low:17000,mid:45000,high:73000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:1000,mid:3000,high:5000}},
+      ],
+      total:{low:112000,mid:300000,high:487000},
+      kpi:'Monthly revenue tracking to year-end TAM-capture model',
+      kpiFail:'Defer Canada fast-follow; reassess Year 2 expansion',
+    },
+    {
+      name:'Sustain + Review', tagline:'Steady-state + Year 2 decision gates',
+      activities:[
+        'Steady-state paid media at reduced spend — maintain brand presence',
+        'Year-1 KPI review: pipeline count, wholesale accounts, ROI vs model',
+        'Canada Luxury fast-follow decision gate (unlock if USA pipeline on-plan)',
+        'USA Mid-Luxury readiness check ($11.2B TAM if ROI ≥ 200%)',
+        'Valentine\'s Day push if February falls in this phase window',
+      ],
+      channels:[
+        {name:'Trade Shows (minimal)', icon:'T', cls:'trade-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'Google Search', icon:'G', cls:'google-icon', costs:{low:15000,mid:40000,high:65000}},
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', costs:{low:13000,mid:35000,high:57000}},
+        {name:'PR + Events', icon:'P', cls:'pr-icon', costs:{low:4000,mid:10000,high:16000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:6000,mid:15000,high:24000}},
+        {name:'Retail Co-op (sustain)', icon:'R', cls:'coop-icon', costs:{low:4000,mid:12000,high:20000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:1000,mid:3000,high:5000}},
+      ],
+      total:{low:45000,mid:120000,high:195000},
+      kpi:'Year-1 ROI ≥ 60% of model midpoint',
+      kpiFail:'Hold Year 2 to USA + Germany Luxury sustain only; no Mid-Luxury launch',
+    },
+  ],
+
+  Germany: [
+    {
+      name:'Pre-Build', tagline:'Agent, ESG deck, Inhorgenta booking',
+      activities:[
+        'Hire Munich-based agent on 12-month retainer — non-negotiable for Goldschmiede access',
+        'ESG narrative deck: full German translation, RJC + KP + EU April 2025 compliance pack',
+        'Book Inhorgenta Munich 2027 stand — sign contract now, prime spaces fill 12 months out',
+        'henigdiamonds.com German pages: EU product data, ESG documentation, German pricing',
+        'Google Search (DE) live: "konfliktfrei," "RJC zertifiziert," "Verlobungsring" terms',
+      ],
+      channels:[
+        {name:'Inhorgenta Prep (booking)', icon:'T', cls:'trade-icon', costs:{low:4000,mid:8000,high:12000}},
+        {name:'Local Agent + BD', icon:'A', cls:'agent-icon', costs:{low:6000,mid:13000,high:20000}},
+        {name:'Google Search (DE)', icon:'G', cls:'google-icon', costs:{low:4000,mid:8000,high:12000}},
+        {name:'Trade Press (DACH)', icon:'N', cls:'press-icon', costs:{low:1000,mid:3000,high:5000}},
+        {name:'Craft Influencers (ESG)', icon:'I', cls:'influencer-icon', costs:{low:1000,mid:2000,high:3000}},
+        {name:'ESG Content + PR', icon:'E', cls:'esg-icon', costs:{low:1000,mid:2000,high:3000}},
+        {name:'Website + DE Translation', icon:'X', cls:'prod-icon', costs:{low:2000,mid:6000,high:10000}},
+      ],
+      total:{low:19000,mid:42000,high:65000},
+      kpi:'Munich agent contracted; Inhorgenta stand booking confirmed',
+      kpiFail:'Hold Phase 2 paid-media; emergency agent sourcing; delay sample shipments',
+    },
+    {
+      name:'Wholesale Prospecting', tagline:'Goldschmiede outreach + ESG content live',
+      activities:[
+        'Direct outreach to mid-size Goldschmiede (50–200 employees) — hold 70% of luxury sales',
+        'ESG content live on Google DE + GZ Goldschmiede Zeitung, Schmuck Magazin',
+        'First sample shipments to interested Goldschmiede contacts',
+        'Craft influencer partnerships: authenticity-first, €200–€700/post, sustainability-credentialed',
+        'LinkedIn DACH: wholesale buyer targeting, trade press relationship building',
+      ],
+      channels:[
+        {name:'Inhorgenta Prep (materials)', icon:'T', cls:'trade-icon', costs:{low:5000,mid:10000,high:15000}},
+        {name:'Local Agent + BD', icon:'A', cls:'agent-icon', costs:{low:6000,mid:13000,high:20000}},
+        {name:'Google Search (DE)', icon:'G', cls:'google-icon', costs:{low:5000,mid:11000,high:17000}},
+        {name:'Trade Press (GZ + DACH)', icon:'N', cls:'press-icon', costs:{low:4000,mid:8000,high:12000}},
+        {name:'Craft Influencers (ESG)', icon:'I', cls:'influencer-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'ESG Content + PR', icon:'E', cls:'esg-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'Website + Translation', icon:'X', cls:'prod-icon', costs:{low:1000,mid:1000,high:2000}},
+      ],
+      total:{low:25000,mid:53000,high:82000},
+      kpi:'≥ 5 active Goldschmiede contacts; ≥ 1 sample shipment sent',
+      kpiFail:'Cut trade press; redirect to Google Search + direct agent outreach',
+    },
+    {
+      name:'Pre-Inhorgenta', tagline:'Munich logistics, influencer seeding, trade press',
+      activities:[
+        'Final Munich logistics: stand design, display cases, sample cabinets, hospitality bookings',
+        'Influencer pre-seeding — ESG content live before Inhorgenta opens to warm audience',
+        'GZ Goldschmiede Zeitung, Schmuck Magazin, Inhorgenta News: editorial + advertorial',
+        'Long-form ESG content: EU April 2025 conflict-free regulations, Henig as compliant supplier',
+        'LinkedIn DACH outreach intensifies — 10+ buyer meeting pre-bookings for Inhorgenta',
+      ],
+      channels:[
+        {name:'Inhorgenta Prep (stand build)', icon:'T', cls:'trade-icon', costs:{low:7000,mid:15000,high:23000}},
+        {name:'Local Agent + BD', icon:'A', cls:'agent-icon', costs:{low:6000,mid:13000,high:20000}},
+        {name:'Google Search (DE)', icon:'G', cls:'google-icon', costs:{low:6000,mid:13000,high:20000}},
+        {name:'Trade Press (placements)', icon:'N', cls:'press-icon', costs:{low:4000,mid:8000,high:12000}},
+        {name:'Craft Influencers (seeding)', icon:'I', cls:'influencer-icon', costs:{low:4000,mid:8000,high:12000}},
+        {name:'ESG Content + PR', icon:'E', cls:'esg-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'Website + Translation', icon:'X', cls:'prod-icon', costs:{low:0,mid:1000,high:2000}},
+      ],
+      total:{low:29000,mid:63000,high:97000},
+      kpi:'Stand confirmed; ≥ 3 trade press placements; ≥ 10 buyer meetings pre-booked',
+      kpiFail:'Cancel late trade press; focus agent budget on direct buyer pre-booking',
+    },
+    {
+      name:'Inhorgenta + Review', tagline:'Stand activation, buyer conversion, Year 2 gates',
+      activities:[
+        'Inhorgenta Munich stand activation — 4–6 days of buyer meetings and demos',
+        'Post-show follow-up: sample orders, payment terms negotiation, first invoices',
+        'ROI assessment vs Germany Mid-Luxury expansion case ($5K–$16K/month incremental)',
+        'Year-2 decision gates: Germany Mid-Luxury, Ireland follow-on, France entry',
+        'VR Try-On Inhorgenta demo (if VR programme is active) — wholesale differentiator',
+      ],
+      channels:[
+        {name:'Inhorgenta Stand (activation)', icon:'T', cls:'trade-icon', costs:{low:19000,mid:42000,high:65000}},
+        {name:'Local Agent + BD', icon:'A', cls:'agent-icon', costs:{low:6000,mid:13000,high:20000}},
+        {name:'Google Search (DE)', icon:'G', cls:'google-icon', costs:{low:5000,mid:10000,high:15000}},
+        {name:'Trade Press (post-show)', icon:'N', cls:'press-icon', costs:{low:2000,mid:4000,high:6000}},
+        {name:'Craft Influencers (post-show)', icon:'I', cls:'influencer-icon', costs:{low:2000,mid:4000,high:6000}},
+        {name:'ESG Content + PR', icon:'E', cls:'esg-icon', costs:{low:1000,mid:2000,high:3000}},
+        {name:'Website + Translation', icon:'X', cls:'prod-icon', costs:{low:0,mid:1000,high:2000}},
+      ],
+      total:{low:35000,mid:76000,high:117000},
+      kpi:'Inhorgenta conversion meets target; Year-1 ROI ≥ 60% of model midpoint',
+      kpiFail:'Hold Year 2 to Germany Luxury sustain only; no Mid-Luxury launch',
+    },
+  ],
+
+  France: [
+    {
+      name:'Foundation', tagline:'Paris agent, catalogue, website',
+      activities:[
+        'Paris-based local agent/rep: search, vet, contract — essential for boutique access',
+        'GIA-certified bespoke catalogue: French aesthetic, haute couture narrative, FR/EN',
+        'henigdiamonds.com French pages: EU product data, bespoke customisation, EUR pricing',
+        'Google Search (FR): "bague sur mesure," "diamant certifié GIA," provenance terms',
+        'First boutique introductions: Galeries Lafayette accounts + independent multi-brand',
+      ],
+      channelMix:[
+        {name:'Google Search (FR)', icon:'G', cls:'google-icon', pct:0.32},
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.30},
+        {name:'PR + Boutique Events', icon:'P', cls:'pr-icon', pct:0.18},
+        {name:'ESG Micro-Influencers', icon:'I', cls:'influencer-icon', pct:0.12},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', pct:0.08},
+      ],
+      total:{low:24000,mid:51000,high:79000},
+      kpi:'Local agent signed; ≥ 5 boutique introductory meetings booked',
+      kpiFail:'Delay sample shipments; focus agent on warm introductions only',
+    },
+    {
+      name:'Activation', tagline:'Boutique samples, influencers, press',
+      activities:[
+        'Boutique sample submissions to Paris and regional partners (3–5 stores)',
+        'Meta/Instagram campaign: ESG-conscious women 28–45, self-gifting + bridal narrative',
+        'Haute couture micro-influencer partnerships: sustainability + provenance story',
+        'Press outreach: Vogue Paris, Elle France, Le Figaro lifestyle sections',
+        'First trial wholesale orders from boutique partners',
+      ],
+      channelMix:[
+        {name:'Google Search (FR)', icon:'G', cls:'google-icon', pct:0.32},
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.30},
+        {name:'PR + Boutique Events', icon:'P', cls:'pr-icon', pct:0.18},
+        {name:'ESG Micro-Influencers', icon:'I', cls:'influencer-icon', pct:0.12},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', pct:0.08},
+      ],
+      total:{low:27000,mid:59000,high:90000},
+      kpi:'≥ 3 boutique sample trials; first wholesale inquiry received',
+      kpiFail:'Pivot from boutique to direct website sales; increase Meta spend',
+    },
+    {
+      name:'Amplify', tagline:'Holiday peak + Paris Fashion Week',
+      activities:[
+        'Holiday + New Year peak: full paid-media at Vogue/Elle placement cadence',
+        'Pinterest + YouTube: bespoke ring inspiration, personalisation stories at full scale',
+        'Boutique co-op promotions with Phase 1/2 accounts for Christmas season',
+        'Self-gifting professional women campaign: Meta + Google, women 28–45',
+        'Paris Fashion Week (January SS27): buyer + press networking, brand visibility',
+      ],
+      channelMix:[
+        {name:'Google Search (FR)', icon:'G', cls:'google-icon', pct:0.28},
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.32},
+        {name:'PR + Fashion Week', icon:'P', cls:'pr-icon', pct:0.22},
+        {name:'ESG Micro-Influencers', icon:'I', cls:'influencer-icon', pct:0.10},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', pct:0.08},
+      ],
+      total:{low:29000,mid:63000,high:97000},
+      kpi:'First confirmed wholesale orders; monthly revenue on target',
+      kpiFail:'Redirect to direct website sales + Meta retargeting; delay boutique co-op',
+    },
+    {
+      name:'Sustain + Year 2', tagline:'Steady state + expansion decision gates',
+      activities:[
+        'Steady-state paid media + boutique relationship deepening',
+        'Year-1 review: France Luxury ROI, boutique conversion rate, pipeline assessment',
+        'Valentine\'s Day push (February — if in this phase window)',
+        'Year-2 decision: France Mid-Luxury expansion or Ireland follow-on first?',
+        'Feed learnings into Germany and USA second-year plans',
+      ],
+      channelMix:[
+        {name:'Google Search (FR)', icon:'G', cls:'google-icon', pct:0.32},
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.30},
+        {name:'PR + Events', icon:'P', cls:'pr-icon', pct:0.18},
+        {name:'ESG Micro-Influencers', icon:'I', cls:'influencer-icon', pct:0.12},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', pct:0.08},
+      ],
+      total:{low:28000,mid:61000,high:94000},
+      kpi:'Year-1 ROI ≥ model; Fashion Week ≥ 3 new buyer contacts',
+      kpiFail:'Hold France at sustain-only; prioritise Germany Mid-Luxury instead',
+    },
+  ],
+
+  Canada: [
+    {
+      name:'Foundation', tagline:'USA fast-follow setup + JCK Toronto',
+      activities:[
+        'JCK Toronto preparation (if in window): booth, buyer list, USA case studies as proof',
+        'Toronto + Vancouver boutique target list: top 15 stores, introductory emails',
+        'USA marketing assets adapted for Canada: CAD pricing, Canadian shipping policy',
+        'Google Search (CA) + Meta campaigns live — mirrors USA approach exactly',
+        'henigdiamonds.com Canada pages: CAD pricing, Canadian returns, GIA narrative',
+      ],
+      channelMix:[
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.35},
+        {name:'Google Search (CA)', icon:'G', cls:'google-icon', pct:0.25},
+        {name:'Trade Shows (JCK Toronto)', icon:'T', cls:'trade-icon', pct:0.20},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', pct:0.12},
+        {name:'Influencers (micro)', icon:'I', cls:'influencer-icon', pct:0.05},
+        {name:'Email / SMS', icon:'E', cls:'esg-icon', pct:0.03},
+      ],
+      total:{low:28000,mid:61000,high:94000},
+      kpi:'≥ 10 Toronto/Vancouver boutique introductions; JCK registration confirmed',
+      kpiFail:'Delay JCK; shift to digital-first with Meta + Google only',
+    },
+    {
+      name:'Activation', tagline:'JCK Toronto + boutique sampling',
+      activities:[
+        'JCK Toronto trade show: anchor pitch with USA case studies + GIA proof',
+        'Toronto + Vancouver boutique pitches with GIA certification as primary trust signal',
+        'LGD dual-range positioning: ~50% LGD penetration in Canada — lead with choice',
+        'Instagram/Meta bridal campaign directly mirrors USA Phase 2 creative',
+        'First sample shipments to interested boutique partners',
+      ],
+      channelMix:[
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.35},
+        {name:'Google Search (CA)', icon:'G', cls:'google-icon', pct:0.25},
+        {name:'Trade Shows (JCK Toronto)', icon:'T', cls:'trade-icon', pct:0.20},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', pct:0.12},
+        {name:'Influencers (micro)', icon:'I', cls:'influencer-icon', pct:0.05},
+        {name:'Email / SMS', icon:'E', cls:'esg-icon', pct:0.03},
+      ],
+      total:{low:32000,mid:70000,high:108000},
+      kpi:'≥ 3 Canadian boutique accounts active; first wholesale orders',
+      kpiFail:'Redirect to digital-only; cut trade show budget in half',
+    },
+    {
+      name:'Peak Season', tagline:'Christmas + Valentine\'s mirrors USA',
+      activities:[
+        'Christmas + Valentine\'s push: mirrors USA Phase 3 in scale and creative',
+        'Retail co-op promotions with Phase 1/2 boutique partners at full activation',
+        'Self-purchasing professional women campaign — Meta + Google, women 30–45',
+        'Pinterest bridal + holiday boards: CAD pricing, Canadian aesthetic',
+        'Email gift guide sequences: Christmas, Boxing Day (Dec 26), Valentine\'s',
+      ],
+      channelMix:[
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.35},
+        {name:'Google Search (CA)', icon:'G', cls:'google-icon', pct:0.22},
+        {name:'Retail Co-op', icon:'R', cls:'coop-icon', pct:0.18},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', pct:0.14},
+        {name:'Influencers (micro)', icon:'I', cls:'influencer-icon', pct:0.08},
+        {name:'Email / SMS', icon:'E', cls:'esg-icon', pct:0.03},
+      ],
+      total:{low:32000,mid:70000,high:108000},
+      kpi:'Monthly revenue tracking to Canada fast-follow model; retail co-op active',
+      kpiFail:'Defer Canada Mid-Luxury; sustain current boutique relationships only',
+    },
+    {
+      name:'Sustain + Review', tagline:'Year 2 Canada Mid-Luxury decision',
+      activities:[
+        'Post-holiday steady-state paid media at reduced spend',
+        'Year-1 review: Canada vs USA fast-follow model — is the lag tracking correctly?',
+        'Valentine\'s Day push if February falls in this phase window',
+        'Year-2 decision: Canada Mid-Luxury ($216K incremental spend; $0.83B TAM)',
+        'Feed Canada learnings back to USA Phase 2 year-over-year optimisation',
+      ],
+      channelMix:[
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.38},
+        {name:'Google Search (CA)', icon:'G', cls:'google-icon', pct:0.28},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', pct:0.18},
+        {name:'Influencers (micro)', icon:'I', cls:'influencer-icon', pct:0.10},
+        {name:'Email / SMS', icon:'E', cls:'esg-icon', pct:0.06},
+      ],
+      total:{low:16000,mid:33000,high:50000},
+      kpi:'Year-1 ROI confirmed vs fast-follow model; Y2 Canada Mid-Luxury decision made',
+      kpiFail:'Hold Canada at Luxury-only sustain; reassess Mid-Luxury case in 6 months',
+    },
+  ],
+
+  Ireland: [
+    {
+      name:'Foundation', tagline:'Digital-first, Celtic narrative, Dublin boutiques',
+      activities:[
+        'Meta/Instagram live: Celtic fine jewellery + Hatton Garden provenance narrative',
+        'Dublin boutique outreach: 10–15 Grafton Street precinct stores, email introductions',
+        'Micro-influencer partnerships: 3–5 Irish-based creators, €150–€400/post',
+        'henigdiamonds.com Ireland pages: EUR pricing, Celtic narrative, Irish shipping',
+        'Google Search (IE): "natural diamond Ireland," "ethical jewellery Dublin," Celtic ring terms',
+      ],
+      channelMix:[
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.40},
+        {name:'Google Search (IE)', icon:'G', cls:'google-icon', pct:0.28},
+        {name:'Micro-Influencers', icon:'I', cls:'influencer-icon', pct:0.18},
+        {name:'Pinterest', icon:'Y', cls:'pinterest-icon', pct:0.08},
+        {name:'Email / SMS', icon:'E', cls:'esg-icon', pct:0.06},
+      ],
+      total:{low:12000,mid:27000,high:42000},
+      kpi:'≥ 5 Dublin boutique introductions; ≥ 3 influencer posts live',
+      kpiFail:'Pause boutique outreach; double down on direct website + influencer strategy',
+    },
+    {
+      name:'Activation', tagline:'Dublin sampling, Meta Reels, post-Brexit narrative',
+      activities:[
+        'Dublin boutique sample submissions (2–3 target stores in Grafton Street precinct)',
+        'Meta Reels campaign: Celtic ring designs + Hatton Garden provenance story',
+        'Post-Brexit positioning: Irish buyers are shifting away from Italian supply chain',
+        'Google Shopping live for direct website conversions — high IE e-commerce rate (30%)',
+        'First wholesale inquiry follow-up: terms, MOQs, delivery timelines',
+      ],
+      channelMix:[
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.42},
+        {name:'Google Search + Shopping', icon:'G', cls:'google-icon', pct:0.30},
+        {name:'Micro-Influencers', icon:'I', cls:'influencer-icon', pct:0.16},
+        {name:'Pinterest', icon:'Y', cls:'pinterest-icon', pct:0.07},
+        {name:'Email / SMS', icon:'E', cls:'esg-icon', pct:0.05},
+      ],
+      total:{low:12000,mid:28000,high:44000},
+      kpi:'≥ 2 boutique sample trials; first wholesale order received',
+      kpiFail:'Pivot fully to direct website + social commerce; skip boutique track',
+    },
+    {
+      name:'Peak Season', tagline:'Christmas, holiday, Valentine\'s digital push',
+      activities:[
+        'Christmas + Valentine\'s peak: full digital push within Ireland\'s small but fast market',
+        'Influencer gift guide content: Christmas selections, best rings under €X',
+        'Google Shopping at maximum spend for direct henigdiamonds.com conversions',
+        'Pinterest + Meta holiday campaigns: Celtic + premium provenance creative',
+        'Email sequences: cart abandonment, gifting nudges, Boxing Day sale potential',
+      ],
+      channelMix:[
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.40},
+        {name:'Google Search + Shopping', icon:'G', cls:'google-icon', pct:0.28},
+        {name:'Micro-Influencers', icon:'I', cls:'influencer-icon', pct:0.16},
+        {name:'Pinterest', icon:'Y', cls:'pinterest-icon', pct:0.10},
+        {name:'Email / SMS', icon:'E', cls:'esg-icon', pct:0.06},
+      ],
+      total:{low:13000,mid:30000,high:47000},
+      kpi:'First direct website sales; boutique sell-through ≥ 20%',
+      kpiFail:'Pause boutique co-op; redirect to direct website spend only',
+    },
+    {
+      name:'Sustain + Review', tagline:'EU proof-of-concept assessment, Year 2',
+      activities:[
+        'Post-holiday digital sustain: Meta + Google at reduced steady-state spend',
+        'Ireland Year-1 review: EU proof-of-concept vs Germany/France investment scale',
+        'Valentine\'s Day push (February) if in this phase window',
+        'Year-2 decision: Ireland Mid-Luxury tier or scale up Luxury first?',
+        'Feed learnings to France/Germany entry strategy for Year 2',
+      ],
+      channelMix:[
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.42},
+        {name:'Google Search + Shopping', icon:'G', cls:'google-icon', pct:0.30},
+        {name:'Micro-Influencers', icon:'I', cls:'influencer-icon', pct:0.16},
+        {name:'Pinterest', icon:'Y', cls:'pinterest-icon', pct:0.07},
+        {name:'Email / SMS', icon:'E', cls:'esg-icon', pct:0.05},
+      ],
+      total:{low:10000,mid:23000,high:36000},
+      kpi:'Ireland Year-1 ROI: EU proof-of-concept confirmed or not',
+      kpiFail:'Close Ireland; redirect budget to Germany or France direct entry',
+    },
+  ],
+};
+
+/* Target events per country */
+const TARGET_EVENTS = {
+  USA: [
+    {id:'jany',    label:'JA New York — August',          month:8,  leadMonths:3, badge:'◆ Trade show'},
+    {id:'holiday', label:'Holiday Peak — Nov–Dec',         month:12, leadMonths:7, badge:'★ Peak season'},
+    {id:'valentines',label:"Valentine's Day — February",  month:2,  leadMonths:9, badge:'♥ Gifting peak'},
+    {id:'couture', label:'Couture Las Vegas — June',       month:6,  leadMonths:1, badge:'◆ Trade show (tight!)'},
+    {id:'mothers', label:"Mother's Day — May",             month:5,  leadMonths:9, badge:'♡ Gifting peak'},
+    {id:'engagement',label:'Engagement Season — Jul',     month:7,  leadMonths:3, badge:'💍 Bridal season'},
+    {id:'custom',  label:'Custom / Other festival...',     month:null,leadMonths:null, badge:''},
+  ],
+  Germany: [
+    {id:'inhorgenta',label:'Inhorgenta Munich — February', month:2,  leadMonths:9, badge:'◆ Trade show'},
+    {id:'holiday_de',label:'Holiday Season — December',    month:12, leadMonths:7, badge:'★ Peak season'},
+    {id:'spring_de', label:'Spring / ESG Launch — April',  month:4,  leadMonths:9, badge:'✓ ESG regulation'},
+    {id:'custom_de', label:'Custom / Other festival...',   month:null,leadMonths:null, badge:''},
+  ],
+  France: [
+    {id:'pfw',       label:'Paris Fashion Week — January', month:1,  leadMonths:8, badge:'✦ Fashion week'},
+    {id:'holiday_fr',label:'Holiday Season — December',    month:12, leadMonths:7, badge:'★ Peak season'},
+    {id:'valentines_fr',label:"Valentine's Day — February",month:2,  leadMonths:9, badge:'♥ Gifting peak'},
+    {id:'custom_fr', label:'Custom / Other festival...',   month:null,leadMonths:null, badge:''},
+  ],
+  Canada: [
+    {id:'christmas_ca',label:'Christmas Season — December',month:12, leadMonths:7, badge:'★ Peak season'},
+    {id:'valentines_ca',label:"Valentine's Day — February",month:2,  leadMonths:9, badge:'♥ Gifting peak'},
+    {id:'jck',      label:'JCK Toronto — June',            month:6,  leadMonths:3, badge:'◆ Trade show'},
+    {id:'mothers_ca',label:"Mother's Day — May",           month:5,  leadMonths:9, badge:'♡ Gifting peak'},
+    {id:'custom_ca', label:'Custom / Other festival...',   month:null,leadMonths:null, badge:''},
+  ],
+  Ireland: [
+    {id:'christmas_ie',label:'Christmas Season — December',month:12, leadMonths:7, badge:'★ Peak season'},
+    {id:'valentines_ie',label:"Valentine's Day — February",month:2,  leadMonths:9, badge:'♥ Gifting peak'},
+    {id:'spring_ie', label:'Spring Launch — April',        month:4,  leadMonths:9, badge:'🌱 New season'},
+    {id:'custom_ie', label:'Custom / Other festival...',   month:null,leadMonths:null, badge:''},
+  ],
+};
+
+/* VR Try-On data (USA only, Scenario A = Moderate) */
+const VR_DATA = {
+  annualSpend: {low:327000, mid:390000, high:448000},
+  phases: [
+    {
+      title:'VR Agency + Build Kickoff',
+      activities:['Agency RFP → contract signed → discovery begins','Shopify/website backend prep, GA4 event spec for try-on','Photography re-shoots feeding the 3D asset pipeline'],
+      channels:[
+        {name:'Agency Build Fee', icon:'B', cls:'agency-icon', costs:{low:0,     mid:80000,high:92000}},
+        {name:'3D Asset Creation', icon:'3', cls:'asset-icon', costs:{low:0,     mid:25000,high:29000}},
+        {name:'Website Integration', icon:'X', cls:'prod-icon', costs:{low:0,    mid:8000, high:9000}},
+      ],
+      total:{low:0,mid:113000,high:130000},
+    },
+    {
+      title:'Build + Soft Launch',
+      activities:['Build → QA → soft launch on 10% traffic (end of phase)','PDP integration live on henigdiamonds.com, landing page','Organic social tease posts; Google Search RSA copy refresh'],
+      channels:[
+        {name:'Agency Build Fee', icon:'B', cls:'agency-icon', costs:{low:80000, mid:70000,high:80000}},
+        {name:'3D Asset Creation', icon:'3', cls:'asset-icon', costs:{low:25000, mid:30000,high:35000}},
+        {name:'Hosting + SaaS Licences', icon:'H', cls:'host-icon', costs:{low:0,     mid:4000, high:5000}},
+        {name:'Website Integration', icon:'X', cls:'prod-icon', costs:{low:8000,  mid:15000,high:17000}},
+        {name:'Paid Social Demo Creative', icon:'M', cls:'meta-icon', costs:{low:0,  mid:6000, high:7000}},
+        {name:'PR + Launch Story', icon:'P', cls:'pr-icon', costs:{low:0,         mid:3000, high:3000}},
+      ],
+      total:{low:113000,mid:128000,high:147000},
+    },
+    {
+      title:'Public Live + Holiday Amplify',
+      activities:['Full amplification at holiday peak — VR is headline feature','Meta/Instagram Reels demos, Pinterest pins, YouTube how-to','Influencer try-on content + Google Search ad extensions'],
+      channels:[
+        {name:'3D Assets (ongoing)', icon:'3', cls:'asset-icon', costs:{low:30000, mid:8000, high:9000}},
+        {name:'Hosting + SaaS', icon:'H', cls:'host-icon', costs:{low:4000,  mid:6000, high:7000}},
+        {name:'Website / Site Updates', icon:'X', cls:'prod-icon', costs:{low:15000, mid:4000, high:5000}},
+        {name:'Paid Social Demo Creative', icon:'M', cls:'meta-icon', costs:{low:0,  mid:28000,high:32000}},
+        {name:'PR + Launch Story', icon:'P', cls:'pr-icon', costs:{low:3000,  mid:18000,high:21000}},
+        {name:'Influencer Try-On Content', icon:'I', cls:'influencer-icon', costs:{low:70000,mid:22000,high:25000}},
+      ],
+      total:{low:122000,mid:86000,high:99000},
+    },
+    {
+      title:'Optimise + Inhorgenta Demo',
+      activities:['Conversion optimisation + A/B testing on try-on funnel','German-language site integration for Inhorgenta demo (if DE active)','Live VR demo on Inhorgenta stand — wholesale differentiator'],
+      channels:[
+        {name:'3D Assets (updates)', icon:'3', cls:'asset-icon', costs:{low:10000, mid:8000, high:9000}},
+        {name:'Hosting + SaaS', icon:'H', cls:'host-icon', costs:{low:6000,  mid:6000, high:7000}},
+        {name:'Website / DE Integration', icon:'X', cls:'prod-icon', costs:{low:10000, mid:10000,high:12000}},
+        {name:'Paid Social Demo Creative', icon:'M', cls:'meta-icon', costs:{low:22000, mid:12000,high:14000}},
+        {name:'PR + Launch Story', icon:'P', cls:'pr-icon', costs:{low:15000, mid:5000, high:6000}},
+        {name:'Influencer Try-On Content', icon:'I', cls:'influencer-icon', costs:{low:15000, mid:8000, high:9000}},
+        {name:'Inhorgenta Demo Build', icon:'T', cls:'trade-icon', costs:{low:14000, mid:14000,high:16000}},
+      ],
+      total:{low:92000,mid:63000,high:73000},
+    },
+  ],
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let currentCountry = 'USA';
+let currentBudget  = 'mid';
+let currentEvent   = null;
+let vrEnabled      = false;
+
+/* ============================================================
+   CALENDAR HELPERS
+   ============================================================ */
+function computePhaseWindows(eventMonth, leadMonths) {
+  let p1Month = eventMonth - leadMonths;
+  let p1Year  = 2026;
+  while (p1Month <= 0)  { p1Month += 12; p1Year--; }
+  while (p1Month > 12)  { p1Month -= 12; p1Year++; }
+  // If Phase 1 start is already past April 2026, advance 1 year
+  if (p1Year < 2026 || (p1Year === 2026 && p1Month < 4)) {
+    p1Year++;
+  }
+  const windows = [];
+  let m = p1Month, y = p1Year;
+  for (let i = 0; i < 4; i++) {
+    let em = m + 2, ey = y;
+    if (em > 12) { em -= 12; ey++; }
+    const hasEvent = [m, m+1>12?m-11:m+1, m+2>12?m-10:m+2].some(x => {
+      let xn = x; while(xn>12) xn-=12; return xn === eventMonth;
+    });
+    windows.push({
+      startM:m, startY:y, endM:em, endY:ey,
+      label: y===ey ? `${MONTHS_SHORT[m-1]}–${MONTHS_SHORT[em-1]} ${y}` : `${MONTHS_SHORT[m-1]} ${y}–${MONTHS_SHORT[em-1]} ${ey}`,
+      hasEvent,
+    });
+    m += 3; if (m > 12) { m -= 12; y++; }
+  }
+  return windows;
+}
+
+function monthsUntil(m, y) {
+  const now = new Date(2026, 3, 28);
+  const target = new Date(y, m - 1, 1);
+  const diff = (target.getFullYear() - now.getFullYear()) * 12 + (target.getMonth() - now.getMonth());
+  return diff;
+}
+
+/* ============================================================
+   FORMAT
+   ============================================================ */
+function fmt(n) {
+  if (n === 0) return '$0';
+  if (n >= 1000000) return '$' + (n/1000000).toFixed(2).replace(/\.?0+$/,'') + 'M';
+  if (n >= 1000)    return '$' + Math.round(n/1000) + 'K';
+  return '$' + n;
+}
+
+/* ============================================================
+   CHANNEL RESOLUTION
+   ============================================================ */
+function resolveChannels(phase, budget) {
+  if (phase.channels) {
+    return phase.channels.map(ch => ({ ...ch, cost: ch.costs[budget] }));
+  }
+  const total = phase.total[budget];
+  return phase.channelMix.map(ch => ({
+    ...ch,
+    cost: Math.round(ch.pct * total / 500) * 500,
+  }));
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function render() {
+  const meta   = COUNTRY_META[currentCountry];
+  const phases = PHASE_TEMPLATES[currentCountry];
+  const events = TARGET_EVENTS[currentCountry];
+
+  // Resolve current event
+  let ev = events.find(e => e.id === document.getElementById('eventSel').value);
+  if (!ev) ev = events[0];
+
+  let eventMonth   = ev.month;
+  let leadMonths   = ev.leadMonths;
+  let eventLabel   = ev.label;
+  let isCustom     = (ev.id === 'custom' || ev.id.startsWith('custom_'));
+
+  if (isCustom) {
+    eventMonth  = parseInt(document.getElementById('customMonth').value);
+    const anchor = parseInt(document.getElementById('customAnchor').value);
+    leadMonths  = (anchor - 1) * 3;
+    const cn = document.getElementById('customName').value.trim();
+    eventLabel  = cn || 'Custom event';
+    document.getElementById('customRow').classList.add('visible');
+  } else {
+    document.getElementById('customRow').classList.remove('visible');
+  }
+
+  const windows = computePhaseWindows(eventMonth, leadMonths);
+
+  /* --- Banner --- */
+  const tierClass = ['','tier-1','tier-2','tier-3','tier-4','tier-5'][meta.tier];
+  document.getElementById('bannerInner').className = 'banner-inner ' + tierClass;
+  document.getElementById('bannerTitle').textContent = meta.flag + ' ' + meta.name + ' ' + meta.segment + ' — ' + meta.recLabel;
+  document.getElementById('bannerNote').textContent  = meta.rec;
+
+  const p1 = windows[0];
+  const diffM = monthsUntil(p1.startM, p1.startY);
+  const tight = diffM < 2;
+  const startPill = document.getElementById('startPill');
+  startPill.textContent = 'Start Phase 1: ' + MONTHS_FULL[p1.startM-1] + ' ' + p1.startY + (tight ? ' — tight timeline' : '');
+  startPill.className = 'start-pill' + (tight ? ' tight' : '');
+
+  const annualMain = meta.annualSpend[currentBudget];
+  const annualVR   = (vrEnabled && currentCountry === 'USA') ? VR_DATA.annualSpend[currentBudget] : 0;
+  const annualTotal = annualMain + annualVR;
+
+  document.getElementById('bannerStats').innerHTML = `
+    <div class="banner-stat"><div class="banner-stat-val accent">${meta.score}/10</div><div class="banner-stat-lbl">Opp. score</div></div>
+    <div class="banner-stat"><div class="banner-stat-val">${meta.tam}</div><div class="banner-stat-lbl">TAM 2025</div></div>
+    <div class="banner-stat"><div class="banner-stat-val">${meta.yoy}</div><div class="banner-stat-lbl">YoY growth</div></div>
+    <div class="banner-stat"><div class="banner-stat-val accent">${fmt(annualTotal)}</div><div class="banner-stat-lbl">Year 1 ${currentBudget==='low'?'conservative':currentBudget==='mid'?'moderate':'aggressive'}${annualVR?'+VR':''}</div></div>
+  `;
+
+  /* --- Timeline --- */
+  const tlHTML = windows.map((w, i) => {
+    const ph = phases[i];
+    const total = ph.total[currentBudget] + (vrEnabled && currentCountry==='USA' ? VR_DATA.phases[i].total[currentBudget] : 0);
+    return `<div class="tl-phase" onclick="scrollToPhase(${i})">
+      <div class="tl-num">Phase ${i+1}</div>
+      <div class="tl-name">${ph.name}${w.hasEvent ? `<span class="tl-event-dot"></span>` : ''}</div>
+      <div class="tl-window">${w.label}</div>
+      <div class="tl-total">${fmt(total)}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('timelinePhases').innerHTML = tlHTML;
+
+  /* --- Phase Cards --- */
+  const phaseCardsHTML = phases.map((ph, i) => {
+    const w = windows[i];
+    const channels = resolveChannels(ph, currentBudget);
+    const maxCost  = Math.max(...channels.map(c => c.cost));
+    const phaseTotal = ph.total[currentBudget];
+    const vrPhase = (vrEnabled && currentCountry === 'USA') ? VR_DATA.phases[i] : null;
+    const vrTotal = vrPhase ? vrPhase.total[currentBudget] : 0;
+    const grandTotal = phaseTotal + vrTotal;
+
+    const evBadge = w.hasEvent && ev.badge ? `<span class="phase-event-badge" style="background:${meta.tierColor}22;color:${meta.tierColor}">${ev.badge}</span>` : '';
+
+    const chRows = channels.map(ch => {
+      const pct = maxCost > 0 ? Math.round((ch.cost / maxCost) * 100) : 0;
+      return `<div class="channel-row">
+        <div class="ch-icon ${ch.cls}">${ch.icon}</div>
+        <div class="ch-info">
+          <div class="ch-name">${ch.name}</div>
+          <div class="ch-bar-wrap">
+            <div class="ch-bar-track"><div class="ch-bar-fill" style="width:${pct}%"></div></div>
+          </div>
+        </div>
+        <div class="ch-cost">${fmt(ch.cost)}</div>
+      </div>`;
+    }).join('');
+
+    let vrHTML = '';
+    if (vrPhase && vrTotal > 0) {
+      const vrChRows = vrPhase.channels.map(c => `<div class="vr-channel-row"><div class="ch-icon ${c.cls}" style="width:22px;height:22px;font-size:10px;">${c.icon}</div><div class="vr-ch-name">${c.name}</div><div class="vr-ch-cost">${fmt(c.costs[currentBudget])}</div></div>`).join('');
+      vrHTML = `<div class="vr-addon visible">
+        <div class="vr-addon-title">VR Try-On add-on — ${vrPhase.title}</div>
+        ${vrPhase.activities.map(a=>`<div style="font-size:11px;color:var(--ink-3);margin-bottom:3px;">· ${a}</div>`).join('')}
+        <div style="margin-top:8px;">${vrChRows}</div>
+      </div>`;
+    }
+
+    const vrTotalLine = vrTotal > 0 ? `<div class="phase-total-vr">+ VR: ${fmt(vrTotal)}</div>` : '';
+
+    return `<div class="phase-card${w.hasEvent?' event-phase':''}" id="phase-card-${i}">
+      <div class="phase-header">
+        <div class="phase-num-row">
+          <span class="phase-num">Phase ${i+1} of 4</span>
+          ${evBadge}
+        </div>
+        <div class="phase-name">${ph.name}</div>
+        <div class="phase-window">${w.label}</div>
+        <div class="phase-tagline">${ph.tagline}</div>
+      </div>
+      <div class="phase-body">
+        <div class="phase-activities">
+          <div class="activities-label">Key activities</div>
+          ${ph.activities.map(a=>`<div class="activity-item"><span class="activity-dot"></span>${a}</div>`).join('')}
+        </div>
+        <div class="channels-label">Channels &amp; spend</div>
+        ${chRows}
+        ${vrHTML}
+      </div>
+      <div class="phase-footer">
+        <div class="phase-total-block">
+          <div class="phase-total-label">Phase ${i+1} budget</div>
+          <div class="phase-total-val">${fmt(grandTotal)}</div>
+          ${vrTotalLine}
+        </div>
+        <div class="phase-kpi">
+          <div class="kpi-label">Gate KPI</div>
+          <div class="kpi-text">${ph.kpi}</div>
+          <div class="kpi-fail">If missed: ${ph.kpiFail}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('phasesGrid').innerHTML = phaseCardsHTML;
+
+  /* --- Summary Table --- */
+  const mainTotals = phases.map(ph => ph.total[currentBudget]);
+  const vrTotals   = phases.map((_,i) => vrEnabled && currentCountry==='USA' ? VR_DATA.phases[i].total[currentBudget] : 0);
+  const mainY1     = mainTotals.reduce((a,b)=>a+b,0);
+  const vrY1       = vrTotals.reduce((a,b)=>a+b,0);
+  const grandY1    = mainY1 + vrY1;
+
+  document.getElementById('summaryTitle').textContent = `${meta.flag} ${meta.name} ${meta.segment} — Year 1 Programme`;
+  document.getElementById('summaryTotal').textContent = fmt(grandY1);
+
+  const mainRow = `<tr>
+    <td>${meta.flag} ${meta.name} ${meta.segment}</td>
+    ${mainTotals.map(t=>`<td>${fmt(t)}</td>`).join('')}
+    <td>${fmt(mainY1)}</td>
+  </tr>`;
+
+  let vrRow = '';
+  if (vrEnabled && currentCountry === 'USA' && vrY1 > 0) {
+    vrRow = `<tr class="vr-row">
+      <td>VR Try-On Programme</td>
+      ${vrTotals.map(t=>`<td>${fmt(t)}</td>`).join('')}
+      <td>${fmt(vrY1)}</td>
+    </tr>`;
+  }
+
+  const totalRow = `<tr>
+    <td>Combined Year 1</td>
+    ${phases.map((_,i)=>`<td>${fmt(mainTotals[i]+vrTotals[i])}</td>`).join('')}
+    <td>${fmt(grandY1)}</td>
+  </tr>`;
+
+  document.getElementById('summaryBody').innerHTML = mainRow + vrRow + (vrRow ? totalRow : '');
+
+  /* --- Bar chart --- */
+  const maxBar = Math.max(...phases.map((_,i)=>mainTotals[i]+vrTotals[i]));
+  const barRows = phases.map((_,i) => {
+    const main = mainTotals[i];
+    const vr   = vrTotals[i];
+    const total = main + vr;
+    const mainW = maxBar > 0 ? (main/maxBar*100).toFixed(1) : 0;
+    const vrW   = maxBar > 0 ? (vr/maxBar*100).toFixed(1) : 0;
+    return `<div class="bar-chart-row">
+      <span class="bar-chart-pname">Phase ${i+1} · ${phases[i].name}</span>
+      <div class="bar-chart-track">
+        <div class="bar-seg bar-main" style="width:${mainW}%"></div>
+        <div class="bar-seg bar-vr" style="width:${vrW}%"></div>
+      </div>
+      <span class="bar-chart-val">${fmt(total)}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('barChartRows').innerHTML = barRows;
+
+  /* --- Channels note in banner (append) --- */
+}
+
+function scrollToPhase(i) {
+  const el = document.getElementById('phase-card-' + i);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* ============================================================
+   EVENT HANDLERS
+   ============================================================ */
+function onCountryChange() {
+  currentCountry = document.getElementById('countrySel').value;
+  populateEventDropdown();
+  // Show/hide VR toggle (USA only)
+  document.getElementById('vrCtrl').style.display = currentCountry === 'USA' ? '' : 'none';
+  if (currentCountry !== 'USA') {
+    vrEnabled = false;
+    document.getElementById('vrCheck').checked = false;
+    document.getElementById('vrToggle').classList.remove('active');
+  }
+  render();
+}
+
+function onEventChange() {
+  render();
+}
+
+function setBudget(level, btn) {
+  currentBudget = level;
+  document.querySelectorAll('.b-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function toggleVR() {
+  // Toggle the checkbox state (click fires before state changes in label)
+  const cb = document.getElementById('vrCheck');
+  // We need to invert since the click hasn't been processed yet
+  vrEnabled = !cb.checked;
+  cb.checked = vrEnabled;
+  document.getElementById('vrToggle').classList.toggle('active', vrEnabled);
+  render();
+}
+
+function populateEventDropdown() {
+  const sel = document.getElementById('eventSel');
+  const evs = TARGET_EVENTS[currentCountry];
+  sel.innerHTML = evs.map(e => `<option value="${e.id}">${e.label}</option>`).join('');
+  // Default to first non-custom
+  sel.value = evs[0].id;
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function init() {
+  populateEventDropdown();
+  // Budget = moderate by default
+  currentBudget = 'mid';
+  render();
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Henig Diamonds — B2C Market Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111318;
+  --ink-2: #3d4149;
+  --ink-3: #8a909c;
+  --white: #ffffff;
+  --surface: #f7f8fa;
+  --surface-2: #eef0f4;
+  --border: #e2e5eb;
+  --border-2: #d0d4dc;
+  --accent: #2563eb;
+  --accent-pale: #eff4ff;
+  --accent-mid: #93b4f8;
+  --emerald: #15803d;
+  --emerald-pale: #dcfce7;
+  --ruby: #b91c1c;
+  --ruby-pale: #fee2e2;
+  --amber: #92400e;
+  --amber-pale: #fef3c7;
+  --gold: #b45309;
+  --gold-pale: #fef9ef;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.logo-main {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+.logo-sub {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.header-badge {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border: 1px solid var(--border);
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: var(--surface);
+}
+
+/* HERO */
+.hero {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 3rem 3rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '◆';
+  position: absolute;
+  right: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 160px;
+  color: rgba(37,99,235,0.04);
+  font-family: serif;
+  pointer-events: none;
+}
+
+.hero-tag {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.875rem;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 0.875rem;
+  max-width: 560px;
+  color: var(--ink);
+}
+
+.hero h1 em { font-style: italic; color: var(--accent); }
+
+.hero-sub {
+  font-size: 14px;
+  color: var(--ink-3);
+  max-width: 500px;
+  line-height: 1.7;
+}
+
+/* WINNER CARD */
+.winner-section {
+  padding: 2rem 3rem;
+  background: var(--surface);
+}
+
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 1rem;
+}
+
+.winner-card {
+  background: var(--white);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  padding: 1.75rem 2.25rem;
+  display: grid;
+  grid-template-columns: auto 1px repeat(4, 1fr);
+  gap: 0;
+  align-items: center;
+}
+
+.winner-main { padding-right: 2.25rem; }
+.winner-divider { background: var(--border); height: 52px; margin: 0 2rem; }
+
+.winner-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.winner-seg {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.winner-stat { text-align: center; padding: 0 0.5rem; }
+.winner-stat-val {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.winner-stat-val.accent { color: var(--accent); }
+.winner-stat-val.green { color: var(--emerald); }
+.winner-stat-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* CONTROLS */
+.controls-section {
+  padding: 0 3rem 1.75rem;
+  background: var(--surface);
+}
+
+.controls-bar {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.ctrl { display: flex; flex-direction: column; gap: 6px; }
+.ctrl-lbl {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.seg-pills { display: flex; gap: 6px; }
+.pill {
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-size: 12px;
+  color: var(--ink-2);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+.pill:hover { border-color: var(--accent); color: var(--accent); }
+.pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+select {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 28px 7px 10px;
+  color: var(--ink);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a909c'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  min-width: 170px;
+}
+
+.margin-ctrl { display: flex; align-items: center; gap: 10px; }
+input[type=range] {
+  width: 130px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.margin-val {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+  min-width: 36px;
+}
+
+/* PIVOT TABLE */
+.table-section { padding: 0 3rem 2.5rem; }
+
+.table-wrap {
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+thead {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+thead th {
+  padding: 11px 16px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+thead th:not(:first-child) { text-align: right; }
+thead th:hover { color: var(--ink); }
+thead th.sorted { color: var(--accent); }
+
+tbody tr {
+  border-bottom: 1px solid var(--surface-2);
+  transition: background 0.1s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface); }
+tbody tr.top-row { background: var(--accent-pale); }
+
+tbody td {
+  padding: 14px 16px;
+  vertical-align: middle;
+}
+tbody td:not(:first-child) { text-align: right; }
+
+.market-cell { display: flex; flex-direction: column; gap: 2px; }
+.market-name { font-weight: 500; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+.market-seg { font-size: 11px; color: var(--ink-3); }
+
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 22px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.score-high { background: var(--emerald-pale); color: var(--emerald); }
+.score-mid { background: var(--amber-pale); color: var(--amber); }
+.score-low { background: var(--ruby-pale); color: var(--ruby); }
+
+.roi-cell { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.roi-pct { font-size: 14px; font-weight: 500; }
+.roi-sub { font-size: 11px; color: var(--ink-3); }
+.roi-pos { color: var(--emerald); }
+.roi-neg { color: var(--ruby); }
+
+thead th { position: relative; }
+thead th .sort-arrow { display: inline-block; margin-left: 5px; font-size: 9px; opacity: 0.3; vertical-align: middle; transition: opacity 0.15s; }
+thead th:hover .sort-arrow { opacity: 0.6; }
+thead th.sorted { color: var(--accent); }
+thead th.sorted .sort-arrow { opacity: 1; color: var(--accent); }
+thead th.sorted-bg { background: var(--accent-pale); }
+
+/* CHARTS */
+.charts-section { padding: 0 3rem 3rem; }
+.charts-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.chart-type-pills { display: flex; gap: 6px; }
+.ct-pill {
+  padding: 5px 13px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  font-size: 12px;
+  color: var(--ink-3);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+.ct-pill:hover { border-color: var(--accent); color: var(--accent); }
+.ct-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.chart-card {
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+}
+.chart-card-title {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 1rem;
+}
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 1rem;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.channel-suggest {
+  margin-top: 1rem;
+  background: var(--accent-pale);
+  border: 1px solid var(--accent-mid);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+}
+.suggest-header { margin-bottom: 1rem; }
+.suggest-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 3px;
+}
+.suggest-subtitle { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
+.suggest-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+.suggest-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.suggest-rank {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--white);
+  background: var(--accent);
+  border-radius: 100px;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.suggest-rank.rank-top { background: var(--gold); }
+.suggest-card-body {}
+.suggest-card-name { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+.suggest-card-why  { font-size: 11px; color: var(--ink-3); line-height: 1.4; }
+.suggest-card-pct  { font-size: 11px; font-weight: 500; color: var(--accent); margin-top: 3px; }
+.suggest-apply-btn {
+  padding: 7px 18px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: opacity 0.15s;
+}
+.suggest-apply-btn:hover { opacity: 0.88; }
+
+/* FOOTER */
+footer {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  color: var(--ink-3);
+  padding: 1.25rem 3rem;
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  letter-spacing: 0.05em;
+}
+footer .footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  color: var(--ink);
+  letter-spacing: 0.08em;
+}
+
+/* AD SPEND SECTION */
+.adspend-section {
+  padding: 0 3rem 2rem;
+  background: var(--surface);
+}
+.adspend-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.adspend-total-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+.adspend-total-label { font-size: 12px; color: var(--ink-3); }
+.adspend-total-val { font-size: 18px; font-weight: 500; color: var(--accent); font-family: 'DM Sans', sans-serif; }
+.adspend-preset-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.preset-pill {
+  padding: 5px 13px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  font-size: 12px;
+  color: var(--ink-3);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+.preset-pill:hover { border-color: var(--accent); color: var(--accent); }
+.preset-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.channel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+.channel-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem 0.875rem;
+}
+.channel-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.75rem;
+}
+.channel-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+.meta-icon      { background: #e7f0fd; color: #1877f2; }
+.google-icon    { background: #fce8e6; color: #ea4335; }
+.tiktok-icon    { background: #f0f0f0; color: #000; }
+.pinterest-icon { background: #fde8e8; color: #e60023; }
+.email-icon     { background: var(--emerald-pale); color: var(--emerald); }
+.influencer-icon{ background: var(--gold-pale); color: var(--gold); }
+
+.channel-info { flex: 1; min-width: 0; }
+.channel-name { font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.channel-role { font-size: 10.5px; color: var(--ink-3); margin-top: 1px; }
+.channel-val  { font-size: 15px; font-weight: 500; color: var(--accent); min-width: 52px; text-align: right; flex-shrink: 0; }
+
+.channel-slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.slider-min, .slider-max { font-size: 10px; color: var(--ink-3); flex-shrink: 0; }
+.channel-slider { flex: 1; accent-color: var(--accent); cursor: pointer; }
+
+.channel-mix-bar {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+.mix-bar-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+.mix-bar-track {
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  background: var(--surface-2);
+  margin-bottom: 10px;
+}
+.mix-bar-seg { height: 100%; transition: width 0.3s; }
+.mix-bar-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.mix-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--ink-3); }
+.mix-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+@media (max-width: 900px) {
+  .adspend-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .channel-grid { grid-template-columns: 1fr; }
+}
+
+/* REC CARD */
+.rec-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.rec-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 1.75rem 2rem;
+  flex-wrap: wrap;
+}
+.rec-left { min-width: 180px; }
+.rec-pill {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--accent-pale);
+  color: var(--accent);
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 10px;
+}
+.rec-market {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.rec-seg {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.rec-stats {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex: 1;
+  justify-content: flex-end;
+}
+.rec-stat { text-align: right; }
+.rec-stat-val {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.rec-stat-val.accent { color: var(--accent); }
+.rec-stat-val.green { color: var(--emerald); }
+.rec-stat-lbl {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.rec-stat-lbl sup { font-size: 9px; color: var(--accent); }
+
+.rec-divider { border: none; border-top: 1px solid var(--border); }
+
+.rec-why { padding: 1.5rem 2rem; }
+.rec-why-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 1rem;
+}
+.rec-reasons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+.rec-reason {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.rec-reason-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.rec-reason-body {}
+.rec-reason-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.rec-reason-desc {
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+
+.rec-actions { padding: 1.5rem 2rem; background: var(--surface); }
+.rec-action-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 1rem;
+}
+.rec-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rec-step {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.rec-step-num {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-pale);
+  border-radius: 100px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-style: normal;
+}
+.rec-step-text {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+.rec-step-text strong { color: var(--ink); font-weight: 500; }
+
+/* FOOTNOTES */
+.footnotes-section {
+  padding: 2rem 3rem 2.5rem;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.fn-title {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 1.25rem;
+}
+.fn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.fn-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.6;
+}
+.fn-item strong { color: var(--ink-2); font-weight: 500; }
+.fn-num {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-pale);
+  border-radius: 100px;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+@media (max-width: 900px) {
+  .fn-grid { grid-template-columns: 1fr; }
+  .rec-stats { justify-content: flex-start; }
+  .rec-stat { text-align: left; }
+  .footnotes-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+}
+
+@media (max-width: 900px) {
+  header, .hero, .winner-section, .controls-section, .table-section, .charts-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .winner-card { grid-template-columns: 1fr; gap: 1.25rem; }
+  .winner-divider { display: none; }
+  .winner-stat { text-align: left; }
+  .charts-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-main">HENIG</span>
+    <span class="logo-sub">B2C Market Intelligence</span>
+  </div>
+  <span class="header-badge">Research Period 2024–2025</span>
+</header>
+
+<section class="hero">
+  <div class="hero-tag">◆ Strategic Expansion Analysis</div>
+  <h1>Where should Henig<br>launch <em>first?</em></h1>
+  <p class="hero-sub">Interactive pivot across 5 countries, 2 segments — Luxury & Mid-Luxury — with dual ROI models and live scenario controls. Adjust margin, budget and segment below.</p>
+</section>
+
+<section class="winner-section">
+  <div class="section-label">Our recommendation</div>
+  <div class="rec-card">
+
+    <div class="rec-top">
+      <div class="rec-left">
+        <div class="rec-pill" id="recPill">Top pick</div>
+        <div class="rec-market" id="winnerName">—</div>
+        <div class="rec-seg" id="winnerSeg">—</div>
+      </div>
+      <div class="rec-stats">
+        <div class="rec-stat">
+          <div class="rec-stat-val accent" id="winnerScore">—</div>
+          <div class="rec-stat-lbl">Opportunity score <sup>1</sup></div>
+        </div>
+        <div class="rec-stat">
+          <div class="rec-stat-val" id="winnerSpend">—</div>
+          <div class="rec-stat-lbl">Monthly promo budget</div>
+        </div>
+        <div class="rec-stat">
+          <div class="rec-stat-val green" id="winnerRoi1">—</div>
+          <div class="rec-stat-lbl">Est. ROI — TAM capture <sup>2</sup></div>
+        </div>
+        <div class="rec-stat">
+          <div class="rec-stat-val green" id="winnerRoi2">—</div>
+          <div class="rec-stat-lbl">Est. ROI — units × margin <sup>3</sup></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rec-divider"></div>
+
+    <div class="rec-why">
+      <div class="rec-why-label">Why this market?</div>
+      <div class="rec-reasons" id="recReasons"></div>
+    </div>
+
+    <div class="rec-divider"></div>
+
+    <div class="rec-actions">
+      <div class="rec-action-label">Recommended first steps</div>
+      <div class="rec-steps" id="recSteps"></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="controls-section">
+  <div class="controls-bar">
+    <div class="ctrl">
+      <div class="ctrl-lbl">Country focus</div>
+      <select id="countrySel" onchange="onCountryChange()">
+        <option value="all">All countries</option>
+        <option value="USA">🇺🇸 USA</option>
+        <option value="Germany">🇩🇪 Germany</option>
+        <option value="France">🇫🇷 France</option>
+        <option value="Canada">🇨🇦 Canada</option>
+        <option value="Ireland">🇮🇪 Ireland</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-lbl">Segment</div>
+      <div class="seg-pills">
+        <button class="pill active" onclick="setSeg('both',this)">Luxury + Mid-Luxury</button>
+        <button class="pill" onclick="setSeg('luxury',this)">Luxury only</button>
+        <button class="pill" onclick="setSeg('mid',this)">Mid-Luxury only</button>
+      </div>
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-lbl">Budget scenario</div>
+      <select id="budgetSel" onchange="applyScenario()">
+        <option value="low">Conservative (low-end)</option>
+        <option value="mid" selected>Moderate (midpoint)</option>
+        <option value="high">Aggressive (high-end)</option>
+        <option value="custom">Custom — set below</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-lbl">Gross margin</div>
+      <div class="margin-ctrl">
+        <input type="range" id="marginSlider" min="20" max="65" value="40" step="1" oninput="document.getElementById('marginOut').textContent=this.value+'%'; render()">
+        <span class="margin-val" id="marginOut">40%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="adspend-section">
+  <div class="adspend-header">
+    <div>
+      <div class="section-label" style="margin-bottom:4px;">Ad spend breakdown — monthly</div>
+      <div class="adspend-total-row">
+        <span class="adspend-total-label">Total monthly:</span>
+        <span class="adspend-total-val" id="totalSpendDisplay">$0</span>
+        <span class="adspend-total-label" style="margin-left:1.5rem;">Annual:</span>
+        <span class="adspend-total-val" id="totalAnnualDisplay">$0</span>
+      </div>
+    </div>
+    <div class="adspend-preset-pills">
+      <button class="preset-pill" onclick="applyPreset('low',this)">Conservative</button>
+      <button class="preset-pill active" onclick="applyPreset('mid',this)">Moderate</button>
+      <button class="preset-pill" onclick="applyPreset('high',this)">Aggressive</button>
+      <button class="preset-pill" onclick="resetCustom(this)">Reset</button>
+    </div>
+  </div>
+
+  <div class="channel-grid">
+    <div class="channel-card">
+      <div class="channel-top">
+        <div class="channel-icon meta-icon">M</div>
+        <div class="channel-info">
+          <div class="channel-name">Meta — Instagram + Facebook</div>
+          <div class="channel-role">Discovery & retargeting · 40% of spend</div>
+        </div>
+        <div class="channel-val" id="metaVal">$0</div>
+      </div>
+      <div class="channel-slider-wrap">
+        <span class="slider-min">$0</span>
+        <input type="range" class="channel-slider" id="metaSlider" min="0" max="60000" step="500" value="0" oninput="onChannelChange()">
+        <span class="slider-max">$60K</span>
+      </div>
+    </div>
+
+    <div class="channel-card">
+      <div class="channel-top">
+        <div class="channel-icon google-icon">G</div>
+        <div class="channel-info">
+          <div class="channel-name">Google — Search + Shopping</div>
+          <div class="channel-role">High-intent capture · 30% of spend</div>
+        </div>
+        <div class="channel-val" id="googleVal">$0</div>
+      </div>
+      <div class="channel-slider-wrap">
+        <span class="slider-min">$0</span>
+        <input type="range" class="channel-slider" id="googleSlider" min="0" max="50000" step="500" value="0" oninput="onChannelChange()">
+        <span class="slider-max">$50K</span>
+      </div>
+    </div>
+
+    <div class="channel-card">
+      <div class="channel-top">
+        <div class="channel-icon tiktok-icon">T</div>
+        <div class="channel-info">
+          <div class="channel-name">TikTok — Spark Ads</div>
+          <div class="channel-role">Top of funnel awareness · 15% of spend</div>
+        </div>
+        <div class="channel-val" id="tiktokVal">$0</div>
+      </div>
+      <div class="channel-slider-wrap">
+        <span class="slider-min">$0</span>
+        <input type="range" class="channel-slider" id="tiktokSlider" min="0" max="25000" step="250" value="0" oninput="onChannelChange()">
+        <span class="slider-max">$25K</span>
+      </div>
+    </div>
+
+    <div class="channel-card">
+      <div class="channel-top">
+        <div class="channel-icon pinterest-icon">P</div>
+        <div class="channel-info">
+          <div class="channel-name">Pinterest — Bridal + Discovery</div>
+          <div class="channel-role">Inspiration & consideration · 10% of spend</div>
+        </div>
+        <div class="channel-val" id="pinterestVal">$0</div>
+      </div>
+      <div class="channel-slider-wrap">
+        <span class="slider-min">$0</span>
+        <input type="range" class="channel-slider" id="pinterestSlider" min="0" max="15000" step="250" value="0" oninput="onChannelChange()">
+        <span class="slider-max">$15K</span>
+      </div>
+    </div>
+
+    <div class="channel-card">
+      <div class="channel-top">
+        <div class="channel-icon email-icon">E</div>
+        <div class="channel-info">
+          <div class="channel-name">Email / SMS — Klaviyo</div>
+          <div class="channel-role">Retention & abandoned cart · 3% of spend</div>
+        </div>
+        <div class="channel-val" id="emailVal">$0</div>
+      </div>
+      <div class="channel-slider-wrap">
+        <span class="slider-min">$0</span>
+        <input type="range" class="channel-slider" id="emailSlider" min="0" max="5000" step="100" value="0" oninput="onChannelChange()">
+        <span class="slider-max">$5K</span>
+      </div>
+    </div>
+
+    <div class="channel-card">
+      <div class="channel-top">
+        <div class="channel-icon influencer-icon">I</div>
+        <div class="channel-info">
+          <div class="channel-name">Influencers — Micro (10K–100K)</div>
+          <div class="channel-role">Social proof & affiliate · 12% of spend</div>
+        </div>
+        <div class="channel-val" id="influencerVal">$0</div>
+      </div>
+      <div class="channel-slider-wrap">
+        <span class="slider-min">$0</span>
+        <input type="range" class="channel-slider" id="influencerSlider" min="0" max="20000" step="250" value="0" oninput="onChannelChange()">
+        <span class="slider-max">$20K</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="channel-mix-bar">
+    <div class="mix-bar-label">Channel mix</div>
+    <div class="mix-bar-track" id="mixBarTrack"></div>
+    <div class="mix-bar-legend" id="mixBarLegend"></div>
+  </div>
+
+  <div class="channel-suggest" id="channelSuggest" style="display:none;">
+    <div class="suggest-header">
+      <div class="suggest-title" id="suggestTitle">Recommended channel mix</div>
+      <div class="suggest-subtitle" id="suggestSubtitle"></div>
+    </div>
+    <div class="suggest-cards" id="suggestCards"></div>
+    <button class="suggest-apply-btn" id="suggestApplyBtn" onclick="applyCountrySuggestion()">Apply suggested mix →</button>
+  </div>
+</section>
+
+<section class="table-section">
+  <div class="section-label">Pivot table — all markets</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th onclick="colSort('market')" id="th-market">Market <span class="sort-arrow">↕</span></th>
+          <th onclick="colSort('score')" id="th-score">Score <span class="sort-arrow">↕</span></th>
+          <th onclick="colSort('size')" id="th-size">Mkt size 2025 <span class="sort-arrow">↕</span></th>
+          <th onclick="colSort('yoy')" id="th-yoy">YoY growth <span class="sort-arrow">↕</span></th>
+          <th onclick="colSort('asp')" id="th-asp">Avg ASP <span class="sort-arrow">↕</span></th>
+          <th onclick="colSort('spend')" id="th-spend">Monthly promo <span class="sort-arrow">↕</span></th>
+          <th onclick="colSort('annual')" id="th-annual">Annual cost <span class="sort-arrow">↕</span></th>
+          <th onclick="colSort('roi1')" id="th-roi1">ROI — TAM capture <span class="sort-arrow">↕</span></th>
+          <th onclick="colSort('roi2')" id="th-roi2">ROI — units × margin <span class="sort-arrow">↕</span></th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="charts-section">
+  <div class="charts-header">
+    <div class="section-label" style="margin-bottom:0;">Visual breakdown — current scenario</div>
+    <div class="chart-type-pills">
+      <button class="ct-pill active" onclick="setChartType('doughnut',this)">Doughnut</button>
+      <button class="ct-pill" onclick="setChartType('pie',this)">Pie</button>
+      <button class="ct-pill" onclick="setChartType('bar',this)">Bar</button>
+      <button class="ct-pill" onclick="setChartType('polarArea',this)">Polar</button>
+    </div>
+  </div>
+  <div class="charts-grid" id="chartsGrid"></div>
+</section>
+
+<section class="footnotes-section">
+  <div class="fn-title">Methodology &amp; footnotes</div>
+  <div class="fn-grid">
+    <div class="fn-item"><span class="fn-num">1</span><div><strong>Opportunity score</strong> is a weighted composite (out of 10) across six criteria: market size/TAM (25%), ASP alignment with Henig's product range (20%), Henig credential fit — GIA/IGI, KP, RJC (20%), market growth rate 2024–25 (15%), ease of market entry (10%), and margin potential (10%). Source: Henig internal scoring model based on Bain, Statista, Grand View Research data.</div></div>
+    <div class="fn-item"><span class="fn-num">2</span><div><strong>ROI — TAM capture</strong> estimates Henig's realistic first-year revenue by applying a score-weighted capture rate (0.08% of TAM per score point) to the 2025 market size. Gross profit is then calculated at the selected margin %, and ROI = (gross profit − annual promo spend) ÷ annual promo spend. This method is conservative and market-size sensitive — larger markets yield higher absolute returns even at low capture rates.</div></div>
+    <div class="fn-item"><span class="fn-num">3</span><div><strong>ROI — units × margin</strong> estimates revenue from the bottom up: a score-weighted unit capture rate (0.12% of available unit pool) is applied to each market's estimated unit volume, multiplied by the segment ASP, then gross-margined. ROI is calculated identically to method 1. This method is more sensitive to ASP and unit availability, making it a better proxy for Henig's actual sales pipeline potential.</div></div>
+    <div class="fn-item"><span class="fn-num">4</span><div><strong>Monthly promo budget ranges</strong> represent estimated all-in digital marketing spend (paid search, Meta/Instagram, influencer fees, and trade event allowance) based on Henig's Shopify Promotion Plan benchmarks. Conservative = low-end of range; Aggressive = high-end; Moderate = midpoint. Actual spend may vary by channel mix and seasonality.</div></div>
+    <div class="fn-item"><span class="fn-num">5</span><div><strong>Gross margin slider</strong> applies a single blended gross margin assumption across all markets for comparability. Henig's actual margin will vary by product category (LGD vs natural diamond), channel (DTC vs wholesale), and geography. Recommended starting assumption: 38–45% for mid-luxury, 45–60% for luxury.</div></div>
+    <div class="fn-item"><span class="fn-num">6</span><div><strong>Data sources</strong>: Market size and growth figures — Bain &amp; Company Altagamma 2024, Grand View Research 2025, Cognitive Market Research, Statista Diamond Jewellery Report 2025. ESG and consumer trend data — The Plumb Club 2025, IndexBox Ireland 2025. Trade show recommendations — JA New York, Inhorgenta Munich, Couture Las Vegas show directories.</div></div>
+  </div>
+</section>
+
+
+<footer>
+  <span class="footer-brand">HENIG DIAMONDS</span>
+  <span>Sources: Henig Research · Bain · Grand View Research · Statista · Cognitive Market Research · 2024–2025</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const DATA = [
+  {market:'USA',flag:'🇺🇸',seg:'Luxury',score:9.3,size:13.5,yoy:5.1,asp:3500,bLow:28600,bHigh:126000,units:3857},
+  {market:'USA',flag:'🇺🇸',seg:'Mid-Luxury',score:8.0,size:11.2,yoy:4.7,asp:1200,bLow:10000,bHigh:38000,units:9333},
+  {market:'Germany',flag:'🇩🇪',seg:'Luxury',score:8.3,size:1.71,yoy:4.3,asp:2800,bLow:9000,bHigh:30000,units:611},
+  {market:'Germany',flag:'🇩🇪',seg:'Mid-Luxury',score:8.0,size:1.71,yoy:4.9,asp:1400,bLow:5000,bHigh:16000,units:1221},
+  {market:'France',flag:'🇫🇷',seg:'Luxury',score:7.7,size:1.06,yoy:6.0,asp:2900,bLow:9000,bHigh:30000,units:365},
+  {market:'France',flag:'🇫🇷',seg:'Mid-Luxury',score:6.6,size:0.74,yoy:4.2,asp:1300,bLow:4000,bHigh:14000,units:569},
+  {market:'Canada',flag:'🇨🇦',seg:'Luxury',score:7.2,size:0.83,yoy:5.1,asp:2700,bLow:9000,bHigh:30000,units:307},
+  {market:'Canada',flag:'🇨🇦',seg:'Mid-Luxury',score:7.2,size:0.83,yoy:6.4,asp:1100,bLow:5000,bHigh:16000,units:755},
+  {market:'Ireland',flag:'🇮🇪',seg:'Luxury',score:6.9,size:0.26,yoy:18.2,asp:2800,bLow:4000,bHigh:14000,units:93},
+  {market:'Ireland',flag:'🇮🇪',seg:'Mid-Luxury',score:6.0,size:0.19,yoy:18.8,asp:1100,bLow:1800,bHigh:6500,units:173},
+];
+
+const MARKET_INTEL = {
+  'USA|Luxury': {
+    reasons: [
+      {icon:'◆', title:'Largest TAM by far', desc:'$13.5B luxury market in 2025 — 72% of the 5-country total. Unmatched revenue ceiling.'},
+      {icon:'✓', title:'Perfect credential fit', desc:"Henig's GIA/IGI certification and De Beers DTC sightholder status are table-stakes requirements here — and Henig already has them."},
+      {icon:'↑', title:'Mega-carat bridal surge', desc:'3ct+ engagement rings growing 18% YoY. Highest ASP at $3,500 avg. Self-purchasing women up 23%.'},
+      {icon:'⚡', title:'Trade tariff urgency', desc:'2025 policy changes are creating wholesale urgency — buyers are locking in suppliers now.'},
+    ],
+    steps: [
+      {text: '<strong>Attend JA New York (August)</strong> and Couture Las Vegas (June) — primary wholesale contact points for luxury independents and bridal chains.'},
+      {text: '<strong>Target Signet and Kay Jewelers</strong> wholesale buyers first, then independent bridal jewellers in top-10 metro markets.'},
+      {text: '<strong>Lead with engagement rings and necklaces</strong> — rings are 40%+ of luxury revenue; necklaces are the fastest-growing second category.'},
+      {text: '<strong>Allocate $29K–$126K/month</strong> across Google Search, macro Instagram influencers, and boutique PR events. Start at the conservative end.'},
+    ]
+  },
+  'USA|Mid-Luxury': {
+    reasons: [
+      {icon:'◆', title:'$11.2B addressable market', desc:'Second-largest segment across all 5 countries. Professional women 30–45 are the core buyer, driving repeat purchases.'},
+      {icon:'✓', title:'LGD majority — Henig positioned', desc:'~55% LGD penetration in US mid-luxury. Henig\'s dual supply capability (LGD + natural) is the competitive edge here.'},
+      {icon:'↑', title:'Strong 4.7% YoY growth', desc:'Consistent volume growth with 4.7% CAGR to 2030. Earrings and necklaces lead unit sales.'},
+      {icon:'⚡', title:'E-commerce at 32%', desc:'Nearly a third of purchases happen online — digital-first entry viable without heavy boutique infrastructure.'},
+    ],
+    steps: [
+      {text: '<strong>Launch with earrings and pendants</strong> via US trade shows — highest repeat order potential in this segment.'},
+      {text: '<strong>Run Meta + Google Shopping + Pinterest</strong> campaigns targeting professional women 30–45. Budget $10K–$38K/month.'},
+      {text: '<strong>Leverage GIA/IGI certification prominently</strong> — mid-luxury US buyers are certification-aware and use it as a trust signal.'},
+      {text: '<strong>Use USA testimonials</strong> as social proof to unlock Canada mid-luxury as a fast follow-on market (6–12 month lag).'},
+    ]
+  },
+  'Germany|Luxury': {
+    reasons: [
+      {icon:'◆', title:'Highest EU luxury score', desc:'8.3/10 — Germany\'s quality-led consumer profile and $2,800 ASP make it the strongest EU luxury entry.'},
+      {icon:'✓', title:'RJC + KP = instant access', desc:'EU April 2025 conflict-free sourcing regulations are now law. Henig\'s RJC and KP compliance is a direct market access credential.'},
+      {icon:'↑', title:'4.3% YoY growth, 4.6% CAGR', desc:'Steady, recession-resistant luxury demand. HNWIs and quality-led buyers remain active even in downcycles.'},
+      {icon:'⚡', title:'Precision craftsmanship narrative', desc:'German luxury buyers respond to engineering precision and provenance stories — Henig\'s bespoke service maps directly.'},
+    ],
+    steps: [
+      {text: '<strong>Exhibit at Inhorgenta Munich</strong> — the primary German trade touchpoint. Book 12 months ahead for prime positioning.'},
+      {text: '<strong>Partner with Goldschmiede (specialist jewellers)</strong> — they hold 70%+ of luxury sales offline and are the natural wholesale channel.'},
+      {text: '<strong>Lead with precision-crafted rings and necklaces</strong> and foreground RJC + KP certifications in all materials.'},
+      {text: '<strong>Allocate $9K–$30K/month</strong> on Google Search, ESG-focused content, and craft influencers. Offline relationships are essential.'},
+    ]
+  },
+  'Germany|Mid-Luxury': {
+    reasons: [
+      {icon:'◆', title:'Best EU mid-luxury entry', desc:'9/10 Henig suitability — ESG demands align perfectly with Henig\'s RJC + KP credentials. Largest EU mid-luxury market at $1.71B.'},
+      {icon:'✓', title:'Highest ASP in segment', desc:'$1,400 avg ASP — German consumers pay a premium even in mid-luxury, protecting margins without compromising volume.'},
+      {icon:'↑', title:'4.9% YoY, fastest EU growth', desc:'Fastest-growing EU mid-luxury market. Necklaces and earrings lead — both are Henig\'s natural wholesale categories.'},
+      {icon:'⚡', title:'EU ESG regulation tailwind', desc:'April 2025 conflict-free sourcing regulations favour certified suppliers immediately. Uncertified competitors face access barriers.'},
+    ],
+    steps: [
+      {text: '<strong>Inhorgenta Munich is the non-negotiable first step</strong> — book a stand and lead with certified LGD earrings and necklaces.'},
+      {text: '<strong>Build an ESG narrative deck</strong> in German — buyers expect documentation of KP compliance, RJC membership, and supply chain traceability.'},
+      {text: '<strong>Target mid-size specialist jewellers</strong> (50–200 employee range) — they\'re the fastest-moving wholesale partners in Germany.'},
+      {text: '<strong>Budget $5K–$16K/month</strong> across Google, Meta ESG content, and micro-influencers. Scale after first wholesale account is secured.'},
+    ]
+  },
+  'France|Luxury': {
+    reasons: [
+      {icon:'◆', title:'Haute couture positioning', desc:'$1.06B luxury market anchored by Cartier, Van Cleef ecosystem. Bespoke commissions up 22% in 2024 — Henig\'s custom service fits.'},
+      {icon:'✓', title:'GIA preferred, bespoke in demand', desc:'French luxury buyers require GIA certification and gravitate toward personalised pieces. Both are Henig strengths.'},
+      {icon:'↑', title:'6.0% YoY — fastest luxury growth', desc:'Highest YoY growth rate among luxury segments across all 5 markets. LGD moving into haute couture positioning.'},
+      {icon:'⚡', title:'Self-gifting professional women', desc:'31% of French fine jewellery sales are self-purchases, growing fast among 28–45 professionals.'},
+    ],
+    steps: [
+      {text: '<strong>Open a Paris showroom relationship</strong> — French luxury retail is boutique-first. A local agent or rep is strongly recommended for first 12 months.'},
+      {text: '<strong>Lead with bespoke rings and necklaces</strong> using the haute couture narrative. GIA certification is non-negotiable in all materials.'},
+      {text: '<strong>Allocate $9K–$30K/month</strong> on Google, Meta, and Paris boutique event sponsorships. Haute couture influencer partnerships at this tier.'},
+      {text: '<strong>Consider dual-range positioning</strong> — France has reclassified LGD into luxury, making it uniquely receptive to both natural and LGD at premium ASPs.'},
+    ]
+  },
+  'France|Mid-Luxury': {
+    reasons: [
+      {icon:'◆', title:'ESG-conscious buyer base', desc:'High ethical sourcing priority among 28–45 professional women. Henig\'s KP + LGD dual range is the right offer.'},
+      {icon:'✓', title:'$1,300 ASP — above EU avg', desc:'Higher than Ireland and Canada mid-luxury ASPs, supporting healthy margins without a luxury infrastructure cost base.'},
+      {icon:'↑', title:'4.2% steady growth', desc:'Consistent mid-luxury demand anchored by necklaces and earrings — Henig\'s core wholesale categories.'},
+      {icon:'⚡', title:'Personalisation trend', desc:'Bespoke commissions up 22% in 2024. Mid-luxury French buyers increasingly want customised pieces at accessible price points.'},
+    ],
+    steps: [
+      {text: '<strong>Enter via boutique and department store trade</strong> — Galeries Lafayette and independent multi-brand boutiques are the natural wholesale channel.'},
+      {text: '<strong>Lead with necklaces</strong> — France is the only market where necklaces beat earrings as the top mid-luxury category.'},
+      {text: '<strong>Run Meta + Google + Pinterest campaigns</strong> targeting ESG-conscious women 28–45. Budget $4K–$14K/month.'},
+      {text: '<strong>Engage ESG-focused micro-influencers</strong> with strong sustainability credentials — authenticity matters far more than reach in this market.'},
+    ]
+  },
+  'Canada|Luxury': {
+    reasons: [
+      {icon:'◆', title:'Mirrors USA with lower cost', desc:'Canada follows US luxury trends with a 6–12 month lag and 15–20% lower ASP — lower risk, lower spend to prove the model.'},
+      {icon:'✓', title:'GIA standard, strong bridal', desc:'GIA certification is the standard requirement. Bridal demand mirrors USA — engagement rings are the #1 category.'},
+      {icon:'↑', title:'5.1% YoY, 5.1% CAGR', desc:'Matches USA growth rate. Toronto and Vancouver are the two primary luxury jewellery markets.'},
+      {icon:'⚡', title:'E-commerce at 25%', desc:'Higher online penetration than Germany or France luxury — digital entry viable alongside boutique partnerships.'},
+    ],
+    steps: [
+      {text: '<strong>Attend JCK Toronto</strong> — the primary Canadian wholesale trade show. Use USA case studies and testimonials as proof of concept.'},
+      {text: '<strong>Target Toronto and Vancouver boutiques first</strong> — they account for the majority of Canadian luxury jewellery sales.'},
+      {text: '<strong>Lead with rings and necklaces</strong> using the same GIA certification positioning as USA. Leverage US bridal trend data in pitches.'},
+      {text: '<strong>Allocate $9K–$30K/month</strong> on Google, Meta, and Pinterest. Monitor CAD/USD volatility and price accordingly.'},
+    ]
+  },
+  'Canada|Mid-Luxury': {
+    reasons: [
+      {icon:'◆', title:'Fastest-growing mid-luxury', desc:'6.4% YoY — highest growth rate across all mid-luxury markets. E-commerce at 32–38% makes digital entry practical.'},
+      {icon:'✓', title:'LGD at 50% — Henig positioned', desc:'LGD accounts for half of Canadian mid-luxury purchases. Henig\'s certified LGD range is the right product for this market.'},
+      {icon:'↑', title:'4.8% CAGR to 2030', desc:'Converging with USA growth trajectory by 2028. Strong online bargain hunter profile among 28–45 professionals.'},
+      {icon:'⚡', title:'Low-cost proof of concept', desc:'Lower ASP ($1,100) and budget requirements ($5K–$16K/mo) make Canada an efficient test before scaling to USA.'},
+    ],
+    steps: [
+      {text: '<strong>Digital-first entry</strong> — high e-commerce penetration means Shopify + Meta + Google Shopping can drive significant volume without boutique infrastructure.'},
+      {text: '<strong>Lead with earrings via e-commerce distributors</strong> — earrings are the #1 mid-luxury category and highest repeat-purchase item.'},
+      {text: '<strong>Use USA marketing assets</strong> — Canadian mid-luxury buyers closely follow US trends. Repurpose US campaigns with CAD pricing.'},
+      {text: '<strong>Allocate $5K–$16K/month</strong> on Meta, Google, and Pinterest. Scale spend as first wholesale accounts are secured.'},
+    ]
+  },
+  'Ireland|Luxury': {
+    reasons: [
+      {icon:'◆', title:'Highest growth rate — 18.2% YoY', desc:'Fastest-growing luxury market driven by affluent urbanisation. Per-capita income $86K — highest in Europe ex-Luxembourg.'},
+      {icon:'✓', title:'Natural diamond preference 85%', desc:'Strongest natural diamond preference of any market. Henig\'s KP-compliant natural stone supply is the ideal product.'},
+      {icon:'↑', title:'Online-first luxury purchase', desc:'30% of luxury purchases online — highest EU rate. Small physical retail footprint makes digital entry more efficient.'},
+      {icon:'⚡', title:'Post-Brexit supplier gap', desc:'Italy supplies 80% of Ireland\'s jewellery imports. UK/Hatton Garden provenance story is a strong differentiator post-Brexit.'},
+    ],
+    steps: [
+      {text: '<strong>Enter via Dublin boutiques and online wholesale</strong> — the physical retail landscape is small, concentrated in Dublin\'s Grafton Street precinct.'},
+      {text: '<strong>Lead with high-margin rings</strong> using Celtic design inspiration and Hatton Garden provenance narrative.'},
+      {text: '<strong>Allocate $4K–$14K/month</strong> on Meta Instagram and Google Search. One strong mid-tier influencer partnership can move significant volume in this small market.'},
+      {text: '<strong>Use Ireland as a low-cost EU proof of concept</strong> before committing to the larger Germany or France wholesale infrastructure.'},
+    ]
+  },
+  'Ireland|Mid-Luxury': {
+    reasons: [
+      {icon:'◆', title:'18.8% YoY — fastest growing', desc:'Fastest mid-luxury growth across all markets, driven by strong per-capita income and Celtic jewellery revival.'},
+      {icon:'✓', title:'Highest e-commerce share 44%', desc:'Nearly half of mid-luxury purchases happen online — the lowest-cost entry model works here.'},
+      {icon:'↑', title:'Natural preference 70%', desc:'Strong bias toward natural diamonds in mid-luxury. KP compliance is a direct sales argument.'},
+      {icon:'⚡', title:'Lowest budget requirement', desc:'$1.8K–$6.5K/month is the most capital-efficient market of all 10 options — ideal for testing creative and messaging.'},
+    ],
+    steps: [
+      {text: '<strong>Online wholesale first</strong> — high e-commerce penetration and small physical retail base makes this a digital-only viable market.'},
+      {text: '<strong>Lead with earrings</strong> via Meta and online marketplaces. Micro-influencers at €150–€400/post offer strong local reach.'},
+      {text: '<strong>Budget $1.8K–$6.5K/month</strong> — use this as Henig\'s lowest-risk EU market test before committing to Germany or France.'},
+      {text: '<strong>Leverage the Celtic fine jewellery revival narrative</strong> — Irish mid-luxury buyers respond strongly to provenance and cultural storytelling.'},
+    ]
+  },
+};
+
+function getIntel(market, seg) {
+  const key = market+'|'+seg;
+  return MARKET_INTEL[key] || {reasons:[], steps:[]};
+}
+
+const COLORS = {USA:'#2563eb',Germany:'#15803d',France:'#9333ea',Canada:'#ea580c',Ireland:'#0891b2'};
+const MCOLOR = ['#2563eb','#15803d','#9333ea','#ea580c','#0891b2'];
+
+const CHANNEL_COLORS = {
+  meta:'#1877f2', google:'#ea4335', tiktok:'#333', pinterest:'#e60023', email:'#15803d', influencer:'#b45309'
+};
+
+const PRESETS = {
+  low:  { meta:8000,  google:6000,  tiktok:3000,  pinterest:2000, email:500,  influencer:2500  },
+  mid:  { meta:18000, google:14000, tiktok:7000,  pinterest:5000, email:1500, influencer:6000  },
+  high: { meta:44000, google:32000, tiktok:16000, pinterest:10000,email:3500, influencer:15000 },
+};
+
+let customMode = false;
+
+function getChannelValues() {
+  return {
+    meta:       +document.getElementById('metaSlider').value,
+    google:     +document.getElementById('googleSlider').value,
+    tiktok:     +document.getElementById('tiktokSlider').value,
+    pinterest:  +document.getElementById('pinterestSlider').value,
+    email:      +document.getElementById('emailSlider').value,
+    influencer: +document.getElementById('influencerSlider').value,
+  };
+}
+
+function getTotalMonthly() {
+  const v = getChannelValues();
+  return Object.values(v).reduce((s, n) => s + n, 0);
+}
+
+function fmtShort(n) {
+  if (n >= 1000) return '$' + (n/1000).toFixed(n % 1000 === 0 ? 0 : 1) + 'K';
+  return '$' + n;
+}
+
+const COUNTRY_CHANNELS = {
+  USA: {
+    title: '🇺🇸 USA — recommended channel mix',
+    subtitle: 'USA buyers are discovery-driven on Meta and high-intent on Google. LGD awareness is at 84% — lean into certification messaging on Search. Bridal drives Pinterest. TikTok is growing fast for Gen Z self-purchase.',
+    channels: [
+      { key:'meta',       name:'Meta — Instagram + Facebook', why:'#1 discovery channel. Dynamic product ads + Reels for ring sparkle. Bridal retargeting essential.', pct:40, priority:'top' },
+      { key:'google',     name:'Google — Search + Shopping', why:'High-intent. Bid on long-tail: "2 carat oval lab grown diamond ring". Google Shopping feed critical.', pct:30, priority:'high' },
+      { key:'influencer', name:'Influencers — Micro', why:'US micro-influencers (10K–100K) drive trust. 10–15% affiliate commission model. Bridal + fashion tiers.', pct:12, priority:'high' },
+      { key:'pinterest',  name:'Pinterest — Bridal planner', why:'US brides plan 9–12 months out. Rich Pins → product pages. Highest ROI for Persona A.', pct:10, priority:'mid' },
+      { key:'tiktok',     name:'TikTok — Spark Ads', why:'Growing fast. Lo-fi UGC: "Natural vs Lab blind test". Spark Ads boost organic influencer content.', pct:6, priority:'mid' },
+      { key:'email',      name:'Email / SMS — Klaviyo', why:'Abandoned cart (1hr/24hr/48hr sequence) + post-purchase cross-sell. SMS adds urgency for gifter persona.', pct:2, priority:'low' },
+    ],
+    budgetHint: { meta:18000, google:13500, tiktok:2700, pinterest:4500, email:900, influencer:5400 },
+  },
+  Germany: {
+    title: '🇩🇪 Germany — recommended channel mix',
+    subtitle: 'German buyers are quality-led and certification-driven. Online share is only 22% — offline relationships with specialist jewellers (Goldschmiede) matter more here. ESG narrative is the #1 trust signal. TikTok performs poorly; invest in Google and ESG content instead.',
+    channels: [
+      { key:'google',     name:'Google — Search + Shopping', why:'Primary digital channel for Germany. Luxury search terms. Foreground RJC + KP certification in ad copy.', pct:38, priority:'top' },
+      { key:'meta',       name:'Meta — Instagram + Facebook', why:'ESG-focused content performs well. Craft influencer partnerships over mass reach. Carousel format for certifications.', pct:28, priority:'high' },
+      { key:'influencer', name:'Influencers — ESG Micro', why:'€200–€600/post ESG micro-influencers. Sustainability credentials matter far more than follower count.', pct:18, priority:'high' },
+      { key:'email',      name:'Email / SMS — Klaviyo', why:'German buyers research thoroughly. ESG content newsletter builds trust over time. Low unsubscribe rate.', pct:10, priority:'mid' },
+      { key:'pinterest',  name:'Pinterest — Discovery', why:'Secondary channel. Jewellery inspiration boards. Lower penetration than USA but growing among 28–45 demographic.', pct:6, priority:'low' },
+      { key:'tiktok',     name:'TikTok', why:'Low priority for Germany. Older demographic skew in mid-luxury. Allocate minimal budget or skip entirely.', pct:0, priority:'low' },
+    ],
+    budgetHint: { meta:7000, google:9500, tiktok:0, pinterest:1500, email:2500, influencer:4500 },
+  },
+  France: {
+    title: '🇫🇷 France — recommended channel mix',
+    subtitle: 'France is boutique-first. 31% of purchases are self-gifts from professional women 28–45. Haute couture narrative + GIA certification is the winning combination. ESG messaging resonates strongly. Micro-influencers with sustainability credentials outperform macro accounts.',
+    channels: [
+      { key:'meta',       name:'Meta — Instagram + Facebook', why:'#1 channel for French fashion discovery. Haute couture aesthetic. ESG-conscious women 28–45 are the core audience.', pct:35, priority:'top' },
+      { key:'influencer', name:'Influencers — ESG Micro', why:'Authenticity beats reach in France. ESG micro-influencers with genuine sustainability credentials. Paris boutique events.', pct:25, priority:'top' },
+      { key:'google',     name:'Google — Search + Shopping', why:'Bespoke + certification search terms perform well. "Diamant laboratoire certifié GIA" — localised copy essential.', pct:22, priority:'high' },
+      { key:'pinterest',  name:'Pinterest — Fashion & Bridal', why:'French self-purchasing women heavily use Pinterest for style planning. Necklaces beat earrings — unique to France.', pct:12, priority:'mid' },
+      { key:'email',      name:'Email / SMS — Klaviyo', why:'Post-purchase LTV focus. French buyers have high repeat purchase intent when brand resonates.', pct:6, priority:'mid' },
+      { key:'tiktok',     name:'TikTok', why:'Low priority for French luxury/mid-luxury. Reserve for mass market testing only.', pct:0, priority:'low' },
+    ],
+    budgetHint: { meta:7000, google:4400, tiktok:0, pinterest:2400, email:1200, influencer:5000 },
+  },
+  Canada: {
+    title: '🇨🇦 Canada — recommended channel mix',
+    subtitle: 'Canada mirrors the USA with 6–12 month lag and 15–20% lower ASP. E-commerce penetration at 32–38% makes digital-first entry viable without boutique infrastructure. Use US campaign assets repurposed with CAD pricing. TikTok is growing faster than the US equivalents.',
+    channels: [
+      { key:'meta',       name:'Meta — Instagram + Facebook', why:'Direct mirror of US strategy. Repurpose top US creatives with CAD pricing. Professional women 28–45 core audience.', pct:38, priority:'top' },
+      { key:'google',     name:'Google — Search + Shopping', why:'LGD search terms following US trajectory. Google Shopping essential — Canadian bargain hunters compare prices actively.', pct:28, priority:'high' },
+      { key:'tiktok',     name:'TikTok — Spark Ads', why:'Growing faster than US. Strong Gen Z self-purchase audience. Earrings + pendants perform well as lo-fi content.', pct:15, priority:'high' },
+      { key:'influencer', name:'Influencers — Lifestyle Micro', why:'Canadian lifestyle micro-influencers. Earrings are #1 category — highest repeat purchase. Affiliate code model works well.', pct:12, priority:'mid' },
+      { key:'pinterest',  name:'Pinterest — Bridal + Discovery', why:'Bridal planning follows USA patterns. Slightly lower penetration but growing. Rich Pins to product pages.', pct:5, priority:'mid' },
+      { key:'email',      name:'Email / SMS — Klaviyo', why:'Abandoned cart + post-purchase. Canadian buyers are price-conscious — include value messaging in flows.', pct:2, priority:'low' },
+    ],
+    budgetHint: { meta:5000, google:3700, tiktok:2000, pinterest:700, email:270, influencer:1600 },
+  },
+  Ireland: {
+    title: '🇮🇪 Ireland — recommended channel mix',
+    subtitle: 'Ireland is the lowest-cost, highest e-commerce share market at 44%. Small physical retail footprint means digital-only entry is viable. Celtic jewellery revival + Hatton Garden provenance = strong storytelling angle. One strong mid-tier influencer can move significant volume in this small market.',
+    channels: [
+      { key:'meta',       name:'Meta — Instagram + Facebook', why:'Dominant channel. High social media penetration in Ireland. Celtic design + provenance narrative performs well. One well-placed Reel can go viral in this small market.', pct:42, priority:'top' },
+      { key:'influencer', name:'Influencers — Micro', why:'€150–€400/post micro-influencers. One strong mid-tier account can deliver outsized reach. Celtic jewellery revival content.', pct:28, priority:'top' },
+      { key:'google',     name:'Google — Search', why:'Natural diamond preference 70–85% — target natural + certified search terms. "GIA certified diamond earrings Ireland" converts well.', pct:20, priority:'high' },
+      { key:'email',      name:'Email / SMS — Klaviyo', why:'High e-commerce share means email list is highly valuable. Celtic occasion gifting = seasonal email campaigns.', pct:7, priority:'mid' },
+      { key:'pinterest',  name:'Pinterest', why:'Low priority. Limited Irish Pinterest audience. Spend minimal or skip.', pct:3, priority:'low' },
+      { key:'tiktok',     name:'TikTok', why:'Not recommended for this market at this stage. Small audience, low conversion for jewellery.', pct:0, priority:'low' },
+    ],
+    budgetHint: { meta:1680, google:800, tiktok:0, pinterest:120, email:280, influencer:1120 },
+  },
+};
+
+let currentCountrySuggestion = null;
+
+function onCountryChange() {
+  const country = document.getElementById('countrySel').value;
+  const panel = document.getElementById('channelSuggest');
+  if (country === 'all') {
+    panel.style.display = 'none';
+    currentCountrySuggestion = null;
+    render();
+    return;
+  }
+  const data = COUNTRY_CHANNELS[country];
+  currentCountrySuggestion = data;
+  document.getElementById('suggestTitle').textContent = data.title;
+  document.getElementById('suggestSubtitle').textContent = data.subtitle;
+
+  const cards = document.getElementById('suggestCards');
+  cards.innerHTML = data.channels.map((c, i) => `
+    <div class="suggest-card">
+      <div class="suggest-rank ${c.priority === 'top' ? 'rank-top' : ''}">${i+1}</div>
+      <div class="suggest-card-body">
+        <div class="suggest-card-name">${c.name}</div>
+        <div class="suggest-card-why">${c.why}</div>
+        ${c.pct > 0 ? `<div class="suggest-card-pct">Recommended: ${c.pct}% of spend</div>` : '<div class="suggest-card-pct" style="color:var(--ruby)">Skip / minimal</div>'}
+      </div>
+    </div>
+  `).join('');
+
+  panel.style.display = 'block';
+
+  // Also filter table to this country
+  seg = 'both';
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.pill')[0].classList.add('active');
+  render();
+}
+
+function applyCountrySuggestion() {
+  const country = document.getElementById('countrySel').value;
+  if (!COUNTRY_CHANNELS[country]) return;
+  const hint = COUNTRY_CHANNELS[country].budgetHint;
+  document.getElementById('metaSlider').value       = hint.meta;
+  document.getElementById('googleSlider').value     = hint.google;
+  document.getElementById('tiktokSlider').value     = hint.tiktok;
+  document.getElementById('pinterestSlider').value  = hint.pinterest;
+  document.getElementById('emailSlider').value      = hint.email;
+  document.getElementById('influencerSlider').value = hint.influencer;
+  document.getElementById('budgetSel').value = 'custom';
+  document.querySelectorAll('.preset-pill').forEach(p => p.classList.remove('active'));
+  customMode = true;
+  updateChannelDisplay();
+  render();
+}
+
+function setSliders(preset) {
+  const p = PRESETS[preset];
+  document.getElementById('metaSlider').value       = p.meta;
+  document.getElementById('googleSlider').value     = p.google;
+  document.getElementById('tiktokSlider').value     = p.tiktok;
+  document.getElementById('pinterestSlider').value  = p.pinterest;
+  document.getElementById('emailSlider').value      = p.email;
+  document.getElementById('influencerSlider').value = p.influencer;
+}
+
+function applyPreset(key, el) {
+  customMode = false;
+  setSliders(key);
+  document.getElementById('budgetSel').value = key === 'low' ? 'low' : key === 'high' ? 'high' : 'mid';
+  document.querySelectorAll('.preset-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  updateChannelDisplay();
+  render();
+}
+
+function resetCustom(el) {
+  applyPreset('mid', document.querySelectorAll('.preset-pill')[1]);
+}
+
+function applyScenario() {
+  const val = document.getElementById('budgetSel').value;
+  if (val === 'custom') {
+    customMode = true;
+    document.querySelectorAll('.preset-pill').forEach(p => p.classList.remove('active'));
+    return;
+  }
+  const map = {low:'low', mid:'mid', high:'high'};
+  const pills = document.querySelectorAll('.preset-pill');
+  document.querySelectorAll('.preset-pill').forEach(p => p.classList.remove('active'));
+  const idx = val === 'low' ? 0 : val === 'high' ? 2 : 1;
+  pills[idx].classList.add('active');
+  setSliders(map[val]);
+  updateChannelDisplay();
+  render();
+}
+
+function onChannelChange() {
+  customMode = true;
+  document.getElementById('budgetSel').value = 'custom';
+  document.querySelectorAll('.preset-pill').forEach(p => p.classList.remove('active'));
+  updateChannelDisplay();
+  render();
+}
+
+function updateChannelDisplay() {
+  const v = getChannelValues();
+  const total = Object.values(v).reduce((s,n)=>s+n,0);
+  document.getElementById('metaVal').textContent       = fmtShort(v.meta);
+  document.getElementById('googleVal').textContent     = fmtShort(v.google);
+  document.getElementById('tiktokVal').textContent     = fmtShort(v.tiktok);
+  document.getElementById('pinterestVal').textContent  = fmtShort(v.pinterest);
+  document.getElementById('emailVal').textContent      = fmtShort(v.email);
+  document.getElementById('influencerVal').textContent = fmtShort(v.influencer);
+  document.getElementById('totalSpendDisplay').textContent = fmtShort(total);
+  document.getElementById('totalAnnualDisplay').textContent = fmtShort(total * 12);
+
+  const track = document.getElementById('mixBarTrack');
+  const legend = document.getElementById('mixBarLegend');
+  const channels = [
+    { key:'meta', label:'Meta', val:v.meta },
+    { key:'google', label:'Google', val:v.google },
+    { key:'tiktok', label:'TikTok', val:v.tiktok },
+    { key:'pinterest', label:'Pinterest', val:v.pinterest },
+    { key:'email', label:'Email/SMS', val:v.email },
+    { key:'influencer', label:'Influencers', val:v.influencer },
+  ];
+  if (total === 0) {
+    track.innerHTML = '<div class="mix-bar-seg" style="width:100%;background:var(--surface-2);"></div>';
+    legend.innerHTML = '';
+    return;
+  }
+  track.innerHTML = channels.map(c =>
+    `<div class="mix-bar-seg" style="width:${(c.val/total*100).toFixed(1)}%;background:${CHANNEL_COLORS[c.key]};"></div>`
+  ).join('');
+  legend.innerHTML = channels.filter(c=>c.val>0).map(c =>
+    `<div class="mix-legend-item"><div class="mix-legend-dot" style="background:${CHANNEL_COLORS[c.key]};"></div>${c.label}: ${(c.val/total*100).toFixed(0)}%</div>`
+  ).join('');
+}
+
+let chartType = 'doughnut';
+let chartInstances = [];
+let lastRows = [];
+
+function setChartType(type, el) {
+  chartType = type;
+  document.querySelectorAll('.ct-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderCharts(lastRows);
+}
+
+let seg = 'both';
+let sortCol = 'score';
+let sortDir = 'desc';
+
+const SORT_COLS = ['market','score','size','yoy','asp','spend','annual','roi1','roi2'];
+
+function colSort(col) {
+  if (sortCol === col) { sortDir = sortDir === 'desc' ? 'asc' : 'desc'; }
+  else { sortCol = col; sortDir = col === 'market' ? 'asc' : 'desc'; }
+  render();
+}
+
+function updateHeaders() {
+  SORT_COLS.forEach(col => {
+    const th = document.getElementById('th-'+col);
+    if (!th) return;
+    const arrow = th.querySelector('.sort-arrow');
+    th.classList.toggle('sorted', col === sortCol);
+    th.classList.toggle('sorted-bg', col === sortCol);
+    if (col === sortCol) { arrow.textContent = sortDir === 'desc' ? '↓' : '↑'; }
+    else { arrow.textContent = '↕'; }
+  });
+}
+
+function setSeg(s, el) {
+  seg = s;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function getMonthly(r, s) {
+  return getTotalMonthly();
+}
+
+function calcROI1(r, annual, margin) {
+  const cap = (r.score/10)*0.0008;
+  const rev = r.size*1e9*cap;
+  const gp = rev*(margin/100);
+  return {rev, roi: ((gp-annual)/annual)*100};
+}
+
+function calcROI2(r, annual, margin) {
+  const cap = (r.score/10)*0.0012;
+  const units = Math.round(r.units*1000*cap);
+  const rev = units*r.asp;
+  const gp = rev*(margin/100);
+  return {units, rev, roi: ((gp-annual)/annual)*100};
+}
+
+function fmtUSD(n) {
+  if (n>=1e9) return '$'+(n/1e9).toFixed(1)+'B';
+  if (n>=1e6) return '$'+(n/1e6).toFixed(1)+'M';
+  if (n>=1e3) return '$'+(n/1e3).toFixed(0)+'K';
+  return '$'+Math.round(n);
+}
+function fmtROI(n) { return (n>=0?'+':'')+n.toFixed(0)+'%'; }
+
+function scoreClass(s) {
+  if (s>=8.5) return 'score-high';
+  if (s>=6.5) return 'score-mid';
+  return 'score-low';
+}
+
+function getFiltered() {
+  const country = document.getElementById('countrySel').value;
+  return DATA.filter(d => {
+    const segOk = seg==='both' ? true : seg==='luxury' ? d.seg==='Luxury' : d.seg==='Mid-Luxury';
+    const countryOk = country === 'all' ? true : d.market === country;
+    return segOk && countryOk;
+  });
+}
+
+function render() {
+  const margin = parseInt(document.getElementById('marginSlider').value);
+  updateChannelDisplay();
+
+  let rows = getFiltered().map(r => {
+    const mo = getMonthly(r);
+    const ann = mo * 12;
+    const r1 = calcROI1(r, ann, margin);
+    const r2 = calcROI2(r, ann, margin);
+    return {...r, mo, ann, r1, r2};
+  });
+
+  rows.sort((a,b) => {
+    let va, vb;
+    if (sortCol==='market') { va = a.market+a.seg; vb = b.market+b.seg; return sortDir==='asc' ? va.localeCompare(vb) : vb.localeCompare(va); }
+    if (sortCol==='score')  { va = a.score;   vb = b.score; }
+    else if (sortCol==='size')   { va = a.size;    vb = b.size; }
+    else if (sortCol==='yoy')    { va = a.yoy;     vb = b.yoy; }
+    else if (sortCol==='asp')    { va = a.asp;     vb = b.asp; }
+    else if (sortCol==='spend')  { va = a.mo;      vb = b.mo; }
+    else if (sortCol==='annual') { va = a.ann;     vb = b.ann; }
+    else if (sortCol==='roi1')   { va = a.r1.roi;  vb = b.r1.roi; }
+    else if (sortCol==='roi2')   { va = a.r2.roi;  vb = b.r2.roi; }
+    else { va = a.score; vb = b.score; }
+    return sortDir==='desc' ? vb-va : va-vb;
+  });
+
+  updateHeaders();
+
+  const best = [...rows].sort((a,b)=>(b.score+b.r1.roi/100+b.r2.roi/100)-(a.score+a.r1.roi/100+a.r2.roi/100))[0];
+
+  document.getElementById('winnerName').textContent = best.flag+' '+best.market;
+  document.getElementById('winnerSeg').textContent = best.seg;
+  document.getElementById('winnerScore').textContent = best.score+'/10';
+  document.getElementById('winnerSpend').textContent = fmtUSD(best.mo)+'/mo';
+  document.getElementById('winnerRoi1').textContent = fmtROI(best.r1.roi)+' p.a.';
+  document.getElementById('winnerRoi2').textContent = fmtROI(best.r2.roi)+' p.a.';
+
+  const intel = getIntel(best.market, best.seg);
+  document.getElementById('recReasons').innerHTML = intel.reasons.map(r => `
+    <div class="rec-reason">
+      <div class="rec-reason-icon">${r.icon}</div>
+      <div class="rec-reason-body">
+        <div class="rec-reason-title">${r.title}</div>
+        <div class="rec-reason-desc">${r.desc}</div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('recSteps').innerHTML = intel.steps.map((s,i) => `
+    <div class="rec-step">
+      <div class="rec-step-num">${i+1}</div>
+      <div class="rec-step-text">${s.text}</div>
+    </div>
+  `).join('');
+
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = rows.map((r,i) => `
+    <tr class="${i===0?'top-row':''}">
+      <td>
+        <div class="market-cell">
+          <div class="market-name">${r.flag} ${r.market} ${i===0?'<span style="font-size:10px;background:var(--accent-pale);color:var(--accent);padding:2px 8px;border-radius:100px;font-weight:400;letter-spacing:.08em;">TOP PICK</span>':''}</div>
+          <div class="market-seg">${r.seg}</div>
+        </div>
+      </td>
+      <td><span class="score-badge ${scoreClass(r.score)}">${r.score}</span></td>
+      <td style="color:var(--ink-2)">$${r.size.toFixed(2)}B</td>
+      <td style="color:var(--emerald);font-weight:500;">+${r.yoy.toFixed(1)}%</td>
+      <td>$${r.asp.toLocaleString()}</td>
+      <td style="color:var(--ink-2)">${fmtUSD(r.mo)}/mo</td>
+      <td style="color:var(--ink-3)">${fmtUSD(r.ann)}/yr</td>
+      <td>
+        <div class="roi-cell">
+          <span class="roi-pct ${r.r1.roi>=0?'roi-pos':'roi-neg'}">${fmtROI(r.r1.roi)}</span>
+          <span class="roi-sub">~${fmtUSD(r.r1.rev)} rev</span>
+        </div>
+      </td>
+      <td>
+        <div class="roi-cell">
+          <span class="roi-pct ${r.r2.roi>=0?'roi-pos':'roi-neg'}">${fmtROI(r.r2.roi)}</span>
+          <span class="roi-sub">~${r.r2.units.toLocaleString()} units</span>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+
+  renderCharts(rows);
+}
+
+function renderCharts(rows) {
+  lastRows = rows;
+  const byMkt = {};
+  const mktOrder = [];
+  rows.forEach(r => {
+    if (!byMkt[r.market]) { byMkt[r.market] = {flag:r.flag,ann:0,roi1:0,roi2:0,rev:0,score:0,n:0}; mktOrder.push(r.market); }
+    byMkt[r.market].ann += r.ann;
+    byMkt[r.market].roi1 += r.r1.roi;
+    byMkt[r.market].roi2 += r.r2.roi;
+    byMkt[r.market].rev += r.r1.rev;
+    byMkt[r.market].score += r.score;
+    byMkt[r.market].n++;
+  });
+  const mkts = mktOrder;
+  mkts.forEach(m => { byMkt[m].roi1avg = byMkt[m].roi1/byMkt[m].n; byMkt[m].roi2avg = byMkt[m].roi2/byMkt[m].n; byMkt[m].scoreavg = byMkt[m].score/byMkt[m].n; });
+
+  chartInstances.forEach(c => c.destroy());
+  chartInstances = [];
+
+  const isRadial = chartType === 'doughnut' || chartType === 'pie' || chartType === 'polarArea';
+  const isBar = chartType === 'bar';
+
+  const CHARTS = [
+    { id:'c1', title:'Market size 2025 ($B)', vals: mkts.map(m=>rows.filter(r=>r.market===m).reduce((s,r)=>s+r.size,0)), fmt: v=>'$'+v.toFixed(1)+'B' },
+    { id:'c2', title:'Annual promo spend', vals: mkts.map(m=>+(byMkt[m].ann/1000).toFixed(0)), fmt: v=>'$'+v+'K' },
+    { id:'c3', title:'Est. revenue — TAM capture', vals: mkts.map(m=>+(byMkt[m].rev/1000).toFixed(0)), fmt: v=>'$'+v+'K' },
+    { id:'c4', title:'Avg ROI — units × margin (%)', vals: mkts.map(m=>+byMkt[m].roi2avg.toFixed(1)), fmt: v=>v.toFixed(0)+'%' },
+  ];
+
+  const legendHtml = mkts.map((m,i) => `
+    <div class="legend-item">
+      <div class="legend-dot" style="background:${MCOLOR[i]};"></div>
+      ${byMkt[m].flag} ${m}
+    </div>
+  `).join('');
+
+  const grid = document.getElementById('chartsGrid');
+  grid.innerHTML = CHARTS.map(ch => `
+    <div class="chart-card">
+      <div class="chart-card-title">${ch.title}</div>
+      <div style="position:relative;width:100%;height:${isRadial?'200px':'180px'};">
+        <canvas id="${ch.id}" role="img" aria-label="${ch.title} chart"></canvas>
+      </div>
+      <div class="chart-legend">${legendHtml}</div>
+    </div>
+  `).join('');
+
+  CHARTS.forEach(ch => {
+    const ctx = document.getElementById(ch.id).getContext('2d');
+    const colors = mkts.map((_,i) => MCOLOR[i]);
+    let cfg;
+    if (isBar) {
+      cfg = {
+        type: 'bar',
+        data: {
+          labels: mkts.map(m => byMkt[m].flag+' '+m),
+          datasets: [{ data: ch.vals, backgroundColor: colors, borderRadius: 6, borderWidth: 0 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' '+ch.fmt(ctx.raw) } } },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#8a909c' } },
+            y: { grid: { color: '#eef0f4' }, ticks: { font: { size: 11 }, color: '#8a909c', callback: v => ch.fmt(v) }, beginAtZero: true }
+          }
+        }
+      };
+    } else {
+      cfg = {
+        type: chartType,
+        data: {
+          labels: mkts.map(m => byMkt[m].flag+' '+m),
+          datasets: [{ data: ch.vals, backgroundColor: colors, borderWidth: 2, borderColor: '#fff', hoverOffset: 6 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ' '+ctx.label+': '+ch.fmt(ctx.raw) } }
+          },
+          ...(chartType==='doughnut' ? {cutout:'62%'} : {})
+        }
+      };
+    }
+    chartInstances.push(new Chart(ctx, cfg));
+  });
+}
+
+setSliders('mid');
+updateChannelDisplay();
+render();
+</script>
+</body>
+</html>
