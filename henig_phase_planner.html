@@ -251,10 +251,14 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
       </div>
     </div>
     <div class="ctrl" id="vrCtrl" style="display:none;">
-      <div class="ctrl-lbl">Add-on</div>
+      <div class="ctrl-lbl">Add-on (USA only)</div>
       <label class="vr-toggle" id="vrToggle" onclick="toggleVR()">
         <input type="checkbox" id="vrCheck" style="pointer-events:none;"> VR Try-On Programme
       </label>
+      <div style="font-size:11px;color:var(--violet);margin-top:5px;line-height:1.5;" id="vrCostHint">
+        Adds agency build, 3D asset creation &amp; hosting on top of base plan.<br>
+        <strong id="vrCostVal"></strong> additional Year 1 cost — broken down per phase below when ticked.
+      </div>
     </div>
   </div>
   <div class="custom-event-row" id="customRow">
@@ -337,17 +341,17 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
   <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.5rem 2rem;">
     <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;">Key Events, Terms &amp; Abbreviations</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0.5rem 2rem;">
-      <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>Couture Las Vegas</strong> — Top US luxury jewellery trade show, held each June in Las Vegas. Primary first wholesale entry point for the USA market.</div>
+      <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>Couture Las Vegas</strong> — Top US luxury jewellery trade show, held each June in Las Vegas. Primary first store partnership entry point for the USA market — trade show contacts become boutiques and jewellers that stock Henig product.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>JA New York</strong> — Jewelers of America trade show, held each August in New York. Covers 80%+ of US luxury buyers.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>Inhorgenta Munich</strong> — Germany's leading jewellery trade show, held each February. Non-negotiable entry point for the German-speaking luxury market.</div>
-      <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>JCK Toronto</strong> — Canada's leading jewellery trade show, held each June. Primary wholesale entry point for the Canadian market.</div>
+      <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>JCK Toronto</strong> — Canada's leading jewellery trade show, held each June. Primary store partnership entry point for the Canadian market — boutique contacts become stores that stock Henig product.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>Paris Fashion Week (PFW)</strong> — Held each January and September. Key brand visibility and press networking event for the French luxury market.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>GIA / IGI</strong> — Gemological Institute of America / International Gemological Institute. The two most trusted diamond grading certifications globally.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>RJC</strong> — Responsible Jewellery Council. Industry body whose certification signals ethical sourcing — critical for the German and EU market.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>Kimberley Process (KP)</strong> — International certification scheme that confirms diamonds are conflict-free. Mandatory trust signal in all markets.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>ESG</strong> — Environmental, Social and Governance. Sustainability and ethical sourcing credentials — especially powerful in Germany, France, and Ireland.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>Lab-Grown Diamonds (LGD)</strong> — Diamonds created in a laboratory, chemically identical to mined diamonds. ~50% penetration in Canada and growing in all markets.</div>
-      <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>Goldschmiede</strong> — German independent master jewellers. Hold approximately 70% of luxury jewellery sales in Germany. Key wholesale target.</div>
+      <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>Goldschmiede</strong> — German independent master jewellers. Hold approximately 70% of luxury jewellery sales in Germany. The primary in-store channel for the German market.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>Xiaohongshu (XHS)</strong> — Chinese social commerce app (also called Little Red Book). Primary platform for luxury discovery in China.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>CPM</strong> — Cost per 1,000 impressions. A standard advertising pricing metric. USA: $25–$35 · Germany/France: $15–$25 · Ireland: lower.</div>
       <div style="font-size:12px;color:var(--ink-2);padding:4px 0;border-bottom:1px solid var(--surface-2);"><strong>CPC</strong> — Cost per click. Used mainly for Pinterest and Google Shopping. Canada/Australia: $1.50–$3.00.</div>
@@ -379,9 +383,10 @@ const COUNTRY_META = {
     score: 9.3, tam: '$13.5B', yoy: '+5.1%', asp: '$3,500',
     annualSpend: {low:346000, mid:928000, high:1508000},
     tier: 1, tierColor: '#2563eb',
-    rec: 'Launch here first — largest TAM at $13.5B (72% of all 5 markets). Highest opportunity score at 9.3/10. USA Phase 1 & 2 KPIs determine whether Canada and other markets unlock.',
+    rec: 'Launch here first — largest market at $13.5B (72% of all 5 markets). Highest opportunity score at 9.3/10. USA Phase 1 & 2 results determine whether Canada and other markets are unlocked.',
     recLabel: '1st Priority Launch',
-    channels_note: 'Meta CPMs $25–$35 · Google Search dominant for bridal intent · Macro influencer ($12K–$50K/campaign) · LGD awareness 84%',
+    salesModel: 'Primarily direct via henigdiamonds.com (online ads → website purchase). Trade show contacts (Couture LV, JA New York) also open doors to boutique stores and jewellers who stock and resell the product — a secondary revenue stream for customers who prefer buying in-store.',
+    channels_note: 'Meta CPMs $25–$35 · Google Search dominant for bridal intent · Macro influencer ($12K–$50K/campaign) · lab-grown diamond awareness 84%',
   },
   Germany: {
     flag:'🇩🇪', name:'Germany', segment:'Luxury',
@@ -390,6 +395,7 @@ const COUNTRY_META = {
     tier: 2, tierColor: '#15803d',
     rec: 'Launch in parallel with USA — adds only 20% to combined spend. EU April 2025 conflict-free sourcing regulations are a one-time access advantage. Responsible Jewellery Council + Kimberley Process credentials are already held.',
     recLabel: '2nd Priority — EU Anchor',
+    salesModel: '⚠️ Strong in-store buying country. Around 70% of German luxury jewellery purchases happen inside physical Goldschmiede (independent master jeweller boutiques). Online ads (Google, Meta) drive awareness and some direct website sales, but partnering with 5–10 Goldschmiede stores is essential — they are the primary place German customers actually buy.',
     channels_note: 'Google dominant over Meta · Micro-influencers €200–€700/post · ESG narrative drives conversion · Goldschmiede hold 70% of luxury sales',
   },
   France: {
@@ -397,8 +403,9 @@ const COUNTRY_META = {
     score: 7.7, tam: '$1.06B', yoy: '+6.0%', asp: '$2,900',
     annualSpend: {low:108000, mid:234000, high:360000},
     tier: 3, tierColor: '#7c3aed',
-    rec: 'Year 2 priority — highest EU growth rate at 6.0% YoY, but requires USA + Germany to validate the model first. Haute couture narrative and GIA certification are the core entry credentials.',
+    rec: 'Year 2 priority — highest EU growth rate at 6.0% per year, but requires USA + Germany to validate the model first. Haute couture narrative and GIA certification are the core entry credentials.',
     recLabel: '3rd Priority — Year 2',
+    salesModel: '⚠️ In-store buying preference. French luxury consumers strongly prefer boutiques — Galeries Lafayette premium sections, and independent Parisian boutiques. Online ads (Instagram, Google) build brand awareness and drive some direct website sales, but boutique partnerships are the conversion engine. A Paris-based local agent is non-negotiable to open these doors.',
     channels_note: 'Meta CPMs €12–€22 · Haute couture micro-influencer partnerships · Boutique events over mass media · Self-gifting women 28–45 = 31% of sales',
   },
   Canada: {
@@ -406,17 +413,19 @@ const COUNTRY_META = {
     score: 7.2, tam: '$0.83B', yoy: '+5.1%', asp: '$2,700',
     annualSpend: {low:108000, mid:234000, high:360000},
     tier: 4, tierColor: '#ea580c',
-    rec: 'USA fast-follow — mirrors USA luxury trends with a 6–12 month lag and 15–20% lower ASP. Unlock at end of Phase 2 if USA wholesale pipeline is on-plan. Estimated incremental Year 2 spend $216K.',
+    rec: 'USA fast-follow — mirrors USA luxury trends with a 6–12 month lag and 15–20% lower average selling prices. Unlock at end of Phase 2 if USA is on-plan. Estimated incremental Year 2 spend $216K.',
     recLabel: 'USA Fast-Follow',
-    channels_note: 'Mirrors USA channel mix · Add Pinterest discovery ($1.5–$3 CPC) · GIA positioning identical to USA · LGD ~50% penetration — lead with choice',
+    salesModel: 'Mix of online and in-store. Primarily direct via henigdiamonds.com (mirrors the USA website model). Toronto and Vancouver boutiques add credibility and reach customers who prefer buying in-store — particularly for bridal. Boutique partnerships are supportive, not the primary revenue driver.',
+    channels_note: 'Mirrors USA channel mix · Add Pinterest discovery ($1.5–$3 per click) · GIA positioning identical to USA · lab-grown diamond ~50% penetration — lead with choice',
   },
   Ireland: {
     flag:'🇮🇪', name:'Ireland', segment:'Luxury',
     score: 6.9, tam: '$0.26B', yoy: '+18.2%', asp: '$2,800',
     annualSpend: {low:48000, mid:108000, high:168000},
     tier: 5, tierColor: '#0891b2',
-    rec: 'Lowest-risk EU proof-of-concept — digital-only, minimal wholesale infrastructure needed. Ideal low-cost test before committing to France. Fastest growth rate of all 5 markets at 18.2% YoY.',
+    rec: 'Lowest-risk EU proof-of-concept — fully digital, no physical store infrastructure needed. Ideal low-cost test before committing to France. Fastest growth rate of all 5 markets at 18.2% per year.',
     recLabel: 'EU Proof-of-Concept',
+    salesModel: '✓ Online-first country. Ireland has the highest e-commerce rate in the EU (30%). Direct sales via henigdiamonds.com are the primary and sufficient channel. Dublin boutique introductions (Grafton Street) are a light-touch secondary option — not essential to the plan.',
     channels_note: 'Highest e-commerce rate in EU at 30% · Micro-influencers €150–€400/post · Celtic provenance + post-Brexit narrative · Meta-first strategy',
   },
 };
@@ -428,7 +437,7 @@ const PHASE_TEMPLATES = {
       name:'Foundation', tagline:'Wholesale anchor + digital launch',
       activities:[
         'Couture Las Vegas — stand, catalogue collateral, after-hours buyer events',
-        'Wholesale outreach: Signet, Kay Jewelers, top-10 metro independent jewellers',
+        'Store partnership outreach: Signet, Kay Jewelers, top-10 independent jewellers — for customers who prefer buying in-store rather than online',
         'GIA/IGI launch lookbooks, sample sets, certification documentation packs',
         'Google Search live: "engagement ring," "GIA certified," "3 carat," conquest terms',
         'henigdiamonds.com US pages: catalogue, pricing, Google Analytics 4 + Meta tracking pixel, Klaviyo email flows',
@@ -442,16 +451,16 @@ const PHASE_TEMPLATES = {
         {name:'Website + CRM + Analytics', icon:'X', cls:'prod-icon', costs:{low:7000,mid:18000,high:29000}},
       ],
       total:{low:89000,mid:238000,high:387000},
-      kpi:'≥ 25 qualified Couture buyer meetings; 10+ wholesale RFQ responses',
-      kpiFail:'Hold Phase 2 paid-media at 50%; double down on wholesale outreach',
+      kpi:'≥ 25 qualified Couture buyer meetings; 10+ store partnership enquiries received',
+      kpiFail:'Hold Phase 2 paid-media at 50%; double down on store partnership outreach',
     },
     {
       name:'Activation', tagline:'JA New York + influencer launch',
       activities:[
-        'JA New York trade show — second wholesale touchpoint, covers 80%+ of US luxury buyers',
+        'JA New York trade show — second store partnership touchpoint, covers 80%+ of US luxury buyers',
         'Macro Instagram influencer campaign: 1–3 partners, 500K–2M followers each',
         'Bridal PR placements: Vogue Brides, The Knot, Brides.com, NY/LA boutique events',
-        'First wholesale deliveries to Couture + JA NY accounts; retail co-operative marketing unlocks',
+        'First stock deliveries to Couture + JA NY store contacts; boutique co-op ad spend unlocks (stores run Henig-branded ads)',
         'Self-purchasing women campaign begins: Meta Reels + Google Display, women 30–50',
       ],
       channels:[
@@ -460,18 +469,18 @@ const PHASE_TEMPLATES = {
         {name:'Instagram + Meta', icon:'M', cls:'meta-icon', costs:{low:18000,mid:50000,high:81000}},
         {name:'PR + Events', icon:'P', cls:'pr-icon', costs:{low:17000,mid:45000,high:73000}},
         {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:7000,mid:18000,high:29000}},
-        {name:'Retail Co-operative Marketing (wholesale)', icon:'R', cls:'coop-icon', costs:{low:3000,mid:8000,high:13000}},
+        {name:'Boutique Partner Co-op Ads (stores run Henig ads)', icon:'R', cls:'coop-icon', costs:{low:3000,mid:8000,high:13000}},
         {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:1000,mid:4000,high:7000}},
       ],
       total:{low:100000,mid:270000,high:439000},
-      kpi:'≥ 4 active wholesale accounts; first orders shipped',
-      kpiFail:'Cut retail co-op; redirect budget to Google Search performance',
+      kpi:'≥ 4 active store partners (boutiques/jewellers stocking Henig); first stock shipments sent',
+      kpiFail:'Cut boutique co-op ads; redirect budget to Google Search direct-to-website performance',
     },
     {
       name:'Amplify', tagline:'Holiday + Valentine\'s peak spend',
       activities:[
         'Maximum paid-media: holiday + Valentine\'s bridal season — highest spend window',
-        'Retail co-operative marketing with all Phase 1/2 wholesale partners at full activation',
+        'Boutique co-op ad spend at full activation with all Phase 1/2 store partners (they run Henig ads in their stores and online)',
         'Self-purchasing women at peak: Reels, Google Display, influencer content',
         'YouTube certification how-to series + Pinterest bridal boards at full scale',
         'Email/SMS gift guide sequences via Klaviyo: holiday, Christmas, Valentine\'s',
@@ -482,7 +491,7 @@ const PHASE_TEMPLATES = {
         {name:'Instagram + Meta', icon:'M', cls:'meta-icon', costs:{low:30000,mid:80000,high:130000}},
         {name:'PR + Events', icon:'P', cls:'pr-icon', costs:{low:15000,mid:40000,high:65000}},
         {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:12000,mid:32000,high:52000}},
-        {name:'Retail Co-operative Marketing (peak)', icon:'R', cls:'coop-icon', costs:{low:17000,mid:45000,high:73000}},
+        {name:'Boutique Partner Co-op Ads (peak season)', icon:'R', cls:'coop-icon', costs:{low:17000,mid:45000,high:73000}},
         {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:1000,mid:3000,high:5000}},
       ],
       total:{low:112000,mid:300000,high:487000},
@@ -493,7 +502,7 @@ const PHASE_TEMPLATES = {
       name:'Sustain + Review', tagline:'Steady-state + Year 2 decision gates',
       activities:[
         'Steady-state paid media at reduced spend — maintain brand presence',
-        'Year-1 KPI review: pipeline count, wholesale accounts, ROI vs model',
+        'Year-1 review: website revenue, active store partners, return on investment vs model',
         'Canada Luxury fast-follow decision gate (unlock if USA pipeline on-plan)',
         'USA Mid-Luxury readiness check ($11.2B total addressable market if return on investment ≥ 200%)',
         'Valentine\'s Day push if February falls in this phase window',
@@ -504,7 +513,7 @@ const PHASE_TEMPLATES = {
         {name:'Instagram + Meta', icon:'M', cls:'meta-icon', costs:{low:13000,mid:35000,high:57000}},
         {name:'PR + Events', icon:'P', cls:'pr-icon', costs:{low:4000,mid:10000,high:16000}},
         {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:6000,mid:15000,high:24000}},
-        {name:'Retail Co-operative Marketing (sustain)', icon:'R', cls:'coop-icon', costs:{low:4000,mid:12000,high:20000}},
+        {name:'Boutique Partner Co-op Ads (sustain)', icon:'R', cls:'coop-icon', costs:{low:4000,mid:12000,high:20000}},
         {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:1000,mid:3000,high:5000}},
       ],
       total:{low:45000,mid:120000,high:195000},
@@ -539,11 +548,11 @@ const PHASE_TEMPLATES = {
     {
       name:'Wholesale Prospecting', tagline:'Goldschmiede outreach + ESG content live',
       activities:[
-        'Direct outreach to mid-size Goldschmiede (50–200 employees) — hold 70% of luxury sales',
+        'Direct outreach to mid-size Goldschmiede boutiques (50–200 employees) — these independent master jeweller stores hold 70% of German luxury sales and are where most German customers actually buy',
         'ESG content live on Google DE + GZ Goldschmiede Zeitung, Schmuck Magazin',
         'First sample shipments to interested Goldschmiede contacts',
         'Craft influencer partnerships: authenticity-first, €200–€700/post, sustainability-credentialed',
-        'LinkedIn (German-speaking markets): wholesale buyer targeting, trade press relationship building',
+        'LinkedIn (German-speaking markets): boutique store buyer targeting, trade press relationship building',
       ],
       channels:[
         {name:'Inhorgenta Prep (materials)', icon:'T', cls:'trade-icon', costs:{low:5000,mid:10000,high:15000}},
@@ -587,7 +596,7 @@ const PHASE_TEMPLATES = {
         'Post-show follow-up: sample orders, payment terms negotiation, first invoices',
         'ROI assessment vs Germany Mid-Luxury expansion case ($5K–$16K/month incremental)',
         'Year-2 decision gates: Germany Mid-Luxury, Ireland follow-on, France entry',
-        'VR Try-On Inhorgenta demo (if VR programme is active) — wholesale differentiator',
+        'VR Try-On Inhorgenta demo (if VR programme is active) — key differentiator when pitching to boutique stores',
       ],
       channels:[
         {name:'Inhorgenta Stand (activation)', icon:'T', cls:'trade-icon', costs:{low:19000,mid:42000,high:65000}},
@@ -632,7 +641,7 @@ const PHASE_TEMPLATES = {
         'Meta/Instagram campaign: ESG-conscious women 28–45, self-gifting + bridal narrative',
         'Haute couture micro-influencer partnerships: sustainability + provenance story',
         'Press outreach: Vogue Paris, Elle France, Le Figaro lifestyle sections',
-        'First trial wholesale orders from boutique partners',
+        'First trial stock orders from boutique store partners',
       ],
       channelMix:[
         {name:'Google Search (FR)', icon:'G', cls:'google-icon', pct:0.32},
@@ -642,7 +651,7 @@ const PHASE_TEMPLATES = {
         {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', pct:0.08},
       ],
       total:{low:27000,mid:59000,high:90000},
-      kpi:'≥ 3 boutique sample trials; first wholesale inquiry received',
+      kpi:'≥ 3 boutique sample trials; first store partner stock enquiry received',
       kpiFail:'Pivot from boutique to direct website sales; increase Meta spend',
     },
     {
@@ -662,7 +671,7 @@ const PHASE_TEMPLATES = {
         {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', pct:0.08},
       ],
       total:{low:29000,mid:63000,high:97000},
-      kpi:'First confirmed wholesale orders; monthly revenue on target',
+      kpi:'First confirmed store partner stock orders; website monthly revenue on target',
       kpiFail:'Redirect to direct website sales + Meta retargeting; delay boutique co-op',
     },
     {
@@ -727,7 +736,7 @@ const PHASE_TEMPLATES = {
         {name:'Email / SMS', icon:'E', cls:'esg-icon', pct:0.03},
       ],
       total:{low:32000,mid:70000,high:108000},
-      kpi:'≥ 3 Canadian boutique accounts active; first wholesale orders',
+      kpi:'≥ 3 Canadian boutique store partners active; first stock orders shipped',
       kpiFail:'Redirect to digital-only; cut trade show budget in half',
     },
     {
@@ -801,7 +810,7 @@ const PHASE_TEMPLATES = {
         'Meta Reels campaign: Celtic ring designs + Hatton Garden provenance story',
         'Post-Brexit positioning: Irish buyers are shifting away from Italian supply chain',
         'Google Shopping live for direct website conversions — high IE e-commerce rate (30%)',
-        'First wholesale inquiry follow-up: terms, minimum order quantities, delivery timelines',
+        'First store partner inquiry follow-up: pricing terms, minimum order quantities, delivery timelines',
       ],
       channelMix:[
         {name:'Instagram + Meta', icon:'M', cls:'meta-icon', pct:0.42},
@@ -811,7 +820,7 @@ const PHASE_TEMPLATES = {
         {name:'Email / SMS', icon:'E', cls:'esg-icon', pct:0.05},
       ],
       total:{low:12000,mid:28000,high:44000},
-      kpi:'≥ 2 boutique sample trials; first wholesale order received',
+      kpi:'≥ 2 boutique sample trials; first store partner stock order received',
       kpiFail:'Pivot fully to direct website + social commerce; skip boutique track',
     },
     {
@@ -937,7 +946,7 @@ const VR_DATA = {
     },
     {
       title:'Optimise + Inhorgenta Demo',
-      activities:['Conversion optimisation + A/B testing on try-on funnel','German-language site integration for Inhorgenta demo (if DE active)','Live VR demo on Inhorgenta stand — wholesale differentiator'],
+      activities:['Conversion optimisation + A/B testing on try-on funnel','German-language site integration for Inhorgenta demo (if DE active)','Live VR demo on Inhorgenta stand — key differentiator when pitching to boutique stores'],
       channels:[
         {name:'3D Assets (updates)', icon:'3', cls:'asset-icon', costs:{low:10000, mid:8000, high:9000}},
         {name:'Hosting + SaaS', icon:'H', cls:'host-icon', costs:{low:6000,  mid:6000, high:7000}},
@@ -1055,7 +1064,12 @@ function render() {
   const tierClass = ['','tier-1','tier-2','tier-3','tier-4','tier-5'][meta.tier];
   document.getElementById('bannerInner').className = 'banner-inner ' + tierClass;
   document.getElementById('bannerTitle').textContent = meta.flag + ' ' + meta.name + ' ' + meta.segment + ' — ' + meta.recLabel;
-  document.getElementById('bannerNote').textContent  = meta.rec;
+  document.getElementById('bannerNote').innerHTML =
+    `<span>${meta.rec}</span>` +
+    `<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(0,0,0,0.08);">` +
+    `<span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);font-weight:500;">How customers buy: </span>` +
+    `<span style="font-size:13px;color:var(--ink-2);">${meta.salesModel}</span>` +
+    `</div>`;
 
   const p1 = windows[0];
   const diffM = monthsUntil(p1.startM, p1.startY);
@@ -1067,6 +1081,10 @@ function render() {
   const annualMain = meta.annualSpend[currentBudget];
   const annualVR   = (vrEnabled && currentCountry === 'USA') ? VR_DATA.annualSpend[currentBudget] : 0;
   const annualTotal = annualMain + annualVR;
+
+  // Update VR cost hint with current budget figure
+  const vrCostValEl = document.getElementById('vrCostVal');
+  if (vrCostValEl) vrCostValEl.textContent = fmt(VR_DATA.annualSpend[currentBudget]);
 
   document.getElementById('bannerStats').innerHTML = `
     <div class="banner-stat"><div class="banner-stat-val accent">${meta.score}/10</div><div class="banner-stat-lbl">Opportunity Score</div></div>
