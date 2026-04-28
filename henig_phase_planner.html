@@ -51,10 +51,6 @@ select { font-family: 'DM Sans', sans-serif; font-size: 13px; background: var(--
 .b-pill:hover { border-color: var(--accent); color: var(--accent); }
 .b-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-.vr-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 7px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--white); font-size: 12px; color: var(--ink-2); transition: all 0.15s; white-space: nowrap; }
-.vr-toggle:hover { border-color: var(--violet); color: var(--violet); }
-.vr-toggle.active { background: var(--violet-pale); border-color: var(--violet); color: var(--violet); }
-.vr-toggle input { accent-color: var(--violet); }
 
 .custom-event-row { display: none; margin-top: 0.75rem; align-items: center; gap: 1rem; flex-wrap: wrap; padding: 0.75rem 1rem; background: var(--surface-2); border-radius: 8px; }
 .custom-event-row.visible { display: flex; }
@@ -250,13 +246,6 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
         <button class="b-pill" onclick="setBudget('high',this)">Aggressive</button>
       </div>
     </div>
-    <div class="ctrl" id="vrCtrl" style="display:none;">
-      <div class="ctrl-lbl">AR Try-On add-on</div>
-      <label class="vr-toggle" id="vrToggle" onclick="toggleVR()">
-        <input type="checkbox" id="vrCheck" onclick="event.stopPropagation()">
-        Include AR Try-On plan
-      </label>
-    </div>
   </div>
   <div class="custom-event-row" id="customRow">
     <span style="font-size:12px;color:var(--ink-3);">Custom event:</span>
@@ -334,124 +323,6 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
   </div>
 </section>
 
-<!-- AR TRY-ON STANDALONE SECTION -->
-<section id="vrSection" style="display:none; padding:0 3rem 2rem;">
-  <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--violet);margin-bottom:1rem;">◈ AR Try-On Programme — Separate Plan &amp; Budget (USA)</div>
-
-  <div style="background:var(--violet-pale);border:1px solid #ddd6fe;border-radius:14px;padding:1.25rem 1.75rem;margin-bottom:1.5rem;line-height:1.7;">
-    <p style="font-size:13px;color:var(--ink-2);"><strong>What this is:</strong> A virtual try-on feature built into henigdiamonds.com — customers use their phone camera to see exactly how a ring looks on their own hand, without visiting a store. It runs as a separate build project alongside the main marketing plan and can be activated at any phase.</p>
-    <p style="font-size:13px;color:var(--ink-2);margin-top:8px;"><strong>Recommended platforms:</strong>
-      <strong style="color:var(--violet);">GlamAR</strong> (primary recommendation — augmented reality jewellery try-on via phone camera, no app download required, specialised for rings and necklaces, browser-based, integrates directly with henigdiamonds.com) or
-      <strong style="color:var(--violet);">Zakeke</strong> (Year 2 alternative — 3D product visualisation and customisation, great for showing multiple variants and engraving options, broader platform).
-      Platform choice is confirmed in Phase 1 during the agency brief.
-    </p>
-    <p style="font-size:12px;color:var(--ink-3);margin-top:8px;">Industry data: AR try-on drives a <strong>94% lift in conversion rate</strong>, <strong>40% reduction in returns</strong>, and <strong>2.4× purchase intent</strong> (Snap/Shopify, NielsenIQ). See the full ROI case in the AR Try-On Business Case dashboard.</p>
-  </div>
-
-  <div class="summary-card" style="margin-bottom:1.5rem;">
-    <div class="summary-header">
-      <div class="summary-title" style="color:var(--violet);">AR Try-On — Budget at a Glance</div>
-      <div style="font-size:12px;color:var(--ink-3);">All three budget levels — currently selected level is highlighted.</div>
-    </div>
-    <table class="summary-table">
-      <thead>
-        <tr><th>Phase</th><th>Conservative</th><th>Moderate</th><th>Aggressive</th></tr>
-      </thead>
-      <tbody id="vrBudgetBody"></tbody>
-    </table>
-    <div style="padding:1rem 1.75rem;font-size:12px;color:var(--ink-3);border-top:1px solid var(--border);line-height:1.7;background:var(--surface);">
-      <strong>Conservative:</strong> Build starts Phase 2 — feature goes live after the holiday peak. Lower Year 1 cost but misses the highest-traffic window.<br>
-      <strong>Moderate / Aggressive:</strong> Full Year 1 build — agency starts Phase 1, feature live before holiday peak in Phase 3. Recommended approach.
-    </div>
-  </div>
-
-  <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--violet);margin-bottom:1rem;">AR Try-On — Phase-by-Phase Plan</div>
-  <div class="phases-grid" id="vrPhaseCards"></div>
-</section>
-
-<!-- AR ROI — always visible -->
-<section style="padding:0 3rem 2rem;">
-  <div style="background:var(--white);border:1px solid #ddd6fe;border-radius:16px;overflow:hidden;">
-
-    <div style="background:linear-gradient(135deg,#f5f3ff 0%,#ede9fe 100%);padding:1.5rem 2rem;border-bottom:1px solid #ddd6fe;">
-      <div style="font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--violet);margin-bottom:6px;">◈ AR Try-On — Business Case &amp; ROI</div>
-      <div style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px;">Why AR Try-On drives revenue</div>
-      <div style="font-size:13px;color:var(--ink-2);line-height:1.6;max-width:620px;">Customers who can see a ring on their own hand before buying are significantly more likely to purchase — and far less likely to return it. This is the single highest-ROI digital investment available to a luxury jewellery brand right now.</div>
-    </div>
-
-    <!-- Stat strip -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #ddd6fe;">
-      <div style="padding:1.25rem 1.5rem;border-right:1px solid #ddd6fe;">
-        <div style="font-size:28px;font-weight:500;color:var(--violet);margin-bottom:4px;">+94%</div>
-        <div style="font-size:12px;color:var(--ink-2);line-height:1.5;">Conversion rate lift from AR try-on</div>
-        <div style="font-size:10px;color:var(--ink-3);margin-top:4px;">Snap × Shopify study</div>
-      </div>
-      <div style="padding:1.25rem 1.5rem;border-right:1px solid #ddd6fe;">
-        <div style="font-size:28px;font-weight:500;color:var(--violet);margin-bottom:4px;">−40%</div>
-        <div style="font-size:12px;color:var(--ink-2);line-height:1.5;">Return rate reduction for AR shoppers</div>
-        <div style="font-size:10px;color:var(--ink-3);margin-top:4px;">Shopify AR Commerce Report</div>
-      </div>
-      <div style="padding:1.25rem 1.5rem;border-right:1px solid #ddd6fe;">
-        <div style="font-size:28px;font-weight:500;color:var(--violet);margin-bottom:4px;">2.4×</div>
-        <div style="font-size:12px;color:var(--ink-2);line-height:1.5;">Purchase intent uplift vs standard photos</div>
-        <div style="font-size:10px;color:var(--ink-3);margin-top:4px;">Snapchat AR Commerce Study</div>
-      </div>
-      <div style="padding:1.25rem 1.5rem;">
-        <div style="font-size:28px;font-weight:500;color:var(--violet);margin-bottom:4px;">66%</div>
-        <div style="font-size:12px;color:var(--ink-2);line-height:1.5;">Luxury shoppers prefer AR over in-store</div>
-        <div style="font-size:10px;color:var(--ink-3);margin-top:4px;">NielsenIQ Luxury Shopper Report</div>
-      </div>
-    </div>
-
-    <!-- Revenue impact estimate -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #ddd6fe;">
-      <div style="padding:1.5rem 2rem;border-right:1px solid #ddd6fe;">
-        <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;">Estimated impact — 10,000 monthly visitors</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--surface);border-radius:8px;">
-            <span style="font-size:13px;color:var(--ink-2);">Baseline revenue (0.8% CR × $3,500 ASP)</span>
-            <span style="font-size:14px;font-weight:500;color:var(--ink);">$3.36M / yr</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--violet-pale);border:1px solid #ddd6fe;border-radius:8px;">
-            <span style="font-size:13px;color:var(--ink-2);">With AR try-on (35% conservative lift)</span>
-            <span style="font-size:14px;font-weight:500;color:var(--violet);">$4.54M / yr</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--emerald-pale);border-radius:8px;">
-            <span style="font-size:13px;color:var(--ink-2);">Incremental revenue lift</span>
-            <span style="font-size:14px;font-weight:500;color:var(--emerald);">+$1.18M / yr</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--emerald-pale);border-radius:8px;">
-            <span style="font-size:13px;color:var(--ink-2);">Return cost savings (40% fewer returns)</span>
-            <span style="font-size:14px;font-weight:500;color:var(--emerald);">+$29K / yr</span>
-          </div>
-        </div>
-      </div>
-      <div style="padding:1.5rem 2rem;">
-        <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;">Platform recommendation</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="padding:14px 16px;border:2px solid var(--violet);border-radius:10px;background:var(--violet-pale);">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-              <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--violet);font-weight:600;">◆ GlamAR — Primary (Year 1)</span>
-            </div>
-            <div style="font-size:12px;color:var(--ink-2);line-height:1.6;">AR camera try-on via phone browser — no app download. Jewellery-specialist platform. Customer points camera at their hand and sees the ring in real-time. Removes the #1 conversion barrier for high-ASP jewellery online.</div>
-          </div>
-          <div style="padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:var(--surface);">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-              <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;">◇ Zakeke — Alternative (Year 2)</span>
-            </div>
-            <div style="font-size:12px;color:var(--ink-2);line-height:1.6;">3D product visualisation and bespoke configurator. Best for showing engraving, metal variants, and custom orders. Recommended as a Year 2 addition once the AR funnel is proven.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="padding:1rem 2rem;background:var(--surface);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-      <div style="font-size:12px;color:var(--ink-3);line-height:1.6;">Conservative 35% CR lift used for estimates (vs 94% headline). Moderate investment scenario: <strong style="color:var(--violet);">$390K Year 1</strong> → <strong style="color:var(--emerald);">+$1.21M benefit</strong> → <strong style="color:var(--emerald);">+63% ROI</strong>. Enable the AR plan above for phase-by-phase build detail.</div>
-      <a href="henig_vr_roi.html" target="_blank" style="font-size:12px;font-weight:500;color:var(--violet);text-decoration:none;border:1px solid #ddd6fe;padding:7px 16px;border-radius:8px;background:var(--violet-pale);white-space:nowrap;">Full AR ROI Dashboard →</a>
-    </div>
-
-  </div>
-</section>
 
 <section style="padding:0 3rem 2rem;">
   <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.5rem 2rem;">
@@ -1020,83 +891,6 @@ const TARGET_EVENTS = {
 };
 
 
-/* ============================================================
-   AR TRY-ON DATA
-   ============================================================ */
-const VR_DATA = {
-  annualSpend: {low:327000, mid:390000, high:448000},
-  phases: [
-    {
-      title:'Platform Selection & Agency Brief',
-      activities:[
-        'GlamAR vs Zakeke evaluation — demo both platforms, confirm fit with henigdiamonds.com',
-        'Agency brief issued: 3D asset scope, integration requirements, photography re-shoots',
-        'Website backend prep, analytics event setup for try-on tracking',
-        'Contract signed, project kick-off, asset production begins',
-      ],
-      channels:[
-        {name:'GlamAR / Zakeke Platform Fee + Agency', icon:'B', cls:'agency-icon', costs:{low:0,     mid:80000, high:92000}},
-        {name:'3D Asset Creation', icon:'3', cls:'asset-icon', costs:{low:0,     mid:25000, high:29000}},
-        {name:'Website Integration', icon:'X', cls:'prod-icon', costs:{low:0,    mid:8000,  high:9000}},
-      ],
-      total:{low:0, mid:113000, high:130000},
-    },
-    {
-      title:'Build & Soft Launch',
-      activities:[
-        'Build → QA → soft launch on 10% of site traffic (end of phase)',
-        'Product page integration live on henigdiamonds.com with try-on CTA',
-        'Landing page: "Try it on before you buy" messaging',
-        'Organic social teasers; Google Search ad copy refreshed with try-on angle',
-      ],
-      channels:[
-        {name:'GlamAR / Zakeke Platform Fee + Agency', icon:'B', cls:'agency-icon', costs:{low:80000, mid:70000, high:80000}},
-        {name:'3D Asset Creation', icon:'3', cls:'asset-icon', costs:{low:25000, mid:30000, high:35000}},
-        {name:'Hosting + SaaS Licences', icon:'H', cls:'host-icon', costs:{low:0,     mid:4000,  high:5000}},
-        {name:'Website Integration', icon:'X', cls:'prod-icon', costs:{low:8000,  mid:15000, high:17000}},
-        {name:'Paid Social Demo Creative', icon:'M', cls:'meta-icon', costs:{low:0,  mid:6000,  high:7000}},
-        {name:'PR + Launch Story', icon:'P', cls:'pr-icon', costs:{low:0,         mid:3000,  high:3000}},
-      ],
-      total:{low:113000, mid:128000, high:147000},
-    },
-    {
-      title:'Public Live — Holiday Amplification',
-      activities:[
-        'Full public launch — AR try-on is the headline feature at holiday peak',
-        'Meta/Instagram Reels demos, Pinterest pins, YouTube how-to content',
-        'Influencer try-on content: "I tried on Henig rings at home" format',
-        'Google Search ad extensions highlighting the try-on feature',
-      ],
-      channels:[
-        {name:'3D Assets (ongoing)', icon:'3', cls:'asset-icon', costs:{low:30000, mid:8000,  high:9000}},
-        {name:'Hosting + SaaS', icon:'H', cls:'host-icon', costs:{low:4000,  mid:6000,  high:7000}},
-        {name:'Website / Site Updates', icon:'X', cls:'prod-icon', costs:{low:15000, mid:4000,  high:5000}},
-        {name:'Paid Social Demo Creative', icon:'M', cls:'meta-icon', costs:{low:0,  mid:28000, high:32000}},
-        {name:'PR + Launch Story', icon:'P', cls:'pr-icon', costs:{low:3000,  mid:18000, high:21000}},
-        {name:'Influencer Try-On Content', icon:'I', cls:'influencer-icon', costs:{low:70000, mid:22000, high:25000}},
-      ],
-      total:{low:122000, mid:86000, high:99000},
-    },
-    {
-      title:'Optimise & Scale',
-      activities:[
-        'Conversion optimisation + A/B testing on try-on funnel',
-        'Analyse try-on → purchase data; refine 3D assets for highest-converting SKUs',
-        'Expand to new product lines based on Year 1 performance data',
-        'Year 2 decision: Zakeke for bespoke/engraving; expand to Germany/France sites',
-      ],
-      channels:[
-        {name:'3D Assets (updates)', icon:'3', cls:'asset-icon', costs:{low:10000, mid:8000,  high:9000}},
-        {name:'Hosting + SaaS', icon:'H', cls:'host-icon', costs:{low:6000,  mid:6000,  high:7000}},
-        {name:'Website / Updates', icon:'X', cls:'prod-icon', costs:{low:10000, mid:10000, high:12000}},
-        {name:'Paid Social Demo Creative', icon:'M', cls:'meta-icon', costs:{low:22000, mid:12000, high:14000}},
-        {name:'PR + Launch Story', icon:'P', cls:'pr-icon', costs:{low:15000, mid:5000,  high:6000}},
-        {name:'Influencer Try-On Content', icon:'I', cls:'influencer-icon', costs:{low:15000, mid:8000,  high:9000}},
-      ],
-      total:{low:92000, mid:63000, high:73000},
-    },
-  ],
-};
 
 /* ============================================================
    STATE
@@ -1104,7 +898,6 @@ const VR_DATA = {
 let currentCountry = 'USA';
 let currentBudget  = 'mid';
 let currentEvent   = null;
-let vrEnabled      = false;
 
 /* ============================================================
    CALENDAR HELPERS
@@ -1320,7 +1113,6 @@ function render() {
   }).join('');
   document.getElementById('barChartRows').innerHTML = barRows;
 
-  if (vrEnabled) renderVRSection();
 }
 
 function scrollToPhase(i) {
@@ -1462,77 +1254,6 @@ function renderAll() {
   ).join('');
 }
 
-/* ============================================================
-   RENDER AR TRY-ON SECTION
-   ============================================================ */
-function renderVRSection() {
-  const b = currentBudget;
-  const hl = (level) => level === b ? ' style="background:var(--violet-pale);color:var(--violet);font-weight:600;"' : '';
-
-  const tableRows = VR_DATA.phases.map((ph, i) =>
-    `<tr>
-      <td style="text-align:left;">Phase ${i+1} — ${ph.title}</td>
-      <td${hl('low')}>${fmt(ph.total.low)}</td>
-      <td${hl('mid')}>${fmt(ph.total.mid)}</td>
-      <td${hl('high')}>${fmt(ph.total.high)}</td>
-    </tr>`
-  ).join('');
-  const totalRow = `<tr style="background:var(--violet-pale);color:var(--violet);font-weight:600;">
-    <td style="text-align:left;">Year 1 Total</td>
-    <td${hl('low')}>${fmt(VR_DATA.annualSpend.low)}</td>
-    <td${hl('mid')}>${fmt(VR_DATA.annualSpend.mid)}</td>
-    <td${hl('high')}>${fmt(VR_DATA.annualSpend.high)}</td>
-  </tr>`;
-  document.getElementById('vrBudgetBody').innerHTML = tableRows + totalRow;
-
-  document.getElementById('vrPhaseCards').innerHTML = VR_DATA.phases.map((ph, i) => {
-    const maxCost = Math.max(...ph.channels.map(c => c.costs[b]));
-    const chRows = ph.channels.map(ch => {
-      const cost = ch.costs[b];
-      const pct  = maxCost > 0 ? Math.round((cost / maxCost) * 100) : 0;
-      return `<div class="channel-row">
-        <div class="ch-icon ${ch.cls}">${ch.icon}</div>
-        <div class="ch-info">
-          <div class="ch-name">${ch.name}</div>
-          <div class="ch-bar-wrap">
-            <div class="ch-bar-track"><div class="ch-bar-fill" style="width:${pct}%;background:var(--violet);"></div></div>
-          </div>
-        </div>
-        <div class="ch-cost" style="color:var(--violet);">${fmt(cost)}</div>
-      </div>`;
-    }).join('');
-    return `<div class="phase-card" style="border-color:#ddd6fe;">
-      <div class="phase-header" style="border-bottom-color:var(--violet-pale);">
-        <div class="phase-num-row"><span class="phase-num" style="color:var(--violet);">AR Phase ${i+1} of 4</span></div>
-        <div class="phase-name">${ph.title}</div>
-        <div class="phase-tagline">AR try-on build &amp; activation</div>
-      </div>
-      <div class="phase-body">
-        <div class="phase-activities">
-          <div class="activities-label">Activities</div>
-          ${ph.activities.map(a => `<div class="activity-item"><span class="activity-dot" style="background:var(--violet);"></span>${a}</div>`).join('')}
-        </div>
-        <div class="channels-label">Channels &amp; spend</div>
-        ${chRows}
-      </div>
-      <div class="phase-footer">
-        <div class="phase-total-block">
-          <div class="phase-total-label">AR Phase ${i+1} budget</div>
-          <div class="phase-total-val" style="color:var(--violet);">${fmt(ph.total[b])}</div>
-        </div>
-        <div class="phase-kpi">
-          <div class="kpi-label">What unlocks next</div>
-          <div class="kpi-text">${[
-            'Platform chosen (GlamAR or Zakeke), agency contracted, 3D asset brief approved.',
-            'Try-on feature in QA — soft launch on 10% of site traffic.',
-            'Full public launch — AR try-on is live and amplified at holiday peak.',
-            'Funnel data reviewed — Year 2 expansion to new SKUs and markets.'
-          ][i]}</div>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-}
 
 /* ============================================================
    EVENT HANDLERS
@@ -1541,15 +1262,9 @@ function onCountryChange() {
   currentCountry = document.getElementById('countrySel').value;
 
   const eventCtrl = document.getElementById('eventCtrl');
-  const vrCtrl    = document.getElementById('vrCtrl');
 
   if (currentCountry === 'all') {
     eventCtrl.style.display = 'none';
-    vrCtrl.style.display = 'none';
-    vrEnabled = false;
-    document.getElementById('vrCheck').checked = false;
-    document.getElementById('vrToggle').classList.remove('active');
-    document.getElementById('vrSection').style.display = 'none';
     document.getElementById('customRow').classList.remove('visible');
     document.getElementById('phasesLabel').textContent = 'Phase-by-phase breakdown — all 5 countries';
     renderAll();
@@ -1559,23 +1274,6 @@ function onCountryChange() {
   eventCtrl.style.display = '';
   document.getElementById('phasesLabel').textContent = 'Phase-by-phase breakdown';
   populateEventDropdown();
-  vrCtrl.style.display = currentCountry === 'USA' ? '' : 'none';
-  if (currentCountry !== 'USA') {
-    vrEnabled = false;
-    document.getElementById('vrCheck').checked = false;
-    document.getElementById('vrToggle').classList.remove('active');
-    document.getElementById('vrSection').style.display = 'none';
-  }
-  render();
-}
-
-function toggleVR() {
-  const cb = document.getElementById('vrCheck');
-  vrEnabled = !cb.checked;
-  cb.checked = vrEnabled;
-  document.getElementById('vrToggle').classList.toggle('active', vrEnabled);
-  document.getElementById('vrSection').style.display = vrEnabled ? '' : 'none';
-  if (vrEnabled) renderVRSection();
   render();
 }
 
