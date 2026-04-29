@@ -806,7 +806,7 @@ footer .footer-brand {
       <div class="cfg-rev-row" id="cfgRevRow"></div>
 
       <!-- Apply button -->
-      <button class="cfg-apply-btn" onclick="cfgApplyToSliders()">Apply to main sliders ↑</button>
+      <button class="cfg-apply-btn" onclick="cfgApplyMargin()">Apply this margin to all ROI →</button>
     </div>
 
   </div>
@@ -885,7 +885,7 @@ const BUDGET_PRESETS = {
 let cfgMarket = null;   // e.g. 'Germany'
 let cfgSeg    = null;   // e.g. 'Mid-Luxury'
 let cfgSpend  = { meta:0, google:0, tiktok:0, pinterest:0, email:0, influencer:0 };
-let marginApplied = false; // true only after "Apply to main sliders" is clicked; prevents auto-reset
+let marginApplied = false; // true after "Apply this margin" is clicked; prevents auto-reset on segment switch
 let budgetFinderHasResults = false; // true if budget finder has been run
 
 // Best realistic gross margin by segment (based on Henig product positioning)
@@ -1095,22 +1095,11 @@ function cfgRender() {
     ${budgetFitNote}
   `;
 
-  // Also sync to main sliders if they exist (for budget finder integration)
-  syncToMainSliders();
 }
 
-function syncToMainSliders() {
-  ['meta','google','tiktok','pinterest','email','influencer'].forEach(key => {
-    const el = document.getElementById(key + 'Slider');
-    if (el) el.value = cfgSpend[key] || 0;
-  });
-  if (typeof updateChannelDisplay === 'function') updateChannelDisplay();
-}
-
-function cfgApplyToSliders() {
-  // Lock margin so subsequent cfgSelectSeg calls don't override it
+function cfgApplyMargin() {
+  // Lock margin so switching country/segment doesn't override it
   marginApplied = true;
-  syncToMainSliders();
   // Re-run budget finder with the locked margin if results are showing
   if (budgetFinderHasResults) {
     runBudgetFinder();
@@ -1122,7 +1111,7 @@ function cfgApplyToSliders() {
   if (btn) {
     const orig = btn.textContent;
     const pct = document.getElementById('cfgMargin')?.value || '?';
-    btn.textContent = `✓ Applied at ${pct}% margin`;
+    btn.textContent = `✓ ROI updated at ${pct}% margin`;
     btn.style.background = 'var(--emerald)';
     setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
   }
@@ -1230,7 +1219,7 @@ function runBudgetFinder() {
       <div class="bf-verdict-icon">◆</div>
       <div class="bf-verdict-body">
         <div class="bf-verdict-title">Best ROI — ${solo.flag} ${solo.market} · ${solo.seg}</div>
-        <div class="bf-verdict-sub">${solo.why} <strong style="color:var(--emerald);">✓ Auto-applied to Step 3 below.</strong></div>
+        <div class="bf-verdict-sub">${solo.why} <strong style="color:var(--emerald);">✓ Loaded into configurator below ↓</strong></div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;">
         <div class="bf-verdict-roi" style="background:${roiBg(solo.roi.blended)};color:${roiColor(solo.roi.blended)};">
@@ -1256,7 +1245,7 @@ function runBudgetFinder() {
           </div>
         </div>`).join('')}
     </div>
-    <div class="bf-apply-row">Click any other market above to switch Step 3 to that market instead.</div>
+    <div class="bf-apply-row">Click any other market above to load it into the configurator instead.</div>
   `;
 
   // ── AUTO-APPLY best result to Step 3 immediately ──────────────────────────
@@ -1333,7 +1322,7 @@ function renderSpendDist(rows, budget) {
   const cards = pool.map(r => ({ r, share: Math.round(budget*gw(r)/tw) }));
 
   document.getElementById('sdpTitle').textContent = `Split $${fmtShort(budget)}/mo across ${pool.length} market${pool.length>1?'s':''}`;
-  document.getElementById('sdpSubtitle').textContent = `Weighted by opportunity score. Click "Apply mix" to configure Step 3.`;
+  document.getElementById('sdpSubtitle').textContent = `Weighted by opportunity score. Click "Apply mix" to load into the configurator.`;
   document.getElementById('sdpCards').innerHTML = cards.map(({r, share}, i) => {
     const colors=['#2563eb','#15803d','#9333ea','#ea580c','#0891b2'];
     const pct = (share/budget*100).toFixed(0);
