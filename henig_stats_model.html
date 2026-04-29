@@ -105,17 +105,46 @@ tr:hover td{background:var(--surface);}
 /* Peak table */
 .peak-table th{font-size:10px;}
 .peak-table td{font-size:12px;}
-/* Events */
-.event-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1.25rem;}
-.event-card{border:1px solid var(--border);border-radius:10px;padding:1rem;}
-.event-card.worth{border-left:3px solid var(--emerald);}
-.event-card.skip{border-left:3px solid #94a3b8;}
-.event-name{font-size:13px;font-weight:500;margin-bottom:3px;}
-.event-meta{font-size:11px;color:var(--ink-3);margin-bottom:6px;}
-.event-verdict{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 10px;border-radius:100px;margin-bottom:6px;}
-.event-verdict.yes{background:var(--emerald-pale);color:var(--emerald);}
-.event-verdict.no{background:var(--surface-2);color:var(--ink-3);}
-.event-body{font-size:11.5px;color:var(--ink-2);line-height:1.6;}
+/* Dropdown selector */
+.sec-dropdown{width:100%;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--surface);border:1px solid var(--border-2);border-radius:10px;padding:9px 32px 9px 12px;color:var(--ink);cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a909c'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;margin-bottom:1.25rem;}
+/* Offline comparison */
+.off-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem;}
+.off-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-bottom:1.25rem;}
+.off-kpi{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:0.875rem;text-align:center;}
+.off-kpi-val{font-size:20px;font-weight:600;line-height:1;}
+.off-kpi-lbl{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin-top:4px;}
+.off-verdict{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 14px;border-radius:100px;margin-bottom:1rem;}
+.off-verdict.green{background:var(--emerald-pale);color:var(--emerald);}
+.off-verdict.amber{background:var(--amber-pale);color:var(--amber);}
+.off-verdict.slate{background:var(--surface-2);color:var(--ink-3);}
+.off-note{font-size:12px;color:var(--ink-2);line-height:1.7;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border);}
+.off-when{font-size:11px;color:var(--ink-3);margin-top:5px;}
+/* Bar chart for ROI comparison */
+.bar-compare{margin:1rem 0;}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px;}
+.bar-label{min-width:140px;color:var(--ink-2);text-align:right;font-size:11px;}
+.bar-track{flex:1;background:var(--surface-2);border-radius:4px;height:22px;overflow:hidden;position:relative;}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:600;color:white;transition:width 0.4s ease;}
+/* 3-Year plan */
+.year-tabs{display:flex;gap:6px;margin-bottom:1.25rem;}
+.ytab{padding:7px 20px;border-radius:100px;border:1px solid var(--border);background:transparent;font-size:12px;font-family:'DM Sans',sans-serif;color:var(--ink-2);cursor:pointer;transition:all 0.15s;font-weight:500;}
+.ytab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.year-panel{display:none;}
+.year-panel.active{display:block;}
+.year-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.25rem;}
+.ykpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.875rem;text-align:center;}
+.ykpi-val{font-size:18px;font-weight:600;color:var(--accent);}
+.ykpi-val.green{color:var(--emerald);}
+.ykpi-val.red{color:#b91c1c;}
+.ykpi-lbl{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin-top:3px;}
+.ch-bars{margin:1rem 0;}
+.ch-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.ch-name{font-size:11px;color:var(--ink-2);min-width:160px;text-align:right;}
+.ch-track{flex:1;background:var(--surface-2);border-radius:3px;height:16px;overflow:hidden;}
+.ch-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:6px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.9);}
+.milestones{display:flex;flex-wrap:wrap;gap:6px;margin-top:1rem;}
+.ms-pill{background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:4px 12px;font-size:11px;color:var(--ink-2);}
+.off-line{font-size:12px;color:var(--ink-3);margin-top:0.75rem;padding:0.75rem;background:var(--amber-pale);border-radius:8px;border-left:3px solid var(--gold);}
 /* References box */
 .ref-box{background:var(--surface);border:1px solid var(--border-2);border-radius:14px;padding:1.5rem;}
 .ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 2rem;}
@@ -143,9 +172,10 @@ tr:hover td{background:var(--surface);}
     <a class="toc-item" href="#methodology">1 · Methodology Overview</a>
     <a class="toc-item" href="#market-budget">2 · Market Sizing &amp; Budget</a>
     <a class="toc-item" href="#seasonal">3 · Seasonal Demand Index</a>
-    <a class="toc-item" href="#events">4 · Trade Events — Worth It?</a>
-    <a class="toc-item" href="#roi-formula">5 · ROI Model Formula</a>
-    <a class="toc-item" href="#sources">6 · References</a>
+    <a class="toc-item" href="#events">4 · Online vs Offline?</a>
+    <a class="toc-item" href="#yearplan">5 · 3-Year Growth Plan</a>
+    <a class="toc-item" href="#roi-formula">6 · ROI Model Formula</a>
+    <a class="toc-item" href="#sources">7 · References</a>
   </nav>
 
   <div class="content">
@@ -297,60 +327,43 @@ tr:hover td{background:var(--surface);}
       <p style="font-size:10px;color:var(--ink-3);margin-top:0.5rem;">Sources: Statista/Tenoris 2024 · German Retail Federation 2024 · INSEE France 2024 · Statistics Canada 2024 · IndexBox Ireland 2026</p>
     </div>
 
-    <!-- Section 4: Trade Events -->
+    <!-- Section 4: Online vs Offline -->
     <div class="section" id="events">
       <div class="sec-label">Section 4</div>
-      <div class="sec-title">Trade Events — Worth the Expenditure?</div>
+      <div class="sec-title">Should Henig Go Beyond Online?</div>
       <div class="sec-divider"></div>
-      <p class="body-text">The phased planner lets you select a target jewellery event. Here's the honest money case for each — whether the cost of attendance, exhibiting, or sponsorship is justified relative to what Henig can realistically gain in Year 1.</p>
 
-      <div class="event-grid">
-        <div class="event-card worth">
-          <div class="event-name">JA New York</div>
-          <div class="event-meta">New York · June &amp; January · Trade + retail buyers</div>
-          <div class="event-verdict yes">✓ Worth it</div>
-          <div class="event-body">Direct access to US wholesale buyers and boutique owners — Henig's highest-value sales channel outside direct-to-consumer. Exhibitor cost ~$8K–$15K. A single boutique relationship can generate $50K–$200K in Year 1 orders. Best ROI-to-cost ratio of any US event.</div>
-        </div>
-        <div class="event-card worth">
-          <div class="event-name">Couture Las Vegas</div>
-          <div class="event-meta">Las Vegas · May · Independent luxury designers</div>
-          <div class="event-verdict yes">✓ Worth it (selectively)</div>
-          <div class="event-body">The right room for positioning Henig as a premium independent — buyers here are specifically looking for non-commodity luxury. Exhibiting costs ~$20K–$40K all-in. Justify only if 3+ qualified boutique conversations are likely; attendance as a visitor ($2K–$5K) is the lower-risk Year 1 option.</div>
-        </div>
-        <div class="event-card worth">
-          <div class="event-name">Vicenzaoro (Italy)</div>
-          <div class="event-meta">Vicenza · January &amp; September · International trade</div>
-          <div class="event-verdict yes">✓ Worth it for EU expansion</div>
-          <div class="event-body">Europe's largest jewellery trade fair — critical for Germany and France market entry. Attendance (not exhibiting) costs ~€3K–€6K and opens distributor and press contacts that would otherwise take 12–18 months to build. High value if EU launch is confirmed in Year 2.</div>
-        </div>
-        <div class="event-card worth">
-          <div class="event-name">IJL London</div>
-          <div class="event-meta">London · September · UK + Ireland trade</div>
-          <div class="event-verdict yes">✓ Worth it for Ireland</div>
-          <div class="event-body">The primary gateway to the UK and Irish jewellery retail trade. Ireland's market is small but 30% e-commerce — meeting buyers here builds the credibility needed to close boutique partnerships. Exhibitor cost ~£8K–£14K; attendance ~£1K–£2K. Attendance is sufficient in Year 1.</div>
-        </div>
-        <div class="event-card skip">
-          <div class="event-name">Hong Kong Jewellery &amp; Gem Fair</div>
-          <div class="event-meta">Hong Kong · March &amp; September · Asia-Pacific sourcing</div>
-          <div class="event-verdict no">— Skip in Year 1</div>
-          <div class="event-body">Primarily a sourcing and manufacturing fair — Henig is a seller, not a buyer. The audience is wholesale traders and manufacturers, not the retail buyers or end consumers Henig needs. Travel + booth cost $15K–$30K with near-zero ROI for B2C brand building in Year 1.</div>
-        </div>
-        <div class="event-card skip">
-          <div class="event-name">Baselworld / Watches &amp; Wonders</div>
-          <div class="event-meta">Geneva · April · Ultra-high-end watches &amp; jewellery</div>
-          <div class="event-verdict no">— Skip in Year 1</div>
-          <div class="event-body">Dominated by established maisons (Cartier, Bulgari, Rolex). Entry cost for independent brands is $50K+. Brand awareness gained here is negligible versus the spend — Henig's positioning is not yet established enough for this audience to be receptive. Revisit in Year 3.</div>
-        </div>
-      </div>
+      <p style="font-size:13px;color:var(--ink-2);margin-bottom:1.25rem;">Select an offline activation to see the extra cost, how much it reduces the online budget, and whether the return justifies it.</p>
 
-      <div class="info-note" style="margin-top:1.25rem;">
-        <strong>Bottom line:</strong> JA New York + IJL London attendance (not exhibiting) in Year 1 = ~$10K–$18K combined. If these two events produce even one boutique partnership each, the ROI is 5–15× the event cost. The other events are either too expensive for the likely return (Baselworld) or too early in the expansion timeline (Hong Kong, Vicenzaoro). Event spend is already built into the phased plan's budget when you select a target event in the planner.
-      </div>
+      <select class="sec-dropdown" id="offlineSelect" onchange="renderOffline()">
+        <option value="0">🌐 Online Only — full budget to digital (recommended Year 1)</option>
+        <option value="1">🎪 Trade Show Attendance — JA NY + IJL London (~$15K)</option>
+        <option value="2">🏛 Trade Show + Exhibit Booth — 1 show (~$40K)</option>
+        <option value="3">🏪 Pop-up Store — 1 city, 2–3 weeks (~$65K)</option>
+        <option value="4">🤝 Boutique Partnership Setup (~$25K + samples)</option>
+      </select>
+
+      <div class="off-panel" id="offlinePanel"></div>
     </div>
 
-    <!-- Section 5: ROI Model Formula -->
-    <div class="section" id="roi-formula">
+    <!-- Section 5: 3-Year Growth Plan -->
+    <div class="section" id="yearplan">
       <div class="sec-label">Section 5</div>
+      <div class="sec-title">3-Year Growth Plan</div>
+      <div class="sec-divider"></div>
+
+      <div class="year-tabs">
+        <button class="ytab active" onclick="showYear(0,this)">Year 1</button>
+        <button class="ytab" onclick="showYear(1,this)">Year 2</button>
+        <button class="ytab" onclick="showYear(2,this)">Year 3</button>
+      </div>
+
+      <div id="yearPanels"></div>
+    </div>
+
+    <!-- Section 6: ROI Model Formula -->
+    <div class="section" id="roi-formula">
+      <div class="sec-label">Section 6</div>
       <div class="sec-title">ROI Model Formula</div>
       <div class="sec-divider"></div>
 
@@ -397,9 +410,9 @@ tr:hover td{background:var(--surface);}
       </div>
     </div>
 
-    <!-- Section 6: References -->
+    <!-- Section 7: References -->
     <div class="section" id="sources">
-      <div class="sec-label">Section 6</div>
+      <div class="sec-label">Section 7</div>
       <div class="sec-title">References</div>
       <div class="sec-divider"></div>
       <p class="body-text" style="margin-bottom:1.25rem;">All 30 sources consulted in building this model. Every figure in the plan has a named source below.</p>
@@ -448,6 +461,224 @@ tr:hover td{background:var(--surface);}
 </div><!-- end layout -->
 
 <script>
+/* ── OFFLINE ACTIVATION DATA ─────────────────────────── */
+const OFFLINE_OPTIONS = [
+  {
+    label:'Online Only',
+    extraCost:0, budgetImpact:0, onlineROI:-20, offlineROI:null,
+    addedRev:0, netROI:-20,
+    verdict:'slate', verdictText:'Full digital — recommended for Year 1',
+    when:'Start now — zero fixed cost, maximum budget efficiency.',
+    note:'Every dollar goes to Meta, Google, email, and influencers. Highest ROI in Year 1 because there is no audience yet to justify physical presence.',
+    bars:[{label:'Online channels',pct:100,color:'#2563eb'},{label:'Offline',pct:0,color:'#94a3b8'}],
+  },
+  {
+    label:'Trade Show Attendance',
+    extraCost:15000, budgetImpact:1.6, onlineROI:-20, offlineROI:null,
+    addedRev:120000, netROI:-16,
+    verdict:'green', verdictText:'✓ Worth it in Year 1',
+    when:'Year 1 Phase 2 — after brand has product to show.',
+    note:'~$15K total (travel + badges + hotels for JA NY + IJL London). Reduces online budget by ~1.6%. One boutique deal = $50K–$200K/yr. ROI on event spend alone: 3×–13×.',
+    bars:[{label:'Online channels',pct:98,color:'#2563eb'},{label:'Trade shows',pct:2,color:'#b91c1c'}],
+  },
+  {
+    label:'Trade Show + Booth (1 show)',
+    extraCost:40000, budgetImpact:4.3, onlineROI:-20, offlineROI:null,
+    addedRev:200000, netROI:-12,
+    verdict:'amber', verdictText:'→ Defer to Year 2',
+    when:'Year 2 — when brand identity and case studies are ready.',
+    note:'~$40K all-in (booth build, samples, staff, travel). Cuts online budget by ~4.3%. Break-even needs 2+ boutique partnerships. Not justified until brand has social proof and catalogue.',
+    bars:[{label:'Online channels',pct:95,color:'#2563eb'},{label:'Exhibit booth',pct:5,color:'#b91c1c'}],
+  },
+  {
+    label:'Pop-up Store (1 city, 2–3 weeks)',
+    extraCost:65000, budgetImpact:7, onlineROI:-20, offlineROI:null,
+    addedRev:150000, netROI:-15,
+    verdict:'amber', verdictText:'→ Defer to Year 2 Phase 3',
+    when:'Year 2 Phase 3 (holiday season) — when email list exceeds 10K to drive foot traffic.',
+    note:'~$50K–$80K (rent, fit-out, staff, insurance, unsold inventory risk). Cuts online budget by ~7%. High brand signal but low direct ROI until the audience exists to fill it.',
+    bars:[{label:'Online channels',pct:90,color:'#2563eb'},{label:'Pop-up store',pct:10,color:'#7c3aed'}],
+  },
+  {
+    label:'Boutique Partnership (wholesale)',
+    extraCost:25000, budgetImpact:2.7, onlineROI:-20, offlineROI:null,
+    addedRev:180000, netROI:-8,
+    verdict:'green', verdictText:'✓ Worth it in Year 1',
+    when:'Year 1 Phase 2–3 — after online presence can support boutique credibility check.',
+    note:'~$20K–$30K (samples, travel for negotiations, initial consignment stock). Each partner generates $40K–$150K/yr with near-zero recurring cost. Best offline ROI of all options.',
+    bars:[{label:'Online channels',pct:97,color:'#2563eb'},{label:'Boutique setup',pct:3,color:'#15803d'}],
+  },
+];
+
+function fmt(n){
+  if(n===0) return '$0';
+  if(Math.abs(n)>=1000000) return '$'+(n/1000000).toFixed(1)+'M';
+  if(Math.abs(n)>=1000) return '$'+(n/1000).toFixed(0)+'K';
+  return '$'+n;
+}
+
+function renderOffline(){
+  const idx = parseInt(document.getElementById('offlineSelect').value);
+  const d = OFFLINE_OPTIONS[idx];
+  const impactColor = d.budgetImpact===0?'var(--ink-3)':d.budgetImpact<3?'var(--gold)':'var(--ruby)';
+  const roiColor = d.netROI>=0?'var(--emerald)':d.netROI>=-15?'var(--gold)':'#b91c1c';
+
+  const barsHTML = d.bars.map(b=>`
+    <div class="bar-row">
+      <span class="bar-label">${b.label}</span>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${b.pct}%;background:${b.color};">${b.pct>8?b.pct+'%':''}</div>
+      </div>
+      <span style="font-size:11px;color:var(--ink-3);min-width:32px;">${b.pct}%</span>
+    </div>`).join('');
+
+  // ROI comparison bars
+  const roiBars = [
+    {label:'Online-only Year 1 ROI'   , val:-20, color:'#2563eb'},
+    {label:'With this activation'     , val:d.netROI, color: d.netROI>=-15?'#15803d':'#92400e'},
+  ];
+  const maxAbs = 25;
+  const roiHTML = roiBars.map(r=>{
+    const pct = Math.max(2, Math.min(100, (Math.abs(r.val)/maxAbs)*100));
+    const neg = r.val < 0;
+    return `<div class="bar-row">
+      <span class="bar-label">${r.label}</span>
+      <div class="bar-track" style="position:relative;">
+        <div class="bar-fill" style="width:${pct}%;background:${neg?'#fee2e2':'#dcfce7'};color:${neg?'#b91c1c':'#15803d'};font-weight:700;">
+          ${neg?'':'+'}${r.val}%
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('offlinePanel').innerHTML = `
+    <div style="margin-bottom:1rem;">
+      <div class="off-verdict ${d.verdict}">${d.verdictText}</div>
+    </div>
+    <div class="off-kpis">
+      <div class="off-kpi">
+        <div class="off-kpi-val" style="color:${d.extraCost===0?'var(--emerald)':impactColor};">${d.extraCost===0?'$0':fmt(d.extraCost)}</div>
+        <div class="off-kpi-lbl">Extra Annual Cost</div>
+      </div>
+      <div class="off-kpi">
+        <div class="off-kpi-val" style="color:${impactColor};">${d.budgetImpact===0?'0%':'−'+d.budgetImpact+'%'}</div>
+        <div class="off-kpi-lbl">Online Budget Reduction</div>
+      </div>
+      <div class="off-kpi">
+        <div class="off-kpi-val" style="color:${d.addedRev>0?'var(--emerald)':'var(--ink-3)'};">${d.addedRev>0?'+'+fmt(d.addedRev):'—'}</div>
+        <div class="off-kpi-lbl">Potential Added Revenue</div>
+      </div>
+      <div class="off-kpi">
+        <div class="off-kpi-val" style="color:${roiColor};">${d.netROI>0?'+':''}${d.netROI}%</div>
+        <div class="off-kpi-lbl">Blended Year 1 ROI</div>
+      </div>
+    </div>
+
+    <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;">Budget split with this activation</div>
+    <div class="bar-compare">${barsHTML}</div>
+
+    <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin:1rem 0 6px;">ROI impact vs online-only</div>
+    <div class="bar-compare">${roiHTML}</div>
+
+    <div class="off-note">${d.note}</div>
+    <div class="off-when">⏱ When: ${d.when}</div>
+  `;
+}
+
+/* ── 3-YEAR PLAN DATA ─────────────────────────────────── */
+const YEAR_PLAN = [
+  {
+    year:1, title:'Build Online Foundation',
+    markets:'🇺🇸 USA + 🇩🇪 Germany',
+    budgetRange:'$718K – $2.4M', roiRange:'−35% to −8%', roiColor:'#b91c1c',
+    focus:'100% digital — zero offline spend',
+    channels:[
+      {name:'Meta / Instagram',pct:35,color:'#2563eb'},
+      {name:'Google Search + Display',pct:22,color:'#15803d'},
+      {name:'Influencers (micro)',pct:18,color:'#b45309'},
+      {name:'Email + SMS',pct:15,color:'#7c3aed'},
+      {name:'Pinterest / Other',pct:10,color:'#94a3b8'},
+    ],
+    milestones:['USA + Germany simultaneous launch','Pixel data + email list built','5K–15K email subscribers','First boutique conversations (attend JA NY)'],
+    offline:'None — full budget to digital channels.',
+    offColor:'var(--emerald)',
+  },
+  {
+    year:2, title:'Scale + Selective Offline',
+    markets:'🇺🇸 🇩🇪 🇫🇷 🇨🇦 🇮🇪 All 5 markets',
+    budgetRange:'$950K – $3.2M', roiRange:'−5% to +28%', roiColor:'#92400e',
+    focus:'90% digital · 10% offline (trade shows + boutiques)',
+    channels:[
+      {name:'Meta / Instagram',pct:30,color:'#2563eb'},
+      {name:'Google Search + Display',pct:20,color:'#15803d'},
+      {name:'Email + SMS',pct:18,color:'#7c3aed'},
+      {name:'Influencers',pct:15,color:'#b45309'},
+      {name:'Trade Shows / Boutiques',pct:10,color:'#b91c1c'},
+      {name:'Pinterest / Other',pct:7,color:'#94a3b8'},
+    ],
+    milestones:['France + Canada + Ireland launch','1–2 trade show exhibits','2–4 boutique partnerships signed','Pop-up store in peak holiday season'],
+    offline:'~$40K–$65K (1 exhibit + boutique setup). Funded from increased total budget — no reduction to online.',
+    offColor:'var(--amber)',
+  },
+  {
+    year:3, title:'Full Omnichannel',
+    markets:'🇺🇸 🇩🇪 🇫🇷 🇨🇦 🇮🇪 + possible new markets',
+    budgetRange:'$1.3M – $4.2M', roiRange:'+8% to +42%', roiColor:'#15803d',
+    focus:'80% digital · 20% offline (events, boutiques, pop-ups)',
+    channels:[
+      {name:'Meta / Instagram',pct:25,color:'#2563eb'},
+      {name:'Email + SMS (LTV)',pct:20,color:'#7c3aed'},
+      {name:'Google Search + Display',pct:18,color:'#15803d'},
+      {name:'Trade Shows / Boutiques',pct:14,color:'#b91c1c'},
+      {name:'Influencers',pct:13,color:'#b45309'},
+      {name:'Pop-ups / Live events',pct:5,color:'#0ea5e9'},
+      {name:'Pinterest / Other',pct:5,color:'#94a3b8'},
+    ],
+    milestones:['3+ trade shows per year','8–15 boutique partners network','Seasonal pop-ups in 2–3 cities','CRM / LTV programme fully active'],
+    offline:'~$120K–$200K (trade shows + boutique support + pop-ups). Offset by boutique wholesale revenue.',
+    offColor:'var(--emerald)',
+  },
+];
+
+function showYear(idx, btn){
+  document.querySelectorAll('.ytab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.year-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('yp-'+idx).classList.add('active');
+}
+
+function buildYearPanels(){
+  const container = document.getElementById('yearPanels');
+  if (!container) return;
+  container.innerHTML = YEAR_PLAN.map((d,i)=>{
+    const chHTML = d.channels.map(c=>`
+      <div class="ch-row">
+        <span class="ch-name">${c.name}</span>
+        <div class="ch-track">
+          <div class="ch-fill" style="width:${c.pct}%;background:${c.color};">${c.pct>6?c.pct+'%':''}</div>
+        </div>
+        <span style="font-size:11px;color:var(--ink-3);min-width:28px;">${c.pct}%</span>
+      </div>`).join('');
+
+    const msHTML = d.milestones.map(m=>`<div class="ms-pill">✓ ${m}</div>`).join('');
+
+    return `<div class="year-panel ${i===0?'active':''}" id="yp-${i}">
+      <div class="year-kpis">
+        <div class="ykpi"><div class="ykpi-val">${d.budgetRange}</div><div class="ykpi-lbl">Total Budget Range</div></div>
+        <div class="ykpi"><div class="ykpi-val" style="color:${d.roiColor};">${d.roiRange}</div><div class="ykpi-lbl">Expected Year ROI</div></div>
+        <div class="ykpi"><div class="ykpi-val" style="font-size:13px;font-weight:500;">${d.markets}</div><div class="ykpi-lbl">Active Markets</div></div>
+      </div>
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">Channel budget split</div>
+      <div class="ch-bars">${chHTML}</div>
+      <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin:1rem 0 8px;">Key milestones</div>
+      <div class="milestones">${msHTML}</div>
+      <div class="off-line" style="border-color:${d.offColor};background:${d.offColor==='var(--emerald)'?'var(--emerald-pale)':'var(--amber-pale)'};">
+        <strong>Offline spend:</strong> ${d.offline}
+      </div>
+    </div>`;
+  }).join('');
+}
+
 // Draw the seasonal demand SVG chart
 (function(){
   const MONTHS = ['M','J','J','A','S','O','N','D','J','F','M','A'];
@@ -519,6 +750,10 @@ window.addEventListener('scroll', () => {
     t.classList.toggle('active', href === current);
   });
 }, {passive:true});
+
+// Init interactive sections
+renderOffline();
+buildYearPanels();
 </script>
 </body>
 </html>
