@@ -1124,9 +1124,9 @@ const BUDGET_PROFILES = [
   { market:'France',  seg:'Mid-Luxury', flag:'🇫🇷', score:6.6, minMonthly:4000, maxMonthly:14000, asp:1300, yoy:4.2, size:0.74, units:569,  why:'ESG-conscious buyers. Necklaces beat earrings — unique to France.' },
   { market:'Canada',  seg:'Luxury',     flag:'🇨🇦', score:7.2, minMonthly:9000, maxMonthly:30000, asp:2700, yoy:5.1, size:0.83, units:307,  why:'Lower-risk mirror of USA luxury. GIA standard. Toronto + Vancouver.' },
   { market:'France',  seg:'Luxury',     flag:'🇫🇷', score:7.7, minMonthly:9000, maxMonthly:30000, asp:2900, yoy:6.0, size:1.06, units:365,  why:'Fastest luxury growth at 6.0% YoY. Haute couture + GIA = premium positioning.' },
-  { market:'Germany', seg:'Luxury',     flag:'🇩🇪', score:8.3, minMonthly:9000, maxMonthly:30000, asp:2800, yoy:4.3, size:1.71, units:611,  why:'Highest EU score 8.3/10. Quality-led buyers. Inhorgenta Munich gateway.' },
+  { market:'Germany', seg:'Luxury',     flag:'🇩🇪', score:8.3, minMonthly:9000, maxMonthly:30083, asp:2800, yoy:4.3, size:1.71, units:611,  why:'Highest EU score 8.3/10. Quality-led buyers. Inhorgenta Munich gateway.' },
   { market:'USA',     seg:'Mid-Luxury', flag:'🇺🇸', score:8.0, minMonthly:10000,maxMonthly:38000, asp:1200, yoy:4.7, size:11.2, units:9333, why:'$11.2B market. 55% LGD. Professional women 30–45 are repeat buyers.' },
-  { market:'USA',     seg:'Luxury',     flag:'🇺🇸', score:9.3, minMonthly:28600,maxMonthly:126000,asp:3500, yoy:5.1, size:13.5, units:3857, why:'Largest TAM $13.5B. Score 9.3/10. GIA mandatory. Bridal +18% YoY.' },
+  { market:'USA',     seg:'Luxury',     flag:'🇺🇸', score:9.3, minMonthly:28833,maxMonthly:125667,asp:3500, yoy:5.1, size:13.5, units:3857, why:'Largest TAM $13.5B. Score 9.3/10. GIA mandatory. Bridal +18% YoY.' },
 ];
 
 function getFitLabel(budget, profile) {
@@ -1157,7 +1157,7 @@ function runBudgetFinder() {
     container.innerHTML = '<div class="bf-placeholder">← Enter a budget range to see country recommendations</div>';
     return;
   }
-  const margin = parseInt(document.getElementById('marginSlider').value) || 40;
+  const margin = parseInt(document.getElementById('cfgMargin')?.value) || 40;
 
   function computeRoi(p, monthly) {
     const annual = monthly * 12;
