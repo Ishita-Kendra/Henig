@@ -138,9 +138,6 @@ select { font-family: 'DM Sans', sans-serif; font-size: 13px; background: var(--
 
 .ch-info { flex: 1; min-width: 0; }
 .ch-name { font-size: 11.5px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ch-bar-wrap { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
-.ch-bar-track { flex: 1; height: 4px; background: var(--surface-2); border-radius: 2px; overflow: hidden; }
-.ch-bar-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width 0.4s; }
 .ch-cost { font-size: 12px; font-weight: 500; color: var(--accent); min-width: 50px; text-align: right; flex-shrink: 0; }
 
 .phase-footer { padding: 0.875rem 1.5rem; background: var(--surface); border-top: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
@@ -206,14 +203,21 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
 
 /* ── ROI SIMULATOR ───────────────────────────────────────────────────── */
 .ch-slider {
-  width: 100%; height: 4px; margin-top: 5px; display: block;
-  accent-color: var(--accent); cursor: pointer;
-  -webkit-appearance: none; appearance: none; background: transparent;
+  width: 100%; height: 4px; margin-top: 6px; display: block;
+  -webkit-appearance: none; appearance: none;
+  border-radius: 2px; cursor: pointer; outline: none; border: none;
+  /* fill set inline via JS gradient — see sliderBg() */
 }
-.ch-slider::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: var(--surface-2); }
-.ch-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 13px; height: 13px; border-radius: 50%; background: var(--accent); margin-top: -4.5px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-.ch-slider::-moz-range-track { height: 4px; border-radius: 2px; background: var(--surface-2); }
-.ch-slider::-moz-range-thumb { width: 13px; height: 13px; border-radius: 50%; border: none; background: var(--accent); cursor: pointer; }
+.ch-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 14px; height: 14px;
+  border-radius: 50%; background: var(--accent);
+  cursor: pointer; box-shadow: 0 1px 4px rgba(37,99,235,0.4);
+  margin-top: -5px;
+}
+.ch-slider::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; }
+.ch-slider::-moz-range-track   { height: 4px; border-radius: 2px; background: var(--surface-2); }
+.ch-slider::-moz-range-progress{ height: 4px; border-radius: 2px; background: var(--accent); }
+.ch-slider::-moz-range-thumb   { width: 14px; height: 14px; border-radius: 50%; border: none; background: var(--accent); cursor: pointer; }
 
 .phase-roi-panel {
   padding: 1rem 1.5rem 1.25rem;
@@ -1152,12 +1156,11 @@ function onChSlider(country, pi, ci, val) {
   channelOverrides[`${country}_${pi}_${ci}`] = v;
   const costEl = document.getElementById(`ch-cost-${pi}-${ci}`);
   if (costEl) costEl.textContent = fmt(v);
-  // Update all bars for this phase (relative proportions shift)
-  const cached = modelCostCache[`${country}_${pi}`];
-  if (cached) {
-    const allC = cached.map((_, idx) => { const ov = channelOverrides[`${country}_${pi}_${idx}`]; return ov !== undefined ? ov : cached[idx].modelCost; });
-    const maxC = Math.max(...allC);
-    allC.forEach((c, idx) => { const b = document.getElementById(`ch-bar-${pi}-${idx}`); if (b) b.style.width = (maxC > 0 ? Math.round((c/maxC)*100) : 0) + '%'; });
+  // Update slider gradient fill
+  const slEl = document.getElementById(`ch-slider-${pi}-${ci}`);
+  if (slEl) {
+    const pct = slEl.max > 0 ? Math.round((v / parseInt(slEl.max)) * 100) : 0;
+    slEl.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--surface-2) ${pct}%)`;
   }
   refreshPhaseROI(country, pi);
 }
@@ -1172,12 +1175,15 @@ function onPhaseMargin(country, pi, val) {
 function resetPhase(country, pi) {
   const cached = modelCostCache[`${country}_${pi}`];
   if (!cached) return;
-  const maxC = Math.max(...cached.map(c => c.modelCost));
   cached.forEach((ch, ci) => {
     delete channelOverrides[`${country}_${pi}_${ci}`];
-    const sl = document.getElementById(`ch-slider-${pi}-${ci}`); if (sl) sl.value = ch.modelCost;
-    const ce = document.getElementById(`ch-cost-${pi}-${ci}`);   if (ce) ce.textContent = fmt(ch.modelCost);
-    const be = document.getElementById(`ch-bar-${pi}-${ci}`);    if (be) be.style.width = (maxC > 0 ? Math.round((ch.modelCost/maxC)*100) : 0) + '%';
+    const sl = document.getElementById(`ch-slider-${pi}-${ci}`);
+    if (sl) {
+      sl.value = ch.modelCost;
+      const pct = sl.max > 0 ? Math.round((ch.modelCost / parseInt(sl.max)) * 100) : 0;
+      sl.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--surface-2) ${pct}%)`;
+    }
+    const ce = document.getElementById(`ch-cost-${pi}-${ci}`); if (ce) ce.textContent = fmt(ch.modelCost);
   });
   delete phaseMarginState[`${country}_${pi}`];
   refreshPhaseROI(country, pi);
@@ -1341,15 +1347,15 @@ function render() {
       const pct  = maxC > 0 ? Math.round((cost / maxC) * 100) : 0;
       const slMax  = Math.round(ch.cost * 3);
       const slStep = ch.cost >= 50000 ? 5000 : ch.cost >= 10000 ? 1000 : ch.cost >= 2000 ? 500 : 100;
+      const fillPct = slMax > 0 ? Math.round((cost / slMax) * 100) : 0;
+      const slBg = `linear-gradient(to right, var(--accent) ${fillPct}%, var(--surface-2) ${fillPct}%)`;
       return `<div class="channel-row">
         <div class="ch-icon ${ch.cls}">${ch.icon}</div>
         <div class="ch-info">
           <div class="ch-name">${ch.name}</div>
-          <div class="ch-bar-wrap">
-            <div class="ch-bar-track"><div class="ch-bar-fill" id="ch-bar-${i}-${ci}" style="width:${pct}%"></div></div>
-          </div>
           <input type="range" class="ch-slider" id="ch-slider-${i}-${ci}"
                  min="0" max="${slMax}" step="${slStep}" value="${cost}"
+                 style="background:${slBg}"
                  oninput="onChSlider('${currentCountry}',${i},${ci},this.value)">
         </div>
         <div class="ch-cost" id="ch-cost-${i}-${ci}">${fmt(cost)}</div>
