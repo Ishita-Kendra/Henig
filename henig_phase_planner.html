@@ -298,6 +298,34 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
 /* ── DIMINISHING RETURNS GRAPH ───────────────────────────────── */
 .dim-graph-wrap { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
 .dim-graph-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.5rem; }
+
+/* ── YEAR VIEW ────────────────────────────────────────────────── */
+.year-kpi-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 10px; margin-bottom: 1.5rem; }
+.year-kpi { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 0.875rem 0.75rem; text-align: center; }
+.year-kpi-val { font-size: 18px; font-weight: 500; color: var(--ink); line-height: 1.1; }
+.year-kpi-val.green { color: var(--emerald); }
+.year-kpi-val.amber { color: var(--gold); }
+.year-kpi-val.red   { color: var(--ruby); }
+.year-kpi-val.accent{ color: var(--accent); }
+.year-kpi-lbl { font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-top: 4px; }
+.year-chart-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 1.25rem; }
+.year-chart-title { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 1.25rem; display:flex; align-items:center; justify-content:space-between; }
+.year-legend { display: flex; gap: 1rem; flex-wrap: wrap; }
+.year-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--ink-2); }
+.year-legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.year-legend-line { width: 18px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+.phase-contrib-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 1rem; }
+.phase-contrib-table th { font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); padding: 6px 10px; text-align: left; border-bottom: 2px solid var(--border); }
+.phase-contrib-table td { padding: 8px 10px; border-bottom: 1px solid var(--surface-2); color: var(--ink-2); }
+.phase-contrib-table tr:last-child td { border-bottom: none; font-weight: 500; color: var(--ink); background: var(--surface); }
+.pct-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+.be-banner { background: linear-gradient(135deg, var(--emerald-pale) 0%, #d1fae5 100%); border: 1px solid #6ee7b7; border-radius: 10px; padding: 1rem 1.25rem; display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+.be-banner.negative { background: linear-gradient(135deg, var(--amber-pale) 0%, #fef3c7 100%); border-color: #fcd34d; }
+.be-banner-icon { font-size: 22px; flex-shrink: 0; }
+.be-banner-text { font-size: 13px; color: var(--ink-2); }
+.be-banner-text strong { color: var(--ink); }
+@media (max-width: 900px) { .year-kpi-grid { grid-template-columns: repeat(3,1fr); } }
+@media (max-width: 600px) { .year-kpi-grid { grid-template-columns: repeat(2,1fr); } }
 </style>
 </head>
 <body>
@@ -403,6 +431,11 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
       <span class="mode-btn-label">Customize</span>
       <span class="mode-btn-sub">Drag channels to explore scenarios</span>
     </button>
+    <button class="mode-btn" id="btn-annual" onclick="setMode('annual')">
+      <span class="mode-btn-icon">◈</span>
+      <span class="mode-btn-label">Year View</span>
+      <span class="mode-btn-sub">Full-year projection &amp; ROI curve</span>
+    </button>
   </div>
   <div id="customize-hint" style="display:none;font-size:12px;color:var(--ink-3);text-align:center;margin-top:0.5rem;">
     Drag any channel slider to adjust spend. Use "↺ Reset to ideal" per phase to restore suggested amounts.
@@ -412,6 +445,11 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
 <section class="phases-section">
   <div class="section-label" id="phasesLabel">Phase-by-phase breakdown</div>
   <div class="phases-grid" id="phasesGrid"></div>
+</section>
+
+<section class="annual-section" id="annualSection" style="display:none;padding:0 3rem 2rem;">
+  <div class="section-label">Year 1 Annual Projection</div>
+  <div id="annualContent"></div>
 </section>
 
 <section class="summary-section">
@@ -1558,12 +1596,17 @@ let viewMode = 'ideal'; // 'ideal' | 'customize'
 
 function setMode(mode) {
   viewMode = mode;
-  clearPhaseOverrides();
+  if (mode !== 'annual') clearPhaseOverrides();
   document.getElementById('btn-ideal').classList.toggle('mode-active', mode === 'ideal');
   document.getElementById('btn-customize').classList.toggle('mode-active', mode === 'customize');
-  // Show/hide customize hint
+  document.getElementById('btn-annual').classList.toggle('mode-active', mode === 'annual');
   const hint = document.getElementById('customize-hint');
   if (hint) hint.style.display = mode === 'customize' ? 'block' : 'none';
+  // Show/hide phase cards vs annual section
+  const phSec  = document.querySelector('.phases-section');
+  const annSec = document.getElementById('annualSection');
+  if (phSec)  phSec.style.display  = mode === 'annual' ? 'none' : '';
+  if (annSec) annSec.style.display = mode === 'annual' ? '' : 'none';
   render();
 }
 
@@ -1871,6 +1914,255 @@ function applyPathToROI(country, pi) {
 }
 
 /* ============================================================
+   ANNUAL VIEW
+   ============================================================ */
+
+// Monthly within-phase spend distribution (proportions per 3 months, sum = 1)
+const SPEND_RAMP = [
+  [0.26, 0.35, 0.39], // Phase 1 Foundation  — ramp up
+  [0.30, 0.38, 0.32], // Phase 2 Activation  — peak in mid
+  [0.28, 0.44, 0.28], // Phase 3 Peak        — centre peak
+  [0.42, 0.34, 0.24], // Phase 4 Sustain     — ramp down
+];
+// Revenue lags spend; earlier phases more back-loaded
+const REV_RAMP = [
+  [0.13, 0.29, 0.58], // Phase 1 — very back-loaded (brand building)
+  [0.24, 0.38, 0.38], // Phase 2 — building
+  [0.20, 0.46, 0.34], // Phase 3 — peak in middle
+  [0.48, 0.34, 0.18], // Phase 4 — front-loaded (momentum from P3)
+];
+const PHASE_COLORS = ['#2563eb', '#15803d', '#7c3aed', '#b45309'];
+const PHASE_COLORS_PALE = ['#eff4ff', '#dcfce7', '#f5f3ff', '#fef9ef'];
+
+function niceStep(maxV) {
+  if (maxV <= 0) return 10000;
+  const raw = maxV / 5;
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const norm = raw / mag;
+  const nice = norm < 1.5 ? 1 : norm < 3 ? 2 : norm < 7 ? 5 : 10;
+  return nice * mag;
+}
+
+function buildAnnualView(country, windows) {
+  const phases  = PHASE_TEMPLATES_ONLINE[country];
+  const segData = getSegMeta(country);
+  const asp     = parseInt((segData.asp || '$3500').replace(/[^0-9]/g, '')) || 3500;
+
+  // Compute per-phase data
+  const phaseData = phases.map((ph, pi) => {
+    const spend = getCurrentSpend(country, pi);
+    const roi   = computePhaseROI(pi, spend, country);
+    return { pi, spend, roi, window: windows[pi] };
+  });
+
+  // Year totals
+  const totalSpend = phaseData.reduce((s, d) => s + d.spend, 0);
+  const totalRev   = phaseData.reduce((s, d) => s + (d.roi.insufficient ? 0 : d.roi.revenue), 0);
+  const totalUnits = phaseData.reduce((s, d) => s + (d.roi.insufficient ? 0 : d.roi.units), 0);
+  const totalGP    = phaseData.reduce((s, d) => s + (d.roi.insufficient ? 0 : d.roi.grossProfit), 0);
+  const yearROI    = totalSpend > 0 ? ((totalGP - totalSpend) / totalSpend) * 100 : -100;
+  const avgMonthly = totalRev / 12;
+
+  // Build 12 monthly points (one per calendar month in order)
+  const months = [];
+  phaseData.forEach((d, pi) => {
+    const w = d.window;
+    let mo = w.startM, yr = w.startY;
+    for (let j = 0; j < 3; j++) {
+      months.push({
+        label:   MONTHS_SHORT[mo - 1] + (months.length === 0 || mo === 1 ? ' \'' + String(yr).slice(2) : ''),
+        phase:   pi,
+        spend:   Math.round(d.spend * SPEND_RAMP[pi][j]),
+        revenue: Math.round((d.roi.insufficient ? 0 : d.roi.revenue) * REV_RAMP[pi][j]),
+      });
+      mo++; if (mo > 12) { mo = 1; yr++; }
+    }
+  });
+
+  // Cumulative
+  let cumSp = 0, cumRv = 0, beIdx = null;
+  const cumData = months.map((m, i) => {
+    cumSp += m.spend; cumRv += m.revenue;
+    if (beIdx === null && cumRv >= cumSp && cumRv > 0) beIdx = i;
+    return { cumSp, cumRv, net: cumRv - cumSp };
+  });
+
+  const beLabel   = beIdx !== null ? `Month ${beIdx + 1} — ${months[beIdx].label}` : 'Year 2+';
+  const bePosivite = beIdx !== null;
+  const roiCls    = yearROI >= 0 ? 'green' : yearROI >= -30 ? 'amber' : 'red';
+  const roiSign   = yearROI >= 0 ? '+' : '';
+
+  // ── KPI row ─────────────────────────────────────────────────────
+  const kpiHTML = `<div class="year-kpi-grid">
+    <div class="year-kpi"><div class="year-kpi-val accent">${fmt(totalSpend)}</div><div class="year-kpi-lbl">Year 1 Spend</div></div>
+    <div class="year-kpi"><div class="year-kpi-val ${totalRev > totalSpend ? 'green' : ''}">${fmt(Math.round(totalRev))}</div><div class="year-kpi-lbl">Est. Revenue</div></div>
+    <div class="year-kpi"><div class="year-kpi-val ${roiCls}">${roiSign}${yearROI.toFixed(0)}%</div><div class="year-kpi-lbl">Year 1 ROI</div></div>
+    <div class="year-kpi"><div class="year-kpi-val">${totalUnits.toLocaleString()}</div><div class="year-kpi-lbl">Est. Units Sold</div></div>
+    <div class="year-kpi"><div class="year-kpi-val">${fmt(Math.round(avgMonthly))}</div><div class="year-kpi-lbl">Avg Monthly Rev</div></div>
+    <div class="year-kpi"><div class="year-kpi-val ${bePosivite ? 'green' : 'amber'}">${beLabel}</div><div class="year-kpi-lbl">Break-even Month</div></div>
+  </div>`;
+
+  // ── Break-even banner ────────────────────────────────────────────
+  const beBanner = `<div class="be-banner${bePosivite ? '' : ' negative'}">
+    <div class="be-banner-icon">${bePosivite ? '✓' : '⏳'}</div>
+    <div class="be-banner-text">
+      ${bePosivite
+        ? `Cumulative revenue crosses cumulative spend in <strong>${beLabel}</strong>. Year 1 ends ${yearROI >= 0 ? 'profitable' : 'with a manageable deficit'} at <strong>${roiSign}${yearROI.toFixed(0)}% ROI</strong>.`
+        : `At this spend level, Year 1 ends with cumulative spend exceeding cumulative revenue. Year 2 opens profitably as brand awareness compounds. Increase spend or extend the horizon to reach break-even sooner.`
+      }
+    </div>
+  </div>`;
+
+  // ── SVG combo chart ──────────────────────────────────────────────
+  const chartSVG = buildYearChart(months, cumData);
+
+  // ── Phase contribution table ─────────────────────────────────────
+  const phRows = phaseData.map((d, pi) => {
+    const pRoi    = d.roi.insufficient ? null : d.roi.roi;
+    const pRoiCls = pRoi === null ? '' : pRoi >= 0 ? 'green' : pRoi >= -40 ? 'amber' : 'red';
+    const pRoiStr = pRoi === null ? '—' : (pRoi >= 0 ? '+' : '') + pRoi.toFixed(0) + '%';
+    const rev     = d.roi.insufficient ? '—' : fmt(Math.round(d.roi.revenue));
+    const units   = d.roi.insufficient ? '—' : d.roi.units.toLocaleString();
+    return `<tr>
+      <td><span class="pct-dot" style="background:${PHASE_COLORS[pi]}"></span>Phase ${pi+1} — ${phases[pi].name}</td>
+      <td>${d.window.label}</td>
+      <td>${fmt(d.spend)}</td>
+      <td>${rev}</td>
+      <td style="color:${pRoi === null ? 'inherit' : (pRoi >= 0 ? 'var(--emerald)' : pRoi >= -40 ? 'var(--gold)' : 'var(--ruby)')}">${pRoiStr}</td>
+      <td>${units}</td>
+    </tr>`;
+  }).join('');
+
+  const tableHTML = `<div class="year-chart-card">
+    <div class="year-chart-title">Phase Contribution Breakdown
+      <div class="year-legend">
+        ${PHASE_COLORS.map((c, i) => `<span class="year-legend-item"><span class="year-legend-dot" style="background:${c};opacity:0.8"></span>Phase ${i+1}</span>`).join('')}
+        <span class="year-legend-item"><span class="year-legend-line" style="background:#059669"></span>Revenue</span>
+        <span class="year-legend-item"><span class="year-legend-line" style="background:#94a3b8;border-top:2px dashed #94a3b8;height:0;margin-top:1px"></span>Cumulative net</span>
+      </div>
+    </div>
+    ${chartSVG}
+    <table class="phase-contrib-table" style="margin-top:1.25rem">
+      <thead><tr><th>Phase</th><th>Window</th><th>Budget</th><th>Est. Revenue</th><th>ROI</th><th>Units</th></tr></thead>
+      <tbody>${phRows}</tbody>
+      <tfoot><tr>
+        <td colspan="2">Year 1 Total</td>
+        <td>${fmt(totalSpend)}</td>
+        <td>${fmt(Math.round(totalRev))}</td>
+        <td style="color:${yearROI>=0?'var(--emerald)':yearROI>=-30?'var(--gold)':'var(--ruby)'}">${roiSign}${yearROI.toFixed(0)}%</td>
+        <td>${totalUnits.toLocaleString()}</td>
+      </tr></tfoot>
+    </table>
+  </div>`;
+
+  return kpiHTML + beBanner + tableHTML;
+}
+
+function buildYearChart(months, cumData) {
+  const W = 820, H = 260;
+  const pL = 68, pR = 18, pT = 28, pB = 42;
+  const cW = W - pL - pR, cH = H - pT - pB;
+  const n  = months.length; // 12
+
+  const bW = (cW / n) * 0.72;
+  const bG = (cW / n) * 0.28;
+
+  function bX(i) { return pL + i * (cW / n) + bG / 2; }
+  function bMid(i) { return bX(i) + bW / 2; }
+
+  // Primary Y axis scale (spend & revenue bars)
+  const maxPrimary = Math.max(...months.map(m => Math.max(m.spend, m.revenue))) * 1.18;
+  const step = niceStep(maxPrimary);
+  const gridMax = Math.ceil(maxPrimary / step) * step;
+
+  function toY(v) { return pT + cH - Math.min(1, v / gridMax) * cH; }
+
+  // Cumulative net — secondary scale, mapped to bottom 30% of chart height
+  const cumMin = Math.min(0, ...cumData.map(d => d.net));
+  const cumMax = Math.max(0, ...cumData.map(d => d.net));
+  const cumRange = Math.max(1, Math.max(Math.abs(cumMin), Math.abs(cumMax)));
+  const cumMidY = pT + cH * 0.72; // center of cum band
+
+  function toCumY(v) {
+    return cumMidY - (v / cumRange) * (cH * 0.26);
+  }
+
+  // Grid lines + Y labels
+  let grids = '';
+  for (let v = 0; v <= gridMax; v += step) {
+    const y = toY(v).toFixed(1);
+    grids += `<line x1="${pL}" y1="${y}" x2="${W - pR}" y2="${y}" stroke="var(--border)" stroke-width="0.5"/>`;
+    grids += `<text x="${pL - 5}" y="${(parseFloat(y) + 3.5).toFixed(1)}" text-anchor="end" font-size="9" fill="var(--ink-3)">${fmt(v)}</text>`;
+  }
+
+  // Phase background bands
+  let bands = '';
+  for (let pi = 0; pi < 4; pi++) {
+    const x0 = bX(pi * 3).toFixed(1);
+    const x1 = (bX(pi * 3 + 2) + bW).toFixed(1);
+    bands += `<rect x="${x0}" y="${pT}" width="${(parseFloat(x1) - parseFloat(x0)).toFixed(1)}" height="${cH}" fill="${PHASE_COLORS_PALE[pi]}" opacity="0.6"/>`;
+    const labelX = ((parseFloat(x0) + parseFloat(x1)) / 2).toFixed(1);
+    bands += `<text x="${labelX}" y="${pT - 8}" text-anchor="middle" font-size="9" font-weight="600" fill="${PHASE_COLORS[pi]}">Phase ${pi + 1}</text>`;
+  }
+
+  // Spend bars
+  let bars = '';
+  months.forEach((m, i) => {
+    const bh = Math.max(2, (m.spend / gridMax) * cH);
+    const by = (pT + cH - bh).toFixed(1);
+    bars += `<rect x="${bX(i).toFixed(1)}" y="${by}" width="${bW.toFixed(1)}" height="${bh.toFixed(1)}" fill="${PHASE_COLORS[m.phase]}" opacity="0.65" rx="2"/>`;
+  });
+
+  // Revenue line + area fill
+  const revPts = months.map((m, i) => `${bMid(i).toFixed(1)},${toY(m.revenue).toFixed(1)}`);
+  const revPath = 'M' + revPts.join(' L');
+  const revFill = revPath + ` L${bMid(n - 1).toFixed(1)},${(pT + cH)} L${bMid(0).toFixed(1)},${(pT + cH)} Z`;
+
+  // Cumulative net line
+  const cumPts = cumData.map((d, i) => `${bMid(i).toFixed(1)},${toCumY(d.net).toFixed(1)}`);
+  const cumPath = 'M' + cumPts.join(' L');
+
+  // Zero line for cumulative (dashed)
+  const cumZeroY = toCumY(0).toFixed(1);
+
+  // Break-even dot
+  const beIdx = cumData.findIndex(d => d.net >= 0);
+  const beDot = beIdx >= 0
+    ? `<circle cx="${bMid(beIdx).toFixed(1)}" cy="${toCumY(cumData[beIdx].net).toFixed(1)}" r="5" fill="var(--emerald)" stroke="white" stroke-width="1.5"/>
+       <text x="${(bMid(beIdx) + 6).toFixed(1)}" y="${(toCumY(cumData[beIdx].net) + 3).toFixed(1)}" font-size="8.5" fill="var(--emerald)" font-weight="600">B/E</text>`
+    : '';
+
+  // Month labels
+  let labels = '';
+  months.forEach((m, i) => {
+    labels += `<text x="${bMid(i).toFixed(1)}" y="${H - 6}" text-anchor="middle" font-size="9" fill="var(--ink-3)">${m.label}</text>`;
+  });
+
+  // Cum net zero line label
+  const cumLabel = `<text x="${pL - 5}" y="${(parseFloat(cumZeroY) + 3).toFixed(1)}" text-anchor="end" font-size="8" fill="var(--ink-3)" opacity="0.6">0</text>`;
+
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#059669" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#059669" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+  ${bands}
+  ${grids}
+  ${bars}
+  <path d="${revFill}" fill="url(#revGrad)"/>
+  <path d="${revPath}" fill="none" stroke="#059669" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  ${months.map((m, i) => `<circle cx="${bMid(i).toFixed(1)}" cy="${toY(m.revenue).toFixed(1)}" r="3.5" fill="#059669" stroke="white" stroke-width="1.5"/>`).join('')}
+  <line x1="${pL}" y1="${cumZeroY}" x2="${W - pR}" y2="${cumZeroY}" stroke="var(--ink-3)" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+  ${cumLabel}
+  <path d="${cumPath}" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="5,3" stroke-linejoin="round"/>
+  ${beDot}
+  ${labels}
+</svg>`;
+}
+
+/* ============================================================
    CALENDAR HELPERS
    ============================================================ */
 function computePhaseWindows(eventMonth, leadMonths) {
@@ -2095,6 +2387,12 @@ function render() {
     </div>`;
   }).join('');
   document.getElementById('phasesGrid').innerHTML = phaseCardsHTML;
+
+  /* --- Annual View --- */
+  const annEl = document.getElementById('annualContent');
+  if (annEl && viewMode === 'annual') {
+    annEl.innerHTML = buildAnnualView(currentCountry, windows);
+  }
 
   /* --- Summary Table --- */
   const mainTotals = phases.map((ph, i) => Math.round(ph.total[currentBudget] * getPhaseRatio(i)));
