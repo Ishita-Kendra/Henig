@@ -885,8 +885,24 @@ const BUDGET_PRESETS = {
 let cfgMarket = null;   // e.g. 'Germany'
 let cfgSeg    = null;   // e.g. 'Mid-Luxury'
 let cfgSpend  = { meta:0, google:0, tiktok:0, pinterest:0, email:0, influencer:0 };
-let marginApplied = false; // true only after "Apply to main sliders" is clicked
+let marginApplied = false; // true only after "Apply to main sliders" is clicked; prevents auto-reset
 let budgetFinderHasResults = false; // true if budget finder has been run
+
+// Best realistic gross margin by segment (based on Henig product positioning)
+// Luxury: 45–60% range → use 52% midpoint; Mid-Luxury: 38–45% → use 42% midpoint
+function getBestMargin(seg) {
+  if (!seg) return 42;
+  if (seg === 'Luxury') return 52;
+  if (seg === 'Mid-Luxury') return 42;
+  return 46; // blended / Mix
+}
+
+function setMarginDisplay(pct) {
+  const slider = document.getElementById('cfgMargin');
+  const label  = document.getElementById('cfgMarginVal');
+  if (slider) slider.value = pct;
+  if (label)  label.textContent = pct + '%';
+}
 
 // ── INIT: Build country grid ──────────────────────────────────────────────────
 function cfgInit() {
@@ -920,12 +936,12 @@ function cfgSelectSeg(market, seg) {
   cfgMarket = market;
   cfgSeg    = seg;
 
-  // Reset margin to default when switching country/segment
+  // Only set best-scenario margin if user hasn't explicitly applied a custom one
+  if (!marginApplied) {
+    setMarginDisplay(getBestMargin(seg));
+  }
+  // Switching country/segment clears the "applied" lock so next switch resets again
   marginApplied = false;
-  const marginSlider = document.getElementById('cfgMargin');
-  if (marginSlider) { marginSlider.value = 40; }
-  const marginVal = document.getElementById('cfgMarginVal');
-  if (marginVal) marginVal.textContent = '40%';
 
   // Update country button active states
   document.querySelectorAll('.cfg-country-btn').forEach(b => b.classList.remove('active'));
@@ -1092,19 +1108,23 @@ function syncToMainSliders() {
 }
 
 function cfgApplyToSliders() {
+  // Lock margin so subsequent cfgSelectSeg calls don't override it
   marginApplied = true;
   syncToMainSliders();
-  // Re-run budget finder if it has results, so ROI numbers update with new margin
+  // Re-run budget finder with the locked margin if results are showing
   if (budgetFinderHasResults) {
     runBudgetFinder();
+    // runBudgetFinder resets marginApplied internally — re-lock it after
+    marginApplied = true;
   }
   // Flash confirmation
   const btn = document.querySelector('.cfg-apply-btn');
   if (btn) {
     const orig = btn.textContent;
-    btn.textContent = '✓ Applied to all calculations!';
+    const pct = document.getElementById('cfgMargin')?.value || '?';
+    btn.textContent = `✓ Applied at ${pct}% margin`;
     btn.style.background = 'var(--emerald)';
-    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1800);
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
   }
 }
 
@@ -1240,6 +1260,8 @@ function runBudgetFinder() {
   `;
 
   // ── AUTO-APPLY best result to Step 3 immediately ──────────────────────────
+  // Reset margin lock — budget finder always starts fresh with best-scenario margin
+  marginApplied = false;
   applyBudgetCountry(solo.market, solo.seg, budget);
 }
 
