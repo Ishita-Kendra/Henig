@@ -255,7 +255,7 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
 .roi-stat-val.amber { color: var(--gold); }
 .roi-stat-val.red   { color: var(--ruby); }
 .roi-stat-lbl { font-size: 9px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); margin-top: 3px; line-height: 1.3; }
-.roi-breakeven { font-size: 11px; color: var(--ink-3); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.roi-breakeven { font-size: 11px; color: var(--ink-3); margin-bottom: 0.25rem; }
 .roi-breakeven strong { color: var(--ink-2); }
 .roi-suggest-btn {
   font-size: 11px; font-family: 'DM Sans', sans-serif; font-weight: 500;
@@ -273,6 +273,31 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
 @media (max-width: 900px) {
   .roi-stats-grid { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* ── MODE TOGGLE ─────────────────────────────────────────────── */
+.mode-section { padding: 0 3rem 1.5rem; }
+.mode-toggle-wrap {
+  display: flex; gap: 1rem; max-width: 600px; margin: 0 auto;
+}
+.mode-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 1.25rem 1rem; border-radius: 14px; border: 2px solid var(--border);
+  background: var(--white); cursor: pointer; transition: all 0.18s;
+  font-family: 'DM Sans', sans-serif;
+}
+.mode-btn:hover { border-color: var(--accent); background: var(--accent-pale); }
+.mode-btn.mode-active { border-color: var(--accent); background: var(--accent); color: white; }
+.mode-btn-icon { font-size: 18px; line-height: 1; }
+.mode-btn-label { font-size: 15px; font-weight: 600; letter-spacing: 0.02em; }
+.mode-btn-sub { font-size: 11px; opacity: 0.75; }
+
+/* ── IDEAL BAR (static, no slider) ──────────────────────────── */
+.ch-bar-ideal { height: 4px; background: var(--surface-2); border-radius: 2px; margin-top: 8px; width: 100%; }
+.ch-bar-ideal-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width 0.3s; }
+
+/* ── DIMINISHING RETURNS GRAPH ───────────────────────────────── */
+.dim-graph-wrap { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+.dim-graph-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.5rem; }
 </style>
 </head>
 <body>
@@ -363,6 +388,24 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
 <section class="timeline-section">
   <div class="timeline-strip">
     <div class="timeline-phases" id="timelinePhases"></div>
+  </div>
+</section>
+
+<section class="mode-section">
+  <div class="mode-toggle-wrap">
+    <button class="mode-btn mode-active" id="btn-ideal" onclick="setMode('ideal')">
+      <span class="mode-btn-icon">◆</span>
+      <span class="mode-btn-label">Ideal Scenarios</span>
+      <span class="mode-btn-sub">Recommended spend per channel</span>
+    </button>
+    <button class="mode-btn" id="btn-customize" onclick="setMode('customize')">
+      <span class="mode-btn-icon">✦</span>
+      <span class="mode-btn-label">Customize</span>
+      <span class="mode-btn-sub">Drag channels to explore scenarios</span>
+    </button>
+  </div>
+  <div id="customize-hint" style="display:none;font-size:12px;color:var(--ink-3);text-align:center;margin-top:0.5rem;">
+    Drag any channel slider to adjust spend. Use "↺ Reset to ideal" per phase to restore suggested amounts.
   </div>
 </section>
 
@@ -930,6 +973,475 @@ const PHASE_TEMPLATES = {
   ],
 };
 
+const PHASE_TEMPLATES_ONLINE = {
+  USA: [
+    {
+      name:'Digital Foundation', tagline:'Google + Meta launch · audience building · email capture',
+      activities:[
+        'Google Search campaigns live: "engagement ring," "GIA certified diamond," "3 carat ring" — high-intent bridal terms',
+        'Instagram + Meta awareness: bridal, self-gifting, gifting-to-her audiences · women 28–50 USA-wide',
+        'Pinterest bridal boards + YouTube "how to choose a diamond" content series',
+        'Website conversion setup: GA4, Meta pixel, email/SMS sign-up flows, henigdiamonds.com US pages live',
+        'Micro-influencer briefings: 3–5 US-based creators, 50K–250K followers, bridal or luxury lifestyle',
+        'VR try-on feature for henigdiamonds.com — ring try-on before purchase, no app needed',
+      ],
+      channels:[
+        {name:'Google Search + Shopping', icon:'G', cls:'google-icon', costs:{low:30000,mid:80000,high:130000}},
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', costs:{low:25000,mid:67000,high:109000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:15000,mid:40000,high:65000}},
+        {name:'Email + SMS Marketing', icon:'E', cls:'esg-icon', costs:{low:7000,mid:19000,high:31000}},
+        {name:'Micro-Influencers', icon:'I', cls:'influencer-icon', costs:{low:7000,mid:19000,high:31000}},
+        {name:'Website + CRM + Analytics', icon:'X', cls:'prod-icon', costs:{low:5000,mid:13000,high:21000}},
+      ],
+      total:{low:89000,mid:238000,high:387000},
+      kpi:'≥ 5,000 email/SMS sign-ups; Google Search CTR ≥ 3%; Meta cost-per-click under $4',
+      kpiFail:'Pause Pinterest/YouTube; double down on Google Search + Meta retargeting',
+    },
+    {
+      name:'Demand Generation', tagline:'Retargeting · influencer activation · conversion push',
+      activities:[
+        'Scale top-performing Google + Meta audiences from Phase 1 data — ruthlessly cut underperformers',
+        'Macro influencer campaign: 1–2 partners with 500K–2M followers each — bridal or luxury lifestyle',
+        'Retargeting sequences: website visitors, video viewers, email list — move warm audiences to purchase',
+        'Self-purchasing women campaign: Meta Reels + Google Display, women 30–50, professional segments',
+        'Pinterest gift guide content at scale; YouTube testimonial + certification content',
+      ],
+      channels:[
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', costs:{low:35000,mid:95000,high:155000}},
+        {name:'Google Search + Shopping', icon:'G', cls:'google-icon', costs:{low:30000,mid:82000,high:133000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:16000,mid:43000,high:70000}},
+        {name:'Email + SMS Marketing', icon:'E', cls:'esg-icon', costs:{low:8000,mid:22000,high:36000}},
+        {name:'Micro + Macro Influencers', icon:'I', cls:'influencer-icon', costs:{low:9000,mid:24000,high:39000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:2000,mid:4000,high:6000}},
+      ],
+      total:{low:100000,mid:270000,high:439000},
+      kpi:'Cost-per-acquisition ≤ $180; ≥ 3% website conversion rate from paid traffic',
+      kpiFail:'Cut macro influencer; redirect to performance retargeting + Google Shopping',
+    },
+    {
+      name:'Peak Season', tagline:'Holiday · Christmas · Valentine\'s — maximum spend window',
+      activities:[
+        'Maximum paid-media: holiday, Christmas, Valentine\'s Day — highest consumer spend window of the year',
+        'Email gift guide sequences: holiday, Christmas, Boxing Day, Valentine\'s — fully automated',
+        'Meta Reels at full scale: self-gifting + gifting-to-her, holiday creative, countdown urgency',
+        'Google Shopping at peak budget: capture every high-intent purchase query',
+        'Pinterest holiday boards + YouTube "perfect engagement ring" series — warm audience conversion',
+        'SMS cart abandonment and gifting nudge sequences — highest ROI channel in this phase',
+      ],
+      channels:[
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', costs:{low:40000,mid:108000,high:176000}},
+        {name:'Google Search + Shopping', icon:'G', cls:'google-icon', costs:{low:33000,mid:87000,high:141000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:20000,mid:54000,high:88000}},
+        {name:'Email + SMS Marketing', icon:'E', cls:'esg-icon', costs:{low:11000,mid:30000,high:49000}},
+        {name:'Micro + Macro Influencers', icon:'I', cls:'influencer-icon', costs:{low:6000,mid:15000,high:24000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:2000,mid:6000,high:9000}},
+      ],
+      total:{low:112000,mid:300000,high:487000},
+      kpi:'Monthly revenue ≥ model; Black Friday + Christmas week conversion rate ≥ 4%',
+      kpiFail:'Cut YouTube/Pinterest; concentrate on Google Shopping + Meta retargeting only',
+    },
+    {
+      name:'Sustain + Review', tagline:'Steady state · Year 2 decision gates',
+      activities:[
+        'Steady-state paid media at 40% of peak spend — maintain brand presence through post-holiday period',
+        'Valentine\'s Day push in February if this phase covers it',
+        'Year-1 review: website revenue, email list size, cost-per-acquisition vs model, ROI vs target',
+        'Canada Luxury fast-follow decision gate (unlock if USA pipeline on-plan)',
+        'USA Mid-Luxury readiness check ($11.2B total addressable market if ROI ≥ 200%)',
+      ],
+      channels:[
+        {name:'Instagram + Meta', icon:'M', cls:'meta-icon', costs:{low:16000,mid:42000,high:68000}},
+        {name:'Google Search + Shopping', icon:'G', cls:'google-icon', costs:{low:14000,mid:38000,high:62000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:8000,mid:21000,high:34000}},
+        {name:'Email + SMS Marketing', icon:'E', cls:'esg-icon', costs:{low:4000,mid:10000,high:16000}},
+        {name:'Micro-Influencers', icon:'I', cls:'influencer-icon', costs:{low:2000,mid:5000,high:10000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:1000,mid:4000,high:5000}},
+      ],
+      total:{low:45000,mid:120000,high:195000},
+      kpi:'Year-1 ROI ≥ 60% of model midpoint; email list ≥ 15,000 subscribers',
+      kpiFail:'Hold Year 2 to USA Luxury sustain only; no Mid-Luxury launch',
+    },
+  ],
+
+  Germany: [
+    {
+      name:'Digital Foundation', tagline:'Google DE launch · ESG content · Meta awareness',
+      activities:[
+        'Google Search (DE) live: "konfliktfrei," "RJC zertifiziert," "Verlobungsring kaufen online" — high-intent German terms',
+        'henigdiamonds.com German pages: EU product data, ESG documentation, EUR pricing, German language',
+        'Craft influencer briefings: 3–5 German sustainability-credentialed creators, authenticity-first',
+        'ESG content strategy: EU April 2025 conflict-free compliance, Kimberley Process narrative, digital PR',
+        'Instagram + Meta: German luxury jewellery audiences, women 28–48, ESG-conscious',
+      ],
+      channels:[
+        {name:'Google Search (DE)', icon:'G', cls:'google-icon', costs:{low:4000,mid:10000,high:15000}},
+        {name:'Instagram + Meta (DE)', icon:'M', cls:'meta-icon', costs:{low:3000,mid:8000,high:12000}},
+        {name:'Pinterest + YouTube (DE)', icon:'Y', cls:'pinterest-icon', costs:{low:2000,mid:4000,high:6000}},
+        {name:'Craft Influencers (ESG)', icon:'I', cls:'influencer-icon', costs:{low:2000,mid:4000,high:6000}},
+        {name:'ESG Content + Digital PR', icon:'E', cls:'esg-icon', costs:{low:1000,mid:3000,high:4000}},
+        {name:'Website + DE Translation', icon:'X', cls:'prod-icon', costs:{low:2000,mid:5000,high:8000}},
+      ],
+      total:{low:14000,mid:34000,high:51000},
+      kpi:'German website pages live; ≥ 3 ESG influencer posts published; Google CTR ≥ 2.5%',
+      kpiFail:'Pause Meta; focus on Google Search + ESG content only',
+    },
+    {
+      name:'Content & Growth', tagline:'Scale winners · ESG retargeting · influencer expansion',
+      activities:[
+        'Scale top-performing Google DE + Meta audiences from Phase 1 — cut underperformers ruthlessly',
+        'ESG retargeting: website visitors who engaged with sustainability content — warm audience conversion',
+        'Expand craft influencer roster: 5–8 creators, sustainability + handcraft narrative, €200–€700/post',
+        'Pinterest DE boards: ethical diamond sourcing, ESG-first bridal inspiration content',
+        'Email capture via henigdiamonds.com German landing pages; SMS opt-in for German customers',
+      ],
+      channels:[
+        {name:'Google Search (DE)', icon:'G', cls:'google-icon', costs:{low:5000,mid:13000,high:20000}},
+        {name:'Instagram + Meta (DE)', icon:'M', cls:'meta-icon', costs:{low:4000,mid:11000,high:17000}},
+        {name:'Pinterest + YouTube (DE)', icon:'Y', cls:'pinterest-icon', costs:{low:2000,mid:6000,high:9000}},
+        {name:'Craft Influencers (ESG)', icon:'I', cls:'influencer-icon', costs:{low:3000,mid:7000,high:11000}},
+        {name:'ESG Content + Digital PR', icon:'E', cls:'esg-icon', costs:{low:1000,mid:3000,high:4000}},
+        {name:'Email + SMS (DE)', icon:'X', cls:'prod-icon', costs:{low:1000,mid:2000,high:3000}},
+      ],
+      total:{low:16000,mid:42000,high:64000},
+      kpi:'≥ 500 German email subscribers; Meta cost-per-click ≤ €3.50',
+      kpiFail:'Cut Pinterest; focus on Google + top 3 influencer accounts only',
+    },
+    {
+      name:'Holiday Peak', tagline:'German Christmas market peak · full ESG content scale',
+      activities:[
+        'German Christmas (Weihnachten) peak: maximum paid media for Germany\'s biggest gifting season',
+        'Full ESG content at scale: EU regulations compliance, conflict-free diamond narrative at peak reach',
+        'Meta Reels: German ESG-conscious luxury buyers, holiday creative, ethical gifting positioning',
+        'Pinterest holiday boards in German: ethical Christmas gift ideas, diamond ring inspiration',
+        'Email gift guide sequences in German: Weihnachten, Valentine\'s Day — automated nurture sequences',
+      ],
+      channels:[
+        {name:'Google Search (DE)', icon:'G', cls:'google-icon', costs:{low:7000,mid:18000,high:28000}},
+        {name:'Instagram + Meta (DE)', icon:'M', cls:'meta-icon', costs:{low:6000,mid:16000,high:25000}},
+        {name:'Pinterest + YouTube (DE)', icon:'Y', cls:'pinterest-icon', costs:{low:3000,mid:8000,high:13000}},
+        {name:'Craft Influencers (ESG)', icon:'I', cls:'influencer-icon', costs:{low:3000,mid:8000,high:13000}},
+        {name:'ESG Content + Digital PR', icon:'E', cls:'esg-icon', costs:{low:1000,mid:3000,high:5000}},
+        {name:'Email + SMS (DE)', icon:'X', cls:'prod-icon', costs:{low:1000,mid:2000,high:3000}},
+      ],
+      total:{low:21000,mid:55000,high:87000},
+      kpi:'Christmas peak revenue on-model; website conversion rate ≥ 2.5%',
+      kpiFail:'Pause influencers; focus budget on Google Shopping + Meta retargeting',
+    },
+    {
+      name:'Sustain + Review', tagline:'Steady state · Year 2 Germany Mid-Luxury gate',
+      activities:[
+        'Steady-state paid media at reduced spend — maintain ESG brand presence',
+        'Year-1 review: Germany online ROI, Google DE performance, influencer attribution',
+        'Valentine\'s Day push in February if in this phase window',
+        'Year-2 decision: Germany Mid-Luxury tier or scale Luxury first?',
+        'Feed Germany ESG learnings to France and Ireland entry strategy',
+      ],
+      channels:[
+        {name:'Google Search (DE)', icon:'G', cls:'google-icon', costs:{low:5000,mid:13000,high:20000}},
+        {name:'Instagram + Meta (DE)', icon:'M', cls:'meta-icon', costs:{low:4000,mid:10000,high:15000}},
+        {name:'Pinterest + YouTube (DE)', icon:'Y', cls:'pinterest-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'Craft Influencers (ESG)', icon:'I', cls:'influencer-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'ESG Content + Digital PR', icon:'E', cls:'esg-icon', costs:{low:1000,mid:2000,high:3000}},
+        {name:'Email + SMS (DE)', icon:'X', cls:'prod-icon', costs:{low:1000,mid:1000,high:1000}},
+      ],
+      total:{low:15000,mid:36000,high:55000},
+      kpi:'Year-1 Germany ROI confirmed; Year 2 decision gate passed',
+      kpiFail:'Hold at Luxury sustain only; delay Mid-Luxury launch to Year 3',
+    },
+  ],
+
+  France: [
+    {
+      name:'Foundation', tagline:'Google FR launch · Instagram · ESG micro-influencers',
+      activities:[
+        'Google Search (FR) live: "bague sur mesure," "diamant certifié GIA," "bijou provenance" — high-intent French terms',
+        'henigdiamonds.com French pages: EU product data, bespoke customisation, EUR pricing',
+        'Meta/Instagram launch: ESG-conscious French women 28–45, haute couture narrative',
+        'ESG micro-influencer partnerships: sustainability + provenance story, €200–€500/post',
+        'Pinterest FR inspiration boards: bespoke ring design, ethical French luxury aesthetic',
+      ],
+      channels:[
+        {name:'Google Search (FR)', icon:'G', cls:'google-icon', costs:{low:8000,mid:17000,high:26000}},
+        {name:'Instagram + Meta (FR)', icon:'M', cls:'meta-icon', costs:{low:7000,mid:15000,high:24000}},
+        {name:'ESG Micro-Influencers', icon:'I', cls:'influencer-icon', costs:{low:4000,mid:8000,high:12000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'Email + SMS (FR)', icon:'E', cls:'esg-icon', costs:{low:2000,mid:4000,high:6000}},
+        {name:'Website + FR Translation', icon:'X', cls:'prod-icon', costs:{low:1000,mid:2000,high:3000}},
+      ],
+      total:{low:24000,mid:51000,high:79000},
+      kpi:'French pages live; ≥ 3 ESG influencer posts; Google FR CTR ≥ 2%',
+      kpiFail:'Pause Pinterest; focus on Google Search + Meta only',
+    },
+    {
+      name:'Activation', tagline:'Scale Meta · influencer expansion · retargeting',
+      activities:[
+        'Meta/Instagram campaign scaled: ESG-conscious women 28–45, self-gifting + bridal narrative',
+        'Retargeting sequences: French website visitors, ESG content engagers — warm audience conversion',
+        'Expand micro-influencer partnerships: 5–8 French creators, sustainability + provenance story',
+        'Pinterest FR gift boards + YouTube: bespoke ring inspiration, personalisation stories',
+        'Email nurture sequences for French subscribers: haute couture narrative, ethical sourcing content',
+      ],
+      channels:[
+        {name:'Google Search (FR)', icon:'G', cls:'google-icon', costs:{low:9000,mid:19000,high:29000}},
+        {name:'Instagram + Meta (FR)', icon:'M', cls:'meta-icon', costs:{low:8000,mid:18000,high:27000}},
+        {name:'ESG Micro-Influencers', icon:'I', cls:'influencer-icon', costs:{low:5000,mid:10000,high:16000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:3000,mid:6000,high:9000}},
+        {name:'Email + SMS (FR)', icon:'E', cls:'esg-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:0,mid:1000,high:1000}},
+      ],
+      total:{low:27000,mid:59000,high:90000},
+      kpi:'≥ 400 French email subscribers; Meta CPM ≤ €20; conversion rate ≥ 2%',
+      kpiFail:'Pivot fully to direct website sales; increase Meta retargeting budget',
+    },
+    {
+      name:'Amplify', tagline:'Holiday peak + Fashion Week digital presence',
+      activities:[
+        'Holiday + New Year peak: full paid-media at scale — Christmas and New Year gifting',
+        'Paris Fashion Week (January) digital content: buyer + press visibility, brand story amplification',
+        'Self-gifting professional women campaign: Meta + Google, women 28–45',
+        'Pinterest + YouTube at scale: bespoke ring inspiration, personalisation, French holiday creative',
+        'Email and SMS gift guide sequences in French: Christmas, New Year, Valentine\'s Day',
+      ],
+      channels:[
+        {name:'Google Search (FR)', icon:'G', cls:'google-icon', costs:{low:8000,mid:18000,high:27000}},
+        {name:'Instagram + Meta (FR)', icon:'M', cls:'meta-icon', costs:{low:9000,mid:20000,high:31000}},
+        {name:'ESG Micro-Influencers', icon:'I', cls:'influencer-icon', costs:{low:4000,mid:9000,high:14000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:4000,mid:9000,high:14000}},
+        {name:'Email + SMS (FR)', icon:'E', cls:'esg-icon', costs:{low:3000,mid:6000,high:9000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:1000,mid:1000,high:2000}},
+      ],
+      total:{low:29000,mid:63000,high:97000},
+      kpi:'First direct website sales from French traffic; monthly revenue on target',
+      kpiFail:'Redirect to Meta retargeting only; pause YouTube + Pinterest',
+    },
+    {
+      name:'Sustain + Year 2', tagline:'Steady state · Year 2 expansion gate',
+      activities:[
+        'Steady-state paid media: Meta + Google at reduced spend — maintain French brand presence',
+        'Year-1 review: France online ROI, influencer attribution, email list growth',
+        'Valentine\'s Day push in February if in this phase window',
+        'Year-2 decision: France Mid-Luxury expansion or Ireland follow-on first?',
+        'Feed France learnings into Germany and USA second-year plans',
+      ],
+      channels:[
+        {name:'Google Search (FR)', icon:'G', cls:'google-icon', costs:{low:9000,mid:19000,high:30000}},
+        {name:'Instagram + Meta (FR)', icon:'M', cls:'meta-icon', costs:{low:8000,mid:18000,high:28000}},
+        {name:'ESG Micro-Influencers', icon:'I', cls:'influencer-icon', costs:{low:4000,mid:9000,high:14000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:3000,mid:8000,high:12000}},
+        {name:'Email + SMS (FR)', icon:'E', cls:'esg-icon', costs:{low:3000,mid:6000,high:9000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:1000,mid:1000,high:1000}},
+      ],
+      total:{low:28000,mid:61000,high:94000},
+      kpi:'Year-1 France ROI confirmed; Year 2 decision gate passed',
+      kpiFail:'Hold France at sustain-only; prioritise Germany Mid-Luxury instead',
+    },
+  ],
+
+  Canada: [
+    {
+      name:'Foundation', tagline:'USA fast-follow digital launch · Meta + Google CA',
+      activities:[
+        'Mirror USA digital strategy: Google Search (CA) + Meta campaigns live — same creative, CAD pricing',
+        'henigdiamonds.com Canada pages: CAD pricing, Canadian returns policy, GIA narrative',
+        'Meta/Instagram: Canadian luxury bridal + gifting audiences, women 28–48, Toronto + Vancouver',
+        'Pinterest discovery campaigns: $1.5–$3 CPC, Canadian gift-shopper audiences',
+        'Lab-grown diamond dual-range positioning: ~50% LGD penetration in Canada — lead with choice',
+        'Email + SMS sign-up flows for Canadian visitors',
+      ],
+      channels:[
+        {name:'Instagram + Meta (CA)', icon:'M', cls:'meta-icon', costs:{low:11000,mid:24000,high:37000}},
+        {name:'Google Search (CA)', icon:'G', cls:'google-icon', costs:{low:8000,mid:17000,high:26000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:4000,mid:8000,high:12000}},
+        {name:'Micro-Influencers (CA)', icon:'I', cls:'influencer-icon', costs:{low:3000,mid:7000,high:11000}},
+        {name:'Email + SMS (CA)', icon:'E', cls:'esg-icon', costs:{low:1000,mid:3000,high:5000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:1000,mid:2000,high:3000}},
+      ],
+      total:{low:28000,mid:61000,high:94000},
+      kpi:'≥ 500 Canadian email sign-ups; Google CA CTR ≥ 3%; Meta CPC ≤ CAD $4',
+      kpiFail:'Delay influencers; shift to Meta + Google performance only',
+    },
+    {
+      name:'Activation', tagline:'Retargeting · scale winners · bridal push',
+      activities:[
+        'Scale top-performing Meta + Google CA audiences from Phase 1 — mirror USA Phase 2 creative',
+        'Lab-grown diamond campaign: both natural and LGD options, choice-first messaging',
+        'Instagram/Meta bridal campaign directly mirrors USA Phase 2 creative — repurpose assets',
+        'Pinterest discovery at scale: bridal boards, holiday gift inspiration for Canadian market',
+        'Retargeting sequences: Canadian website visitors and video viewers — warm conversion',
+      ],
+      channels:[
+        {name:'Instagram + Meta (CA)', icon:'M', cls:'meta-icon', costs:{low:12000,mid:26000,high:40000}},
+        {name:'Google Search (CA)', icon:'G', cls:'google-icon', costs:{low:9000,mid:19000,high:30000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:5000,mid:11000,high:17000}},
+        {name:'Micro-Influencers (CA)', icon:'I', cls:'influencer-icon', costs:{low:4000,mid:9000,high:14000}},
+        {name:'Email + SMS (CA)', icon:'E', cls:'esg-icon', costs:{low:2000,mid:4000,high:6000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:0,mid:1000,high:1000}},
+      ],
+      total:{low:32000,mid:70000,high:108000},
+      kpi:'≥ 1,500 Canadian email subscribers; conversion rate ≥ 2.5%',
+      kpiFail:'Redirect to digital-only performance; cut influencer budget in half',
+    },
+    {
+      name:'Peak Season', tagline:'Christmas · Boxing Day · Valentine\'s — mirrors USA',
+      activities:[
+        'Christmas + Valentine\'s push: mirrors USA Phase 3 in scale and creative — CAD pricing throughout',
+        'Boxing Day (December 26) campaign: uniquely Canadian gifting moment — email + SMS urgency',
+        'Self-purchasing professional women: Meta + Google, women 30–45, Toronto + Vancouver focus',
+        'Pinterest holiday boards: CAD pricing, Canadian aesthetic + lifestyle imagery',
+        'Email gift guide sequences: Christmas, Boxing Day, Valentine\'s — fully automated',
+      ],
+      channels:[
+        {name:'Instagram + Meta (CA)', icon:'M', cls:'meta-icon', costs:{low:12000,mid:26000,high:40000}},
+        {name:'Google Search (CA)', icon:'G', cls:'google-icon', costs:{low:8000,mid:17000,high:26000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:5000,mid:11000,high:17000}},
+        {name:'Micro-Influencers (CA)', icon:'I', cls:'influencer-icon', costs:{low:4000,mid:9000,high:14000}},
+        {name:'Email + SMS (CA)', icon:'E', cls:'esg-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'Website + CRM', icon:'X', cls:'prod-icon', costs:{low:1000,mid:2000,high:3000}},
+      ],
+      total:{low:32000,mid:70000,high:108000},
+      kpi:'Monthly revenue tracking to Canada fast-follow model; Boxing Day email open rate ≥ 30%',
+      kpiFail:'Defer Canada Mid-Luxury; sustain current digital relationships only',
+    },
+    {
+      name:'Sustain + Review', tagline:'Year 2 Canada Mid-Luxury decision',
+      activities:[
+        'Post-holiday steady-state: Meta + Google CA at reduced spend',
+        'Year-1 review: Canada vs USA fast-follow model — is the lag tracking correctly?',
+        'Valentine\'s Day push in February if in this phase window',
+        'Year-2 decision: Canada Mid-Luxury expansion ($216K incremental digital spend; $0.83B total addressable market)',
+        'Feed Canada learnings back to USA Phase 2 year-over-year optimisation',
+      ],
+      channels:[
+        {name:'Instagram + Meta (CA)', icon:'M', cls:'meta-icon', costs:{low:6000,mid:13000,high:20000}},
+        {name:'Google Search (CA)', icon:'G', cls:'google-icon', costs:{low:5000,mid:10000,high:15000}},
+        {name:'Pinterest + YouTube', icon:'Y', cls:'pinterest-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'Micro-Influencers (CA)', icon:'I', cls:'influencer-icon', costs:{low:2000,mid:3000,high:5000}},
+        {name:'Email + SMS (CA)', icon:'E', cls:'esg-icon', costs:{low:1000,mid:2000,high:2000}},
+      ],
+      total:{low:16000,mid:33000,high:50000},
+      kpi:'Year-1 Canada ROI confirmed vs fast-follow model; Y2 Mid-Luxury decision made',
+      kpiFail:'Hold Canada at Luxury-only sustain; reassess Mid-Luxury case in 6 months',
+    },
+  ],
+
+  Ireland: [
+    {
+      name:'Foundation', tagline:'Meta-first · Celtic narrative · Dublin digital launch',
+      activities:[
+        'Meta/Instagram live: Celtic fine jewellery + Hatton Garden provenance narrative',
+        'Google Search (IE): "natural diamond Ireland," "ethical jewellery Dublin," Celtic ring terms',
+        'Micro-influencer partnerships: 3–5 Irish-based creators, €150–€400/post',
+        'henigdiamonds.com Ireland pages: EUR pricing, Celtic narrative, Irish shipping + returns',
+        'Email + SMS sign-up flows for Irish visitors — highest EU e-commerce rate (30%)',
+      ],
+      channels:[
+        {name:'Instagram + Meta (IE)', icon:'M', cls:'meta-icon', costs:{low:5000,mid:11000,high:17000}},
+        {name:'Google Search + Shopping (IE)', icon:'G', cls:'google-icon', costs:{low:3000,mid:8000,high:12000}},
+        {name:'Micro-Influencers (IE)', icon:'I', cls:'influencer-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'Pinterest', icon:'Y', cls:'pinterest-icon', costs:{low:1000,mid:2000,high:3000}},
+        {name:'Email + SMS (IE)', icon:'E', cls:'esg-icon', costs:{low:1000,mid:1000,high:2000}},
+      ],
+      total:{low:12000,mid:27000,high:42000},
+      kpi:'≥ 3 Irish influencer posts live; Google IE CTR ≥ 2.5%; ≥ 150 email sign-ups',
+      kpiFail:'Pause Pinterest; double down on Meta + micro-influencers only',
+    },
+    {
+      name:'Activation', tagline:'Meta Reels · Google Shopping · post-Brexit narrative',
+      activities:[
+        'Meta Reels campaign: Celtic ring designs + Hatton Garden provenance story at scale',
+        'Post-Brexit positioning: Irish buyers shifting away from Italian supply chain — Henig as alternative',
+        'Google Shopping live for direct website conversions — Ireland has 30% e-commerce rate',
+        'Influencer expansion: 5–7 Irish creators, Celtic lifestyle + ethical luxury niche',
+        'Retargeting: Irish website visitors and video viewers — warm audience conversion',
+      ],
+      channels:[
+        {name:'Instagram + Meta (IE)', icon:'M', cls:'meta-icon', costs:{low:5000,mid:12000,high:18000}},
+        {name:'Google Search + Shopping (IE)', icon:'G', cls:'google-icon', costs:{low:4000,mid:8000,high:13000}},
+        {name:'Micro-Influencers (IE)', icon:'I', cls:'influencer-icon', costs:{low:2000,mid:4000,high:7000}},
+        {name:'Pinterest', icon:'Y', cls:'pinterest-icon', costs:{low:1000,mid:2000,high:4000}},
+        {name:'Email + SMS (IE)', icon:'E', cls:'esg-icon', costs:{low:0,mid:2000,high:2000}},
+      ],
+      total:{low:12000,mid:28000,high:44000},
+      kpi:'First direct website sales; Google Shopping ROAS ≥ 3×',
+      kpiFail:'Pivot fully to direct website + social commerce; increase Meta budget',
+    },
+    {
+      name:'Peak Season', tagline:'Christmas · holiday digital push · Valentine\'s',
+      activities:[
+        'Christmas + Valentine\'s peak: full digital push within Ireland\'s small but fast-growing market',
+        'Influencer gift guide content: Christmas selections, "best rings under €X" editorial',
+        'Google Shopping at maximum spend for direct henigdiamonds.com conversions',
+        'Pinterest + Meta holiday campaigns: Celtic + premium provenance creative',
+        'Email + SMS sequences: cart abandonment, gifting nudges, Boxing Day',
+      ],
+      channels:[
+        {name:'Instagram + Meta (IE)', icon:'M', cls:'meta-icon', costs:{low:5000,mid:12000,high:19000}},
+        {name:'Google Search + Shopping (IE)', icon:'G', cls:'google-icon', costs:{low:4000,mid:8000,high:13000}},
+        {name:'Micro-Influencers (IE)', icon:'I', cls:'influencer-icon', costs:{low:2000,mid:5000,high:8000}},
+        {name:'Pinterest', icon:'Y', cls:'pinterest-icon', costs:{low:1000,mid:3000,high:5000}},
+        {name:'Email + SMS (IE)', icon:'E', cls:'esg-icon', costs:{low:1000,mid:2000,high:2000}},
+      ],
+      total:{low:13000,mid:30000,high:47000},
+      kpi:'First direct website sales; holiday season conversion rate ≥ 3%',
+      kpiFail:'Pause Pinterest; redirect to Meta + Google Shopping only',
+    },
+    {
+      name:'Sustain + Review', tagline:'EU proof-of-concept · Year 2 decision',
+      activities:[
+        'Post-holiday digital sustain: Meta + Google at reduced steady-state spend',
+        'Ireland Year-1 review: EU proof-of-concept vs Germany/France investment scale',
+        'Valentine\'s Day push in February if in this phase window',
+        'Year-2 decision: Ireland Mid-Luxury tier or scale up Luxury first?',
+        'Feed learnings to France/Germany entry strategy for Year 2',
+      ],
+      channels:[
+        {name:'Instagram + Meta (IE)', icon:'M', cls:'meta-icon', costs:{low:4000,mid:10000,high:15000}},
+        {name:'Google Search + Shopping (IE)', icon:'G', cls:'google-icon', costs:{low:3000,mid:7000,high:11000}},
+        {name:'Micro-Influencers (IE)', icon:'I', cls:'influencer-icon', costs:{low:2000,mid:4000,high:6000}},
+        {name:'Pinterest', icon:'Y', cls:'pinterest-icon', costs:{low:1000,mid:2000,high:3000}},
+      ],
+      total:{low:10000,mid:23000,high:35000},
+      kpi:'Ireland Year-1 ROI: EU proof-of-concept confirmed',
+      kpiFail:'Close Ireland; redirect budget to Germany or France direct entry',
+    },
+  ],
+};
+
+const TARGET_EVENTS_ONLINE = {
+  USA: [
+    {id:'holiday', label:'Holiday Peak — Nov–Dec',          month:12, leadMonths:7, badge:'★ Peak season'},
+    {id:'valentines',label:"Valentine's Day — February",   month:2,  leadMonths:9, badge:'♥ Gifting peak'},
+    {id:'mothers', label:"Mother's Day — May",              month:5,  leadMonths:9, badge:'♡ Gifting peak'},
+    {id:'engagement',label:'Engagement Season — Jul',      month:7,  leadMonths:3, badge:'💍 Bridal season'},
+    {id:'custom',  label:'Custom / Other festival...',      month:null,leadMonths:null, badge:''},
+  ],
+  Germany: [
+    {id:'holiday_de',label:'Holiday Season — December',    month:12, leadMonths:7, badge:'★ Peak season'},
+    {id:'spring_de', label:'Spring / ESG Launch — April',  month:4,  leadMonths:9, badge:'✓ ESG regulation'},
+    {id:'valentines_de',label:"Valentine's Day — February",month:2, leadMonths:9, badge:'♥ Gifting peak'},
+    {id:'custom_de', label:'Custom / Other festival...',   month:null,leadMonths:null, badge:''},
+  ],
+  France: [
+    {id:'christmas_fr',label:'Christmas Season — December',month:12, leadMonths:7, badge:'★ Peak season'},
+    {id:'valentines_fr',label:"Valentine's Day — February",month:2, leadMonths:9, badge:'♥ Gifting peak'},
+    {id:'pfw_jan', label:'Paris Fashion Week — January',   month:1,  leadMonths:4, badge:'✦ Fashion Week'},
+    {id:'custom_fr', label:'Custom / Other festival...',   month:null,leadMonths:null, badge:''},
+  ],
+  Canada: [
+    {id:'christmas_ca',label:'Christmas Season — December',month:12, leadMonths:7, badge:'★ Peak season'},
+    {id:'valentines_ca',label:"Valentine's Day — February",month:2, leadMonths:9, badge:'♥ Gifting peak'},
+    {id:'boxing',    label:'Boxing Day — December 26',     month:12, leadMonths:7, badge:'🛍 Boxing Day'},
+    {id:'mothers_ca',label:"Mother's Day — May",           month:5,  leadMonths:9, badge:'♡ Gifting peak'},
+    {id:'custom_ca', label:'Custom / Other festival...',   month:null,leadMonths:null, badge:''},
+  ],
+  Ireland: [
+    {id:'christmas_ie',label:'Christmas Season — December',month:12, leadMonths:7, badge:'★ Peak season'},
+    {id:'valentines_ie',label:"Valentine's Day — February",month:2, leadMonths:9, badge:'♥ Gifting peak'},
+    {id:'spring_ie', label:'Spring Launch — April',        month:4,  leadMonths:9, badge:'🌱 New season'},
+    {id:'custom_ie', label:'Custom / Other festival...',   month:null,leadMonths:null, badge:''},
+  ],
+};
+
 /* Target events per country */
 const TARGET_EVENTS = {
   USA: [
@@ -1042,6 +1554,19 @@ function clearPhaseOverrides() {
   });
 }
 
+let viewMode = 'ideal'; // 'ideal' | 'customize'
+
+function setMode(mode) {
+  viewMode = mode;
+  clearPhaseOverrides();
+  document.getElementById('btn-ideal').classList.toggle('mode-active', mode === 'ideal');
+  document.getElementById('btn-customize').classList.toggle('mode-active', mode === 'customize');
+  // Show/hide customize hint
+  const hint = document.getElementById('customize-hint');
+  if (hint) hint.style.display = mode === 'customize' ? 'block' : 'none';
+  render();
+}
+
 /* ── ROI MODEL ───────────────────────────────────────────────────
    Revenue / spend multiplier per phase, calibrated for Year 1 launch:
    Phase 1 Foundation  → 1.25× (investment phase, expected -50% ROI)
@@ -1062,7 +1587,7 @@ function computePhaseROI(pi, spend, country) {
   const score     = parseFloat(meta.score) || 7.0;
   const asp       = parseInt((meta.asp || '$3500').replace(/[^0-9]/g, '')) || 3500;
   const scoreAdj  = score / 9.3;
-  const ph        = PHASE_TEMPLATES[country][pi];
+  const ph        = PHASE_TEMPLATES_ONLINE[country][pi];
   const modelSpend = Math.round(ph.total[currentBudget] * getPhaseRatio(pi, country));
 
   if (!spend || spend <= 0 || !modelSpend) {
@@ -1091,11 +1616,115 @@ function computePhaseROI(pi, spend, country) {
 
 function getCurrentSpend(country, pi) {
   const cached = modelCostCache[`${country}_${pi}`];
-  if (!cached) return Math.round(PHASE_TEMPLATES[country][pi].total[currentBudget] * getPhaseRatio(pi, country));
+  if (!cached) return Math.round(PHASE_TEMPLATES_ONLINE[country][pi].total[currentBudget] * getPhaseRatio(pi, country));
   return cached.reduce((sum, ch, ci) => {
     const ov = channelOverrides[`${country}_${pi}_${ci}`];
     return sum + (ov !== undefined ? ov : ch.modelCost);
   }, 0);
+}
+
+function buildDimGraph(country, pi, currentSpend) {
+  const meta = getSegMeta(country);
+  const margin = getPhaseMargin(country, pi) / 100;
+  const score = parseFloat(meta.score) || 7.0;
+  const scoreAdj = score / 9.3;
+  const ph = PHASE_TEMPLATES_ONLINE[country][pi];
+  const modelSpend = Math.round(ph.total[currentBudget] * getPhaseRatio(pi, country));
+  if (!modelSpend) return '';
+
+  const W = 400, H = 110, padL = 44, padR = 12, padT = 12, padB = 28;
+  const chartW = W - padL - padR;
+  const chartH = H - padT - padB;
+
+  // Compute ROI values across spend range 0.1× to 3× model
+  const steps = 60;
+  const maxX = modelSpend * 3;
+  const points = [];
+  for (let s = 0; s <= steps; s++) {
+    const sp = Math.max(modelSpend * 0.05, (s / steps) * maxX);
+    const eff = Math.pow(sp / modelSpend, 0.65);
+    const rev = modelSpend * PHASE_REV_MULT[pi] * scoreAdj * eff;
+    const gp  = rev * margin;
+    const roi = ((gp - sp) / sp) * 100;
+    points.push({ sp, roi });
+  }
+
+  const roiValues = points.map(p => p.roi);
+  const minROI = Math.max(-120, Math.min(...roiValues));
+  const maxROI = Math.min(120, Math.max(...roiValues));
+  const roiRange = maxROI - minROI || 1;
+
+  function toX(sp) { return padL + (sp / maxX) * chartW; }
+  function toY(roi) { return padT + (1 - (roi - minROI) / roiRange) * chartH; }
+
+  // SVG path
+  const pathPts = points.map((p, idx) => `${idx === 0 ? 'M' : 'L'}${toX(p.sp).toFixed(1)},${toY(p.roi).toFixed(1)}`).join(' ');
+
+  // Fill path (area under curve to zero line)
+  const zeroY = toY(0).toFixed(1);
+  const fillPath = `${pathPts} L${toX(maxX).toFixed(1)},${zeroY} L${toX(0).toFixed(1)},${zeroY} Z`;
+
+  // Zero line Y
+  const y0 = toY(0);
+  const showZeroLine = y0 > padT && y0 < padT + chartH;
+
+  // Current spend marker
+  const cxRaw = toX(Math.min(currentSpend, maxX));
+  const cx = Math.max(padL, Math.min(padL + chartW, cxRaw));
+  const currentROI = (() => {
+    if (!currentSpend || currentSpend < modelSpend * 0.05) return minROI;
+    const eff = Math.pow(currentSpend / modelSpend, 0.65);
+    const rev = modelSpend * PHASE_REV_MULT[pi] * scoreAdj * eff;
+    return ((rev * margin - currentSpend) / currentSpend) * 100;
+  })();
+  const cy = Math.max(padT, Math.min(padT + chartH, toY(currentROI)));
+
+  // Model spend marker
+  const mx = toX(modelSpend);
+
+  // Y axis labels
+  const yLabels = [];
+  const step = roiRange > 150 ? 50 : roiRange > 80 ? 40 : roiRange > 40 ? 20 : 10;
+  const startV = Math.ceil(minROI / step) * step;
+  for (let v = startV; v <= maxROI + 1; v += step) {
+    const y = toY(v);
+    if (y >= padT - 2 && y <= padT + chartH + 2) {
+      yLabels.push({ v, y });
+    }
+  }
+
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="dimFill${pi}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.15"/>
+        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.02"/>
+      </linearGradient>
+      <clipPath id="chartClip${pi}">
+        <rect x="${padL}" y="${padT}" width="${chartW}" height="${chartH}"/>
+      </clipPath>
+    </defs>
+
+    ${yLabels.map(l => `
+      <line x1="${padL}" y1="${l.y.toFixed(1)}" x2="${padL+chartW}" y2="${l.y.toFixed(1)}" stroke="var(--border)" stroke-width="0.5"/>
+      <text x="${padL-4}" y="${(l.y+3.5).toFixed(1)}" text-anchor="end" font-size="8" fill="var(--ink-3)">${l.v > 0 ? '+' : ''}${l.v}%</text>
+    `).join('')}
+
+    ${showZeroLine ? `<line x1="${padL}" y1="${y0.toFixed(1)}" x2="${padL+chartW}" y2="${y0.toFixed(1)}" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="3,2"/>` : ''}
+
+    <path d="${fillPath}" fill="url(#dimFill${pi})" clip-path="url(#chartClip${pi})"/>
+    <path d="${pathPts}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#chartClip${pi})"/>
+
+    <line x1="${mx.toFixed(1)}" y1="${padT}" x2="${mx.toFixed(1)}" y2="${padT+chartH}" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+    <text x="${mx.toFixed(1)}" y="${(padT+chartH+10).toFixed(1)}" text-anchor="middle" font-size="8" fill="var(--ink-3)">Model</text>
+
+    ${currentSpend > 0 ? `
+      <line x1="${cx.toFixed(1)}" y1="${padT}" x2="${cx.toFixed(1)}" y2="${padT+chartH}" stroke="var(--accent)" stroke-width="1.5" opacity="0.8"/>
+      <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="4" fill="var(--accent)" stroke="white" stroke-width="1.5"/>
+    ` : ''}
+
+    <text x="${padL-2}" y="${padT-3}" text-anchor="end" font-size="7.5" fill="var(--ink-3)">ROI</text>
+    <text x="${(padL+chartW/2).toFixed(0)}" y="${H-2}" text-anchor="middle" font-size="8" fill="var(--ink-3)">← Spend →</text>
+  </svg>`;
 }
 
 function buildROIInner(country, pi) {
@@ -1106,30 +1735,28 @@ function buildROIInner(country, pi) {
   const roiCls  = roi.roi >= 0 ? 'green' : roi.roi >= -40 ? 'amber' : 'red';
   const roiSign = roi.roi >= 0 ? '+' : '';
 
-  let beNote, suggestBtn;
+  let beNote;
   if (roi.insufficient) {
     beNote = '<span style="color:var(--ruby);">⚠ Spend too low for meaningful market reach</span>';
-    suggestBtn = `<button class="roi-suggest-btn" onclick="applyPathToROI('${country}',${pi})">→ Apply breakeven spend</button>`;
   } else if (roi.roi >= 0) {
     beNote = `<span style="color:var(--emerald);">✓ Profitable — break even at <strong>${roi.breakevenSpend ? fmt(roi.breakevenSpend) : '—'}</strong></span>`;
-    suggestBtn = `<button class="roi-suggest-btn profitable" disabled>✓ Profitable</button>`;
   } else if (roi.breakevenSpend) {
-    const targetSpend = Math.round(roi.breakevenSpend * 1.12);
     beNote = `Break-even: reach <strong>${fmt(roi.breakevenSpend)}</strong> to turn positive`;
-    suggestBtn = `<button class="roi-suggest-btn" onclick="applyPathToROI('${country}',${pi})">→ Apply breakeven spend (${fmt(targetSpend)})</button>`;
   } else {
     beNote = 'Break-even requires more than 8× model spend — focus on phase optimisation';
-    suggestBtn = `<button class="roi-suggest-btn unreachable" disabled>↑ Increase model spend</button>`;
   }
+
+  const dimGraph = buildDimGraph(country, pi, spend);
 
   return `
   <div class="phase-roi-header">
-    <span class="phase-roi-title">◆ ROI Simulator — drag channels to explore scenarios</span>
-    <button class="phase-roi-reset" onclick="resetPhase('${country}',${pi})">↺ Reset to model</button>
+    <span class="phase-roi-title">◆ ROI Simulator${viewMode === 'ideal' ? ' — ideal scenario' : ' — drag channels to explore'}</span>
+    ${viewMode === 'customize' ? `<button class="phase-roi-reset" onclick="resetPhase('${country}',${pi})">↺ Reset to ideal</button>` : ''}
   </div>
   <div class="phase-roi-margin">
     <span style="flex-shrink:0;">Gross margin</span>
     <input type="range" min="20" max="65" value="${margin}" step="1"
+           ${viewMode === 'ideal' ? 'disabled style="opacity:0.5;pointer-events:none;"' : ''}
            oninput="onPhaseMargin('${country}',${pi},this.value)">
     <span id="pmargin-${pi}" style="min-width:32px;font-weight:500;color:var(--ink);">${margin}%</span>
   </div>
@@ -1159,7 +1786,11 @@ function buildROIInner(country, pi) {
       <div class="roi-stat-lbl">Avg Sales</div>
     </div>
   </div>
-  <div class="roi-breakeven">${beNote}${suggestBtn}</div>`;
+  <div class="roi-breakeven">${beNote}</div>
+  <div class="dim-graph-wrap">
+    <div class="dim-graph-label">Diminishing returns — ROI vs. spend</div>
+    ${dimGraph}
+  </div>`;
 }
 
 function refreshPhaseROI(country, pi) {
@@ -1307,8 +1938,8 @@ function render() {
   const baseMeta = COUNTRY_META[currentCountry];
   const segData  = getSegMeta(currentCountry);
   const meta     = { ...baseMeta, ...segData };
-  const phases   = PHASE_TEMPLATES[currentCountry];
-  const events = TARGET_EVENTS[currentCountry];
+  const phases   = PHASE_TEMPLATES_ONLINE[currentCountry];
+  const events = TARGET_EVENTS_ONLINE[currentCountry];
 
   // Resolve current event
   let ev = events.find(e => e.id === document.getElementById('eventSel').value);
@@ -1388,29 +2019,40 @@ function render() {
     // Cache model costs so sliders can reference them
     modelCostCache[`${currentCountry}_${i}`] = channels.map(ch => ({ name: ch.name, modelCost: ch.cost }));
 
-    const chRows = channels.map((ch, ci) => {
-      const ov   = channelOverrides[`${currentCountry}_${i}_${ci}`];
-      const cost = ov !== undefined ? ov : ch.cost;
-      // Relative bar: compare against all current costs (including overrides)
-      const allC = channels.map((c, idx) => { const o = channelOverrides[`${currentCountry}_${i}_${idx}`]; return o !== undefined ? o : c.cost; });
-      const maxC = Math.max(...allC);
-      const pct  = maxC > 0 ? Math.round((cost / maxC) * 100) : 0;
-      const slMax  = Math.round(ch.cost * 3);
-      const slStep = ch.cost >= 50000 ? 5000 : ch.cost >= 10000 ? 1000 : ch.cost >= 2000 ? 500 : 100;
-      const fillPct = slMax > 0 ? Math.round((cost / slMax) * 100) : 0;
-      const slBg = `linear-gradient(to right, var(--accent) ${fillPct}%, var(--surface-2) ${fillPct}%)`;
-      return `<div class="channel-row">
-        <div class="ch-icon ${ch.cls}">${ch.icon}</div>
-        <div class="ch-info">
-          <div class="ch-name">${ch.name}</div>
-          <input type="range" class="ch-slider" id="ch-slider-${i}-${ci}"
-                 min="0" max="${slMax}" step="${slStep}" value="${cost}"
-                 style="background:${slBg}"
-                 oninput="onChSlider('${currentCountry}',${i},${ci},this.value)">
-        </div>
-        <div class="ch-cost" id="ch-cost-${i}-${ci}">${fmt(cost)}</div>
-      </div>`;
-    }).join('');
+    const chRows = viewMode === 'ideal'
+      ? channels.map((ch, ci) => {
+          const maxC = Math.max(...channels.map(c => c.cost));
+          const pct  = maxC > 0 ? Math.round((ch.cost / maxC) * 100) : 0;
+          return `<div class="channel-row">
+            <div class="ch-icon ${ch.cls}">${ch.icon}</div>
+            <div class="ch-info">
+              <div class="ch-name">${ch.name}</div>
+              <div class="ch-bar-ideal">
+                <div class="ch-bar-ideal-fill" style="width:${pct}%"></div>
+              </div>
+            </div>
+            <div class="ch-cost">${fmt(ch.cost)}</div>
+          </div>`;
+        }).join('')
+      : channels.map((ch, ci) => {
+          const ov   = channelOverrides[`${currentCountry}_${i}_${ci}`];
+          const cost = ov !== undefined ? ov : ch.cost;
+          const slMax  = Math.round(ch.cost * 3);
+          const slStep = ch.cost >= 50000 ? 5000 : ch.cost >= 10000 ? 1000 : ch.cost >= 2000 ? 500 : 100;
+          const fillPct = slMax > 0 ? Math.round((cost / slMax) * 100) : 0;
+          const slBg = `linear-gradient(to right, var(--accent) ${fillPct}%, var(--surface-2) ${fillPct}%)`;
+          return `<div class="channel-row">
+            <div class="ch-icon ${ch.cls}">${ch.icon}</div>
+            <div class="ch-info">
+              <div class="ch-name">${ch.name}</div>
+              <input type="range" class="ch-slider" id="ch-slider-${i}-${ci}"
+                     min="0" max="${slMax}" step="${slStep}" value="${cost}"
+                     style="background:${slBg}"
+                     oninput="onChSlider('${currentCountry}',${i},${ci},this.value)">
+            </div>
+            <div class="ch-cost" id="ch-cost-${i}-${ci}">${fmt(cost)}</div>
+          </div>`;
+        }).join('');
 
     const phaseSpend = getCurrentSpend(currentCountry, i);
 
@@ -1430,7 +2072,10 @@ function render() {
           <div class="activities-label">Key activities</div>
           ${ph.activities.map(a=>`<div class="activity-item"><span class="activity-dot"></span>${a}</div>`).join('')}
         </div>
-        <div class="channels-label">Channels &amp; spend — drag to adjust</div>
+        <div class="channels-label" style="display:flex;align-items:center;justify-content:space-between;">
+          <span>${viewMode === 'ideal' ? 'Channels &amp; suggested spend' : 'Channels &amp; spend — drag to adjust'}</span>
+          ${viewMode === 'customize' ? `<button class="phase-roi-reset" style="margin:0" onclick="resetPhase('${currentCountry}',${i})">↺ Reset to ideal</button>` : ''}
+        </div>
         ${chRows}
       </div>
       <div class="phase-footer">
@@ -1506,7 +2151,7 @@ function renderAll() {
 
   // Phase totals per country — segment scaled
   const phaseSpends = [0,1,2,3].map(pi =>
-    KEYS.reduce((sum, k) => sum + Math.round(PHASE_TEMPLATES[k][pi].total[currentBudget] * getPhaseRatio(pi, k)), 0)
+    KEYS.reduce((sum, k) => sum + Math.round(PHASE_TEMPLATES_ONLINE[k][pi].total[currentBudget] * getPhaseRatio(pi, k)), 0)
   );
   const totalY1  = Y1.reduce((sum, k) => sum + getSegMeta(k).annualSpend[currentBudget], 0);
   const totalAll = KEYS.reduce((sum, k) => sum + getSegMeta(k).annualSpend[currentBudget], 0);
@@ -1543,11 +2188,11 @@ function renderAll() {
   document.getElementById('phasesGrid').innerHTML = [0,1,2,3].map(pi => {
     const w = ALL_WINDOWS[pi];
     const phaseTotal = phaseSpends[pi];
-    const usaKpi = PHASE_TEMPLATES.USA[pi].kpi;
+    const usaKpi = PHASE_TEMPLATES_ONLINE.USA[pi].kpi;
 
     const countryBlocks = KEYS.map(k => {
       const meta  = COUNTRY_META[k];
-      const ph    = PHASE_TEMPLATES[k][pi];
+      const ph    = PHASE_TEMPLATES_ONLINE[k][pi];
       const spend = Math.round(ph.total[currentBudget] * getPhaseRatio(pi, k));
       const isY2  = Y2.includes(k);
       const y2tag = isY2 ? ' <span style="font-size:10px;color:var(--ink-3);font-weight:400;">(Year 2)</span>' : '';
@@ -1592,7 +2237,7 @@ function renderAll() {
 
   const rows = KEYS.map(k => {
     const meta   = COUNTRY_META[k];
-    const spends = [0,1,2,3].map(i => Math.round(PHASE_TEMPLATES[k][i].total[currentBudget] * getPhaseRatio(i, k)));
+    const spends = [0,1,2,3].map(i => Math.round(PHASE_TEMPLATES_ONLINE[k][i].total[currentBudget] * getPhaseRatio(i, k)));
     const tot    = spends.reduce((a,b)=>a+b,0);
     const isY2   = Y2.includes(k);
     return `<tr${isY2?' style="color:var(--ink-3);"':''}>
@@ -1666,7 +2311,7 @@ function setBudget(level, btn) {
 
 function populateEventDropdown() {
   const sel = document.getElementById('eventSel');
-  const evs = TARGET_EVENTS[currentCountry];
+  const evs = TARGET_EVENTS_ONLINE[currentCountry];
   sel.innerHTML = evs.map(e => `<option value="${e.id}">${e.label}</option>`).join('');
   // Default to first non-custom
   sel.value = evs[0].id;
