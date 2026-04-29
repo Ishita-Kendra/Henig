@@ -255,8 +255,21 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
 .roi-stat-val.amber { color: var(--gold); }
 .roi-stat-val.red   { color: var(--ruby); }
 .roi-stat-lbl { font-size: 9px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); margin-top: 3px; line-height: 1.3; }
-.roi-breakeven { font-size: 11px; color: var(--ink-3); text-align: right; }
+.roi-breakeven { font-size: 11px; color: var(--ink-3); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .roi-breakeven strong { color: var(--ink-2); }
+.roi-suggest-btn {
+  font-size: 11px; font-family: 'DM Sans', sans-serif; font-weight: 500;
+  padding: 4px 12px; border-radius: 100px; cursor: pointer; transition: all 0.15s;
+  white-space: nowrap; flex-shrink: 0;
+  border: 1px solid var(--emerald); color: var(--emerald); background: var(--emerald-pale);
+}
+.roi-suggest-btn:hover { background: var(--emerald); color: #fff; }
+.roi-suggest-btn.profitable {
+  border-color: var(--emerald); color: var(--emerald); background: var(--emerald-pale); cursor: default;
+}
+.roi-suggest-btn.unreachable {
+  border-color: var(--border); color: var(--ink-3); background: var(--surface-2); cursor: default;
+}
 @media (max-width: 900px) {
   .roi-stats-grid { grid-template-columns: repeat(3, 1fr); }
 }
@@ -1093,14 +1106,20 @@ function buildROIInner(country, pi) {
   const roiCls  = roi.roi >= 0 ? 'green' : roi.roi >= -40 ? 'amber' : 'red';
   const roiSign = roi.roi >= 0 ? '+' : '';
 
-  let beNote;
+  let beNote, suggestBtn;
   if (roi.insufficient) {
     beNote = '<span style="color:var(--ruby);">⚠ Spend too low for meaningful market reach</span>';
+    suggestBtn = `<button class="roi-suggest-btn" onclick="applyPathToROI('${country}',${pi})">→ Apply breakeven spend</button>`;
+  } else if (roi.roi >= 0) {
+    beNote = `<span style="color:var(--emerald);">✓ Profitable — break even at <strong>${roi.breakevenSpend ? fmt(roi.breakevenSpend) : '—'}</strong></span>`;
+    suggestBtn = `<button class="roi-suggest-btn profitable" disabled>✓ Profitable</button>`;
   } else if (roi.breakevenSpend) {
-    const beDir = spend < roi.breakevenSpend ? `reach <strong>${fmt(roi.breakevenSpend)}</strong> to break even` : `already profitable — break even at <strong>${fmt(roi.breakevenSpend)}</strong>`;
-    beNote = `Break-even: ${beDir}`;
+    const targetSpend = Math.round(roi.breakevenSpend * 1.12);
+    beNote = `Break-even: reach <strong>${fmt(roi.breakevenSpend)}</strong> to turn positive`;
+    suggestBtn = `<button class="roi-suggest-btn" onclick="applyPathToROI('${country}',${pi})">→ Apply breakeven spend (${fmt(targetSpend)})</button>`;
   } else {
     beNote = 'Break-even requires more than 8× model spend — focus on phase optimisation';
+    suggestBtn = `<button class="roi-suggest-btn unreachable" disabled>↑ Increase model spend</button>`;
   }
 
   return `
@@ -1140,7 +1159,7 @@ function buildROIInner(country, pi) {
       <div class="roi-stat-lbl">Avg Sales</div>
     </div>
   </div>
-  <div class="roi-breakeven">${beNote}</div>`;
+  <div class="roi-breakeven">${beNote}${suggestBtn}</div>`;
 }
 
 function refreshPhaseROI(country, pi) {
@@ -1186,6 +1205,37 @@ function resetPhase(country, pi) {
     const ce = document.getElementById(`ch-cost-${pi}-${ci}`); if (ce) ce.textContent = fmt(ch.modelCost);
   });
   delete phaseMarginState[`${country}_${pi}`];
+  refreshPhaseROI(country, pi);
+}
+
+function applyPathToROI(country, pi) {
+  const cached = modelCostCache[`${country}_${pi}`];
+  if (!cached) return;
+  const roi = computePhaseROI(pi, getCurrentSpend(country, pi), country);
+  if (roi.insufficient || !roi.breakevenSpend) return;
+  if (roi.roi >= 0) return; // already profitable — nothing to do
+
+  // Target: breakeven × 1.12 for a comfortable positive ROI
+  const targetSpend = Math.round(roi.breakevenSpend * 1.12);
+  const totalModel  = cached.reduce((s, ch) => s + ch.modelCost, 0);
+
+  cached.forEach((ch, ci) => {
+    const share    = totalModel > 0 ? ch.modelCost / totalModel : 1 / cached.length;
+    const newCost  = Math.round(targetSpend * share);
+    channelOverrides[`${country}_${pi}_${ci}`] = newCost;
+
+    const sl = document.getElementById(`ch-slider-${pi}-${ci}`);
+    if (sl) {
+      // Extend max if target exceeds current range
+      if (newCost > parseInt(sl.max)) sl.setAttribute('max', Math.round(newCost * 1.5));
+      sl.value = newCost;
+      const pct = parseInt(sl.max) > 0 ? Math.round((newCost / parseInt(sl.max)) * 100) : 0;
+      sl.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--surface-2) ${pct}%)`;
+    }
+    const ce = document.getElementById(`ch-cost-${pi}-${ci}`);
+    if (ce) ce.textContent = fmt(newCost);
+  });
+
   refreshPhaseROI(country, pi);
 }
 
