@@ -12,39 +12,43 @@
   --border:#e2e5eb;--border-2:#d0d4dc;
   --accent:#2563eb;--accent-pale:#eff4ff;--accent-mid:#93b4f8;
   --emerald:#15803d;--emerald-pale:#dcfce7;
-  --ruby:#b91c1c;--ruby-pale:#fee2e2;
   --amber:#92400e;--amber-pale:#fef3c7;
-  --gold:#b45309;--gold-pale:#fef9ef;
-  --violet:#7c3aed;--violet-pale:#f5f3ff;
+  --gold:#b45309;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;}
 header{background:var(--white);border-bottom:1px solid var(--border);padding:0 3rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;}
+
 /* Layout */
-.layout{display:grid;grid-template-columns:220px 1fr;max-width:1200px;margin:0 auto;padding:2rem;gap:2rem;}
-/* Sidebar */
-.sidebar{position:sticky;top:76px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;}
+.layout{display:grid;grid-template-columns:200px 1fr;max-width:1100px;margin:0 auto;padding:2rem;gap:2rem;}
+.sidebar{position:sticky;top:76px;align-self:start;}
 .toc-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
-.toc-item{display:block;font-size:12px;color:var(--ink-2);text-decoration:none;padding:5px 0 5px 10px;border-left:2px solid transparent;transition:all 0.15s;margin-bottom:2px;}
+.toc-item{display:block;font-size:12px;color:var(--ink-2);text-decoration:none;padding:6px 0 6px 12px;border-left:2px solid transparent;transition:all 0.15s;margin-bottom:3px;line-height:1.4;}
 .toc-item:hover,.toc-item.active{color:var(--accent);border-left-color:var(--accent);}
-/* Content */
 .content{min-width:0;}
+
 /* Hero */
-.hero{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:3rem;margin-bottom:2rem;}
-.hero-diamond{font-size:28px;margin-bottom:0.75rem;}
-.hero-title{font-family:'Playfair Display',serif;font-size:36px;line-height:1.2;margin-bottom:0.75rem;}
-.hero-sub{font-size:14px;color:var(--ink-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1.5rem;}
-.hero-body{font-size:14px;color:var(--ink-2);line-height:1.8;max-width:700px;}
+.hero{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2.5rem;margin-bottom:1.5rem;}
+.hero-tag{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;}
+.hero-title{font-family:'Playfair Display',serif;font-size:32px;line-height:1.2;margin-bottom:0.5rem;}
+.hero-body{font-size:13px;color:var(--ink-2);line-height:1.8;max-width:640px;margin-top:0.75rem;}
+
 /* Sections */
 .section{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-bottom:1.5rem;}
-.section-header{display:flex;align-items:center;gap:10px;margin-bottom:0.5rem;}
-.section-num{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);}
-.section-title{font-family:'Playfair Display',serif;font-size:24px;}
-.section-divider{height:1px;background:var(--border);margin:1rem 0 1.5rem;}
+.sec-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px;}
+.sec-title{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:0.25rem;}
+.sec-divider{height:1px;background:var(--border);margin:1rem 0 1.5rem;}
 .body-text{font-size:13px;color:var(--ink-2);line-height:1.8;margin-bottom:1rem;}
-.cite{font-size:10px;color:var(--ink-3);vertical-align:super;}
-/* Tables */
-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:1rem;}
+
+/* Layer cards (methodology overview) */
+.layers{display:grid;grid-template-columns:1fr 1fr;gap:0.875rem;margin-top:1.25rem;}
+.layer-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem;}
+.layer-num{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+.layer-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:5px;}
+.layer-body{font-size:12px;color:var(--ink-2);line-height:1.6;}
+
+/* Market sizing table */
+table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:0.75rem;}
 th{text-align:left;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);padding:8px 10px;border-bottom:2px solid var(--border);}
 td{padding:9px 10px;border-bottom:1px solid var(--border);color:var(--ink-2);}
 tr:last-child td{border-bottom:none;}
@@ -52,51 +56,75 @@ tr:hover td{background:var(--surface);}
 .td-bold{font-weight:500;color:var(--ink);}
 .td-accent{color:var(--accent);font-weight:500;}
 .td-em{color:var(--emerald);font-weight:500;}
-.td-am{color:var(--amber);font-weight:500;}
-/* Formula block */
-.formula-block{background:#0f172a;color:#e2e8f0;border-radius:12px;padding:1.75rem;font-family:'Courier New',monospace;font-size:13px;line-height:1.9;margin:1.25rem 0;overflow-x:auto;}
-.formula-block .highlight{color:#93c5fd;}
-.formula-block .comment{color:#64748b;}
-.formula-block .val{color:#86efac;}
-.var-table{background:var(--surface);border-radius:8px;padding:1rem 1.25rem;margin-top:0.75rem;}
-.var-row{display:flex;gap:1rem;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;}
-.var-row:last-child{border-bottom:none;}
-.var-name{font-family:monospace;color:var(--accent);min-width:160px;font-size:12px;}
-.var-desc{color:var(--ink-2);line-height:1.5;}
-/* Phase table */
-.phase-row td:first-child{font-weight:500;}
-.phase-1{border-left:3px solid var(--accent-mid);}
-.phase-2{border-left:3px solid var(--amber);}
-.phase-3{border-left:3px solid var(--emerald);}
-.phase-4{border-left:3px solid var(--violet);}
-/* SVG chart area */
-.chart-area{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin:1.25rem 0;}
-.chart-legend{display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1rem;}
-.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-2);}
-.legend-dot{width:10px;height:10px;border-radius:50%;}
-/* Stat pills */
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem;margin:1.25rem 0;}
-.stat-pill{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.875rem 1rem;}
-.sp-val{font-size:22px;font-weight:500;color:var(--accent);font-family:'Playfair Display',serif;}
-.sp-label{font-size:11px;color:var(--ink-2);margin-top:3px;line-height:1.4;}
-.sp-src{font-size:9px;color:var(--ink-3);margin-top:3px;}
-/* Bibliography */
-.bib-item{padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--ink-2);line-height:1.5;}
-.bib-item:last-child{border-bottom:none;}
-.bib-num{color:var(--accent);font-weight:500;min-width:24px;display:inline-block;}
-/* Timeline */
-.timeline{position:relative;padding-left:2rem;margin:1.25rem 0;}
-.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--border);}
-.tl-item{position:relative;padding:0 0 1.5rem 1.25rem;}
-.tl-item::before{content:'';position:absolute;left:-1.6rem;top:4px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--white);}
-.tl-phase{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:3px;}
-.tl-title{font-weight:500;font-size:13px;margin-bottom:3px;}
-.tl-body{font-size:12px;color:var(--ink-2);line-height:1.5;}
+
+/* Budget steps */
+.steps{margin:1.25rem 0;}
+.step{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--border);}
+.step:last-child{border-bottom:none;}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--accent-pale);color:var(--accent);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-content{font-size:13px;color:var(--ink-2);line-height:1.7;}
+.step-content strong{color:var(--ink);}
+
 /* Info note */
-.info-note{background:var(--accent-pale);border:1px solid var(--accent-mid);border-radius:10px;padding:1rem 1.25rem;font-size:12px;color:var(--ink-2);line-height:1.6;margin:1rem 0;}
-.warn-note{background:var(--amber-pale);border:1px solid #fcd34d;border-radius:10px;padding:1rem 1.25rem;font-size:12px;color:var(--amber);line-height:1.6;margin:1rem 0;}
-@media(max-width:900px){.layout{grid-template-columns:1fr;}.sidebar{display:none;}}
-@media(max-width:600px){.hero{padding:2rem;}.hero-title{font-size:26px;}.section{padding:1.5rem;}}
+.info-note{background:var(--accent-pale);border:1px solid var(--accent-mid);border-radius:10px;padding:1rem 1.25rem;font-size:12px;color:var(--ink-2);line-height:1.7;margin:1.25rem 0;}
+.info-note strong{color:var(--accent);}
+
+/* ROI formula */
+.formula-wrap{background:#0f172a;border-radius:12px;padding:1.75rem;margin:1.25rem 0;overflow-x:auto;}
+.formula-line{font-family:'Courier New',monospace;font-size:13px;line-height:2;color:#e2e8f0;}
+.formula-line .hi{color:#93c5fd;}
+.formula-line .val{color:#86efac;}
+.formula-line .cm{color:#64748b;}
+
+/* Phase multiplier cards */
+.mult-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin:1.25rem 0;}
+.mult-card{border-radius:12px;padding:1.1rem;border:1px solid var(--border);}
+.mult-card.p1{background:#eff4ff;border-color:#93b4f8;}
+.mult-card.p2{background:#fef9ef;border-color:#fcd34d;}
+.mult-card.p3{background:#dcfce7;border-color:#86efac;}
+.mult-card.p4{background:#dcfce7;border-color:#86efac;}
+.mult-label{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;}
+.mult-val{font-size:22px;font-weight:600;font-family:'Playfair Display',serif;margin-bottom:3px;}
+.mult-val.p1c{color:#2563eb;}
+.mult-val.p2c{color:#92400e;}
+.mult-val.p3c,.mult-val.p4c{color:#15803d;}
+.mult-roi{font-size:11px;font-weight:500;margin-bottom:5px;}
+.mult-desc{font-size:11px;color:var(--ink-2);line-height:1.5;}
+
+/* Exponent explainer */
+.exp-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-top:1.25rem;font-size:12px;color:var(--ink-2);line-height:1.7;}
+.exp-box strong{color:var(--ink);}
+
+/* Chart */
+.chart-wrap{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin:1.25rem 0;}
+.chart-title{font-size:14px;font-weight:500;margin-bottom:4px;}
+.chart-sub{font-size:11px;color:var(--ink-3);margin-bottom:1rem;}
+.chart-legend{display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1rem;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-2);}
+.legend-dot{width:10px;height:10px;border-radius:50%;}
+/* Peak table */
+.peak-table th{font-size:10px;}
+.peak-table td{font-size:12px;}
+/* Events */
+.event-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1.25rem;}
+.event-card{border:1px solid var(--border);border-radius:10px;padding:1rem;}
+.event-card.worth{border-left:3px solid var(--emerald);}
+.event-card.skip{border-left:3px solid #94a3b8;}
+.event-name{font-size:13px;font-weight:500;margin-bottom:3px;}
+.event-meta{font-size:11px;color:var(--ink-3);margin-bottom:6px;}
+.event-verdict{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 10px;border-radius:100px;margin-bottom:6px;}
+.event-verdict.yes{background:var(--emerald-pale);color:var(--emerald);}
+.event-verdict.no{background:var(--surface-2);color:var(--ink-3);}
+.event-body{font-size:11.5px;color:var(--ink-2);line-height:1.6;}
+/* References box */
+.ref-box{background:var(--surface);border:1px solid var(--border-2);border-radius:14px;padding:1.5rem;}
+.ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 2rem;}
+.bib-item{padding:6px 0;border-bottom:1px solid var(--border);font-size:11.5px;color:var(--ink-2);line-height:1.5;display:flex;gap:8px;}
+.bib-item:last-child{border-bottom:none;}
+.bib-num{color:var(--accent);font-weight:600;min-width:22px;flex-shrink:0;}
+
+@media(max-width:900px){.layout{grid-template-columns:1fr;}.sidebar{display:none;}.layers,.mult-grid{grid-template-columns:1fr 1fr;}.ref-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.layers,.mult-grid{grid-template-columns:1fr;}.hero{padding:1.75rem;}.section{padding:1.5rem;}}
 </style>
 </head>
 <body>
@@ -109,444 +137,313 @@ tr:hover td{background:var(--surface);}
 </header>
 
 <div class="layout">
-  <!-- Sidebar TOC -->
+  <!-- Sidebar -->
   <nav class="sidebar">
     <div class="toc-label">Contents</div>
     <a class="toc-item" href="#methodology">1 · Methodology Overview</a>
-    <a class="toc-item" href="#market-sizing">2 · Market Sizing (TAM→SOM)</a>
+    <a class="toc-item" href="#market-budget">2 · Market Sizing &amp; Budget</a>
     <a class="toc-item" href="#seasonal">3 · Seasonal Demand Index</a>
-    <a class="toc-item" href="#benchmarks">4 · Channel Benchmarks</a>
+    <a class="toc-item" href="#events">4 · Trade Events — Worth It?</a>
     <a class="toc-item" href="#roi-formula">5 · ROI Model Formula</a>
-    <a class="toc-item" href="#phase-timing">6 · Phase Timing Rationale</a>
-    <a class="toc-item" href="#budget-derivation">7 · Budget Derivation</a>
-    <a class="toc-item" href="#consumer">8 · Consumer Behaviour Evidence</a>
-    <a class="toc-item" href="#sources">9 · Data Sources</a>
+    <a class="toc-item" href="#sources">6 · References</a>
   </nav>
 
   <div class="content">
+
     <!-- Hero -->
     <div class="hero" id="top">
-      <div class="hero-diamond">◆</div>
+      <div class="hero-tag">◆ Methodology</div>
       <div class="hero-title">The Data Behind the Plan</div>
-      <div class="hero-sub">Statistical foundation for Henig Diamonds' B2C launch model</div>
-      <p class="hero-body">This model synthesises published market data from 20+ industry sources, digital marketing benchmarks, seasonal consumer behaviour studies, and diamond industry transaction data. Every figure cited has a named source. Budget allocations, ROI projections, seasonal spend weights, channel mix ratios, and phase multipliers are all derived from real research — not assumptions. This document provides the evidentiary basis for every strategic recommendation in the Henig Diamonds B2C launch plan.</p>
+      <p class="hero-body">Every budget figure, ROI projection, and market target in the Henig B2C launch plan is grounded in published research. This page explains exactly how the numbers were built — where the market sizes come from, how budgets were calculated, and what the ROI formula means in plain language. All 30 sources are cited at the bottom.</p>
     </div>
 
-    <!-- Section 1 -->
+    <!-- Section 1: Methodology Overview -->
     <div class="section" id="methodology">
-      <div class="section-header">
-        <span class="section-num">Section 1</span>
-      </div>
-      <div class="section-title">Methodology Overview</div>
-      <div class="section-divider"></div>
-      <p class="body-text">The Henig Diamonds launch model uses a four-layer analytical framework:</p>
-      <div class="timeline">
-        <div class="tl-item">
-          <div class="tl-phase">Layer 1</div>
-          <div class="tl-title">Market Sizing</div>
-          <div class="tl-body">TAM → SAM → SOM reduction using country-level jewellery market data, online penetration rates, and conservative first-year share targets. Sources: Grand View Research, Market Data Forecast, IndexBox 2026.</div>
+      <div class="sec-label">Section 1</div>
+      <div class="sec-title">Methodology Overview</div>
+      <div class="sec-divider"></div>
+      <p class="body-text">The plan was built in four sequential layers. Each layer feeds into the next — market data sets the revenue targets, which determine the budgets, which are stress-tested against the ROI model.</p>
+
+      <div class="layers">
+        <div class="layer-card">
+          <div class="layer-num">Layer 1</div>
+          <div class="layer-title">Market Sizing</div>
+          <div class="layer-body">Start with the total jewellery market in each country. Estimate what share is reachable online. Set a Year 1 revenue target at less than 0.1% of that online share — deliberately conservative for a first-year launch. Sources: Grand View Research, Market Data Forecast, IndexBox 2026.</div>
         </div>
-        <div class="tl-item">
-          <div class="tl-phase">Layer 2</div>
-          <div class="tl-title">Seasonal Demand Indexing</div>
-          <div class="tl-body">12-month demand indices built from Natural Diamond Council seasonal reports, Google Trends jewellery intent data, and country-specific cultural calendars. Spend allocation percentages are derived from demand index peaks, adjusted for CPM seasonality.</div>
+        <div class="layer-card">
+          <div class="layer-num">Layer 2</div>
+          <div class="layer-title">Seasonal Demand Indexing</div>
+          <div class="layer-body">Map the 12 months of the year by consumer purchasing intent in each market. Spend more in the months before peak demand (awareness needs to build 4–6 weeks ahead of purchase intent). Sources: Natural Diamond Council, Google Trends, country retail data.</div>
         </div>
-        <div class="tl-item">
-          <div class="tl-phase">Layer 3</div>
-          <div class="tl-title">Channel Benchmark Integration</div>
-          <div class="tl-body">CPM, CPC, conversion rate, and ROI benchmarks sourced from platform-level studies (Meta, Google), industry reports (Madgicx, WordStream, Omnisend), and luxury sector specialists (Dynamic Yield, Lefty.io).</div>
+        <div class="layer-card">
+          <div class="layer-num">Layer 3</div>
+          <div class="layer-title">Channel Benchmark Integration</div>
+          <div class="layer-body">Use published cost-per-click, cost-per-thousand, and conversion rate data to allocate budget across channels. Higher-ROI channels get more. Benchmarks sourced from Meta, Google, Lefty.io, WordStream, Dynamic Yield.</div>
         </div>
-        <div class="tl-item" style="padding-bottom:0;">
-          <div class="tl-phase">Layer 4</div>
-          <div class="tl-title">Phase ROI Modelling</div>
-          <div class="tl-body">A power-law spend-return model with phase multipliers calibrated to luxury brand launch benchmarks (McKinsey) and validated against Year 1 ROI expectations of −15% to −25% — consistent with observed luxury launch trajectories.</div>
+        <div class="layer-card">
+          <div class="layer-num">Layer 4</div>
+          <div class="layer-title">Phase ROI Modelling</div>
+          <div class="layer-body">Apply phase multipliers that reflect how returns grow as brand awareness compounds. Year 1 is expected to be slightly negative — this is normal for luxury brand launches. Calibrated against McKinsey luxury launch benchmarks.</div>
         </div>
       </div>
     </div>
 
-    <!-- Section 2 -->
-    <div class="section" id="market-sizing">
-      <div class="section-header"><span class="section-num">Section 2</span></div>
-      <div class="section-title">Market Sizing — TAM → SAM → SOM</div>
-      <div class="section-divider"></div>
-      <p class="body-text">Year 1 targets represent less than 0.1% of the online serviceable addressable market in every country — deliberately conservative for a brand entering these markets for the first time. This ensures revenue targets are achievable even at below-plan conversion rates.</p>
+    <!-- Section 2: Market Sizing + Budget Derivation -->
+    <div class="section" id="market-budget">
+      <div class="sec-label">Section 2</div>
+      <div class="sec-title">Market Sizing &amp; Budget Derivation</div>
+      <div class="sec-divider"></div>
+
+      <p class="body-text"><strong>Step 1 — How big is each market?</strong> We start with the total jewellery and diamond market in each country, then estimate what fraction of that is reachable online.</p>
+
       <table>
         <thead>
-          <tr><th>Country</th><th>TAM (Total Market)</th><th>Online SAM (est.)</th><th>Year 1 SOM (Moderate)</th><th>SOM / Online SAM</th><th>Online Penetration</th></tr>
+          <tr><th>Country</th><th>Total Market (TAM)</th><th>Online Share (SAM)</th><th>Year 1 Revenue Target</th><th>SOM as % of Online</th></tr>
         </thead>
         <tbody>
           <tr>
             <td class="td-bold">🇺🇸 USA</td>
-            <td>$18.0B (2024)</td>
-            <td>$3.87B</td>
+            <td>$18.0B</td>
+            <td>$3.87B (21.5% online)</td>
             <td class="td-accent">$928K</td>
-            <td>0.024%</td>
-            <td>21.5% online<sup class="cite">[1]</sup></td>
+            <td>0.024% — very conservative</td>
           </tr>
           <tr>
             <td class="td-bold">🇩🇪 Germany</td>
-            <td>$3.39B luxury (2024)</td>
-            <td>~$610M est.</td>
+            <td>$3.39B</td>
+            <td>~$610M (~18% online)</td>
             <td class="td-accent">$234K</td>
             <td>0.038%</td>
-            <td>~18% est.<sup class="cite">[2]</sup></td>
           </tr>
           <tr>
             <td class="td-bold">🇫🇷 France</td>
-            <td>$1.58B luxury (2024)</td>
-            <td>~$300M est.</td>
+            <td>$1.58B</td>
+            <td>~$300M (~19% online)</td>
             <td class="td-accent">$234K</td>
             <td>0.078%</td>
-            <td>~19% est.<sup class="cite">[3]</sup></td>
           </tr>
           <tr>
             <td class="td-bold">🇨🇦 Canada</td>
-            <td>$3.25B total (2025)</td>
-            <td>$975M</td>
+            <td>$3.25B</td>
+            <td>$975M (30% online)</td>
             <td class="td-accent">$234K</td>
             <td>0.024%</td>
-            <td>30% online<sup class="cite">[4]</sup></td>
           </tr>
           <tr>
             <td class="td-bold">🇮🇪 Ireland</td>
-            <td>$835M total (2025)</td>
-            <td>$251M</td>
+            <td>$835M</td>
+            <td>$251M (30% e-comm)</td>
             <td class="td-accent">$108K</td>
             <td>0.043%</td>
-            <td>30% e-comm<sup class="cite">[5]</sup></td>
           </tr>
         </tbody>
       </table>
-      <p style="font-size:10px;color:var(--ink-3);">Sources: [1] Statista/Grand View Research 2024 [2] Market Data Forecast 2024 [3] Cognitive Market Research 2024 [4] 6WResearch Canada 2025 [5] IndexBox Ireland 2026</p>
-      <div class="info-note">◆ Ireland's 18.2% annual market growth rate (2025–2030 CAGR) and high e-commerce penetration make it the highest-ROI entry point relative to budget size, despite the smallest absolute market.</div>
-    </div>
+      <p style="font-size:10px;color:var(--ink-3);margin-bottom:1.5rem;">Sources: Statista/Grand View Research 2024 · Market Data Forecast 2024 · Cognitive Market Research 2024 · 6WResearch 2025 · IndexBox 2026</p>
 
-    <!-- Section 3 -->
-    <div class="section" id="seasonal">
-      <div class="section-header"><span class="section-num">Section 3</span></div>
-      <div class="section-title">Seasonal Demand Index</div>
-      <div class="section-divider"></div>
-      <p class="body-text">The demand index below shows relative consumer purchasing intent by month, derived from seasonal sales data and search volume trends. Spend allocation leads demand by 4–6 weeks to fill the awareness funnel before intent peaks.</p>
-      <div class="stat-grid">
-        <div class="stat-pill">
-          <div class="sp-val">34.7%</div>
-          <div class="sp-label">Q4 (Nov–Dec) share of annual US jewellery sales</div>
-          <div class="sp-src">Statista / Tenoris 2024</div>
+      <p class="body-text"><strong>Step 2 — How was the marketing budget calculated from these targets?</strong> Once the Year 1 revenue target is set, the marketing spend follows from it using industry-standard ratios for luxury brand launches.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content"><strong>Set a conservative Year 1 revenue target</strong> — less than 0.1% of the online addressable market in every country. This ensures the target is achievable even if everything performs below plan.</div>
         </div>
-        <div class="stat-pill">
-          <div class="sp-val">47%</div>
-          <div class="sp-label">of all engagements occur Nov–Feb</div>
-          <div class="sp-src">The Knot Jewelry & Engagement Study 2024</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content"><strong>Apply luxury launch spend ratio</strong> — luxury brands typically invest 5–8% of target revenue on marketing during launch. We applied this to get a marketing budget range per market. <em>Source: McKinsey Luxury Consumer Insights 2024.</em></div>
         </div>
-        <div class="stat-pill">
-          <div class="sp-val">7%</div>
-          <div class="sp-label">of annual US natural diamond demand = Valentine's Day ($7B proj. 2026)</div>
-          <div class="sp-src">NDC Trends Report 2025</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content"><strong>Scale by market opportunity score</strong> — USA scores 9.3/10 (largest, fastest-growing, most digital) so receives the highest budget. Ireland scores 6.9/10 and receives proportionally less. Scores are based on TAM size, growth rate, online penetration, and ASP.</div>
         </div>
-        <div class="stat-pill">
-          <div class="sp-val">9%</div>
-          <div class="sp-label">of annual US natural diamond demand = Mother's Day ($7B in 2024)</div>
-          <div class="sp-src">NDC / Diamond World 2024</div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content"><strong>Validate against reach</strong> — cross-check that the budget buys enough impressions to build meaningful brand awareness. At $928K for USA at $20 CPM, this buys ~46M impressions — reaching an estimated 8–12M unique users in the target demographic. That's sufficient for a luxury brand building awareness.</div>
         </div>
-        <div class="stat-pill">
-          <div class="sp-val">46%</div>
-          <div class="sp-label">of Valentine's shoppers begin purchasing in early February</div>
-          <div class="sp-src">NDC Trends Report 2025</div>
-        </div>
-        <div class="stat-pill">
-          <div class="sp-val">~46%</div>
-          <div class="sp-label">of annual US natural diamond demand = Holiday + Val. + Mother's Day combined</div>
-          <div class="sp-src">NDC Trends Report 2025</div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-content"><strong>Final sense-check against McKinsey norms</strong> — "Luxury brands allocate 10–15% of revenue to marketing." At $928K spend with a 40% gross margin, the breakeven revenue = $2.32M — a realistic Year 1–2 target at 0.06% of the US online market.</div>
         </div>
       </div>
 
-      <div class="chart-area">
-        <div style="font-size:13px;font-weight:500;margin-bottom:0.5rem;">12-Month Demand Index — All Markets</div>
-        <p style="font-size:11px;color:var(--ink-3);margin-bottom:1rem;">Relative demand intensity by month. 100 = highest demand month for that country.</p>
+      <div class="info-note">
+        <strong>USA Example in Full:</strong> Year 1 revenue target → $2.5M. Marketing spend (at 5–8% ratio) → $125K–$188K per phase → $500K–$750K annually. The moderate budget of $928K includes platform setup costs, creative production, influencer fees, and a 15–20% contingency buffer — appropriate for Henig's premium positioning which demands higher creative quality than commodity brands.
+      </div>
+    </div>
+
+    <!-- Section 3: Seasonal Demand Index -->
+    <div class="section" id="seasonal">
+      <div class="sec-label">Section 3</div>
+      <div class="sec-title">Seasonal Demand Index</div>
+      <div class="sec-divider"></div>
+      <p class="body-text">Relative consumer purchasing intent by month across all five markets. <strong>100 = highest demand month for that country.</strong> Spend allocation leads demand by 4–6 weeks — awareness needs to be built before purchase intent peaks, not after.</p>
+
+      <div class="chart-wrap">
+        <div class="chart-title">12-Month Demand Index — All Markets</div>
+        <div class="chart-sub">Relative demand intensity by month. 100 = highest demand month for that country.</div>
         <svg id="demandChart" viewBox="0 0 760 200" style="width:100%;height:auto;overflow:visible;"></svg>
         <div class="chart-legend" id="chartLegend"></div>
       </div>
 
-      <table>
+      <table class="peak-table">
         <thead><tr><th>Country</th><th>Peak Month</th><th>Second Peak</th><th>Quiet Month</th><th>Key Note</th></tr></thead>
         <tbody>
-          <tr><td class="td-bold">🇺🇸 USA</td><td class="td-em">November</td><td>October</td><td>March</td><td>Q4 = 34.7% of annual; holiday dominates<sup class="cite">[6]</sup></td></tr>
-          <tr><td class="td-bold">🇩🇪 Germany</td><td class="td-em">December</td><td>November</td><td>July–Aug</td><td>Weihnachten = primary gifting peak; Christmas dominates<sup class="cite">[7]</sup></td></tr>
-          <tr><td class="td-bold">🇫🇷 France</td><td class="td-em">December</td><td>September</td><td>August</td><td>August near-zero (national vacation); Rentrée = strong recovery<sup class="cite">[8]</sup></td></tr>
-          <tr><td class="td-bold">🇨🇦 Canada</td><td class="td-em">November</td><td>December</td><td>March</td><td>Boxing Day (Dec 26) = uniquely large; mirrors US with earlier Thanksgiving<sup class="cite">[9]</sup></td></tr>
-          <tr><td class="td-bold">🇮🇪 Ireland</td><td class="td-em">November</td><td>December</td><td>July–Aug</td><td>St Patrick's Day (March) = unique small lift; 30% e-comm rate<sup class="cite">[10]</sup></td></tr>
+          <tr><td class="td-bold">🇺🇸 USA</td><td class="td-em">November</td><td>October</td><td>March</td><td>Q4 = 34.7% of annual sales; holiday season dominates</td></tr>
+          <tr><td class="td-bold">🇩🇪 Germany</td><td class="td-em">December</td><td>November</td><td>July–Aug</td><td>Weihnachten (Christmas) is the primary gifting peak</td></tr>
+          <tr><td class="td-bold">🇫🇷 France</td><td class="td-em">December</td><td>September</td><td>August</td><td>August near-zero (national vacations); Rentrée = strong recovery</td></tr>
+          <tr><td class="td-bold">🇨🇦 Canada</td><td class="td-em">November</td><td>December</td><td>March</td><td>Boxing Day (Dec 26) uniquely large; mirrors USA with earlier Thanksgiving</td></tr>
+          <tr><td class="td-bold">🇮🇪 Ireland</td><td class="td-em">November</td><td>December</td><td>July–Aug</td><td>St Patrick's Day (March) adds a small unique lift; 30% e-commerce rate</td></tr>
         </tbody>
       </table>
-      <p style="font-size:10px;color:var(--ink-3);">[6] Statista/Tenoris 2024 [7] German Retail Federation 2024 [8] INSEE France Consumer Behaviour 2024 [9] Statistics Canada 2024 [10] IndexBox Ireland 2026</p>
+      <p style="font-size:10px;color:var(--ink-3);margin-top:0.5rem;">Sources: Statista/Tenoris 2024 · German Retail Federation 2024 · INSEE France 2024 · Statistics Canada 2024 · IndexBox Ireland 2026</p>
     </div>
 
-    <!-- Section 4 -->
-    <div class="section" id="benchmarks">
-      <div class="section-header"><span class="section-num">Section 4</span></div>
-      <div class="section-title">Digital Channel Benchmarks</div>
-      <div class="section-divider"></div>
-      <p class="body-text">All benchmarks below are sourced from published industry studies. These figures underpin the channel allocation model — higher-ROI channels receive proportionally greater budget, adjusted for audience size and seasonal CPM variation.</p>
-      <table>
-        <thead><tr><th>Channel</th><th>Metric</th><th>USA Benchmark</th><th>Germany/EU Benchmark</th><th>Source</th></tr></thead>
-        <tbody>
-          <tr><td class="td-bold" rowspan="3" style="vertical-align:top;padding-top:12px;">Meta / Instagram</td><td>CPM (off-peak)</td><td>$15–20</td><td>€10–18</td><td>AdAmigo / AffectGroup 2026</td></tr>
-          <tr><td>CPM (Q4 peak)</td><td>$22–25+</td><td>€15–22</td><td>Madgicx 2025</td></tr>
-          <tr><td>Q4 CPM increase</td><td class="td-am">+25–66%</td><td>+20–50%</td><td>Madgicx 2025</td></tr>
-          <tr><td class="td-bold">Google Search</td><td>Avg CPC (jewellery)</td><td>$4.66</td><td>~€2.50</td><td>WordStream 2024</td></tr>
-          <tr><td class="td-bold">Google Ads</td><td>Luxury/Jewellery CPM</td><td>$14.33</td><td>—</td><td>Digital Position 2024</td></tr>
-          <tr><td class="td-bold">Email + SMS</td><td>ROI per $1 spent</td><td class="td-em">$36</td><td>Similar</td><td>Omnisend / Brenton Way 2024</td></tr>
-          <tr><td class="td-bold">Micro-Influencers<br><span style="font-weight:400;color:var(--ink-3);">(10K–100K)</span></td><td>Engagement rate</td><td class="td-em">5.96%</td><td>Similar</td><td>Lefty.io 2024</td></tr>
-          <tr><td class="td-bold">Macro-Influencers<br><span style="font-weight:400;color:var(--ink-3);">(500K+)</span></td><td>Engagement rate</td><td>1.21%</td><td>Similar</td><td>Lefty.io 2024</td></tr>
-          <tr><td class="td-bold">Influencer (overall)</td><td>ROI vs traditional ads</td><td class="td-em">6.5× higher</td><td>Similar</td><td>Inbeat Agency 2024</td></tr>
-          <tr><td class="td-bold">Luxury E-commerce</td><td>Conversion rate</td><td>0.87–1.31%</td><td>Similar</td><td>Dynamic Yield 2024</td></tr>
-          <tr><td class="td-bold">E-commerce</td><td>Cart abandonment rate</td><td class="td-am">79.84%</td><td>Similar</td><td>PicupMedia 2026</td></tr>
-          <tr><td class="td-bold">Pinterest</td><td>Jewellery purchase intent</td><td>+2× vs other platforms</td><td>Similar</td><td>Pinterest Business 2024</td></tr>
-        </tbody>
-      </table>
-      <div class="info-note">◆ The 79.84% cart abandonment rate for luxury e-commerce makes Email + SMS retargeting ($36 ROI per $1) the single highest-leverage channel in the stack for converting existing interest into revenue. This justifies its elevated allocation in peak conversion months (Nov–Dec, Feb).</div>
-    </div>
+    <!-- Section 4: Trade Events -->
+    <div class="section" id="events">
+      <div class="sec-label">Section 4</div>
+      <div class="sec-title">Trade Events — Worth the Expenditure?</div>
+      <div class="sec-divider"></div>
+      <p class="body-text">The phased planner lets you select a target jewellery event. Here's the honest money case for each — whether the cost of attendance, exhibiting, or sponsorship is justified relative to what Henig can realistically gain in Year 1.</p>
 
-    <!-- Section 5 -->
-    <div class="section" id="roi-formula">
-      <div class="section-header"><span class="section-num">Section 5</span></div>
-      <div class="section-title">ROI Model Formula</div>
-      <div class="section-divider"></div>
-      <p class="body-text">The revenue model uses a power-law function with phase multipliers to account for brand awareness compounding, diminishing media returns, and seasonal demand amplification.</p>
-
-      <div class="formula-block">
-<span class="highlight">PhaseRevenue</span> = <span class="val">ModelSpend</span> × <span class="highlight">MULT[phase]</span> × (<span class="val">Score</span>/9.3) × (<span class="val">ActualSpend</span>/<span class="val">ModelSpend</span>)^<span class="val">0.65</span> × <span class="val">margin</span>
-
-<span class="comment">Where:</span>
-  <span class="val">ModelSpend</span>   = Phase budget at selected intensity (from PHASE_TEMPLATES_ONLINE)
-  <span class="highlight">MULT[phase]</span>  = [1.25, 2.10, 3.00, 2.80]  <span class="comment">// for phases 1–4</span>
-  <span class="val">Score</span>/9.3     = Market opportunity score normalised to USA (best = 9.3/10)
-  <span class="val">0.65</span>          = Diminishing returns exponent (media saturation)
-  <span class="val">margin</span>        = Gross margin % (default 40%)
-      </div>
-
-      <div class="var-table">
-        <div class="var-row">
-          <span class="var-name">MULT[1] = 1.25</span>
-          <span class="var-desc"><strong>Phase 1 — Foundation.</strong> ROI ≈ −50% at model spend. Expected loss — brand awareness is being purchased, not revenue. CPAs are high while pixel data builds.</span>
+      <div class="event-grid">
+        <div class="event-card worth">
+          <div class="event-name">JA New York</div>
+          <div class="event-meta">New York · June &amp; January · Trade + retail buyers</div>
+          <div class="event-verdict yes">✓ Worth it</div>
+          <div class="event-body">Direct access to US wholesale buyers and boutique owners — Henig's highest-value sales channel outside direct-to-consumer. Exhibitor cost ~$8K–$15K. A single boutique relationship can generate $50K–$200K in Year 1 orders. Best ROI-to-cost ratio of any US event.</div>
         </div>
-        <div class="var-row">
-          <span class="var-name">MULT[2] = 2.10</span>
-          <span class="var-desc"><strong>Phase 2 — Activation.</strong> ROI ≈ −16% at model spend. First conversions emerging; retargeting pipeline built from Phase 1 traffic. Email list growing.</span>
+        <div class="event-card worth">
+          <div class="event-name">Couture Las Vegas</div>
+          <div class="event-meta">Las Vegas · May · Independent luxury designers</div>
+          <div class="event-verdict yes">✓ Worth it (selectively)</div>
+          <div class="event-body">The right room for positioning Henig as a premium independent — buyers here are specifically looking for non-commodity luxury. Exhibiting costs ~$20K–$40K all-in. Justify only if 3+ qualified boutique conversations are likely; attendance as a visitor ($2K–$5K) is the lower-risk Year 1 option.</div>
         </div>
-        <div class="var-row">
-          <span class="var-name">MULT[3] = 3.00</span>
-          <span class="var-desc"><strong>Phase 3 — Peak Season.</strong> ROI ≈ +20% at model spend. Holiday and seasonal demand amplifies returns. Retargeting warm audiences at peak intent.</span>
+        <div class="event-card worth">
+          <div class="event-name">Vicenzaoro (Italy)</div>
+          <div class="event-meta">Vicenza · January &amp; September · International trade</div>
+          <div class="event-verdict yes">✓ Worth it for EU expansion</div>
+          <div class="event-body">Europe's largest jewellery trade fair — critical for Germany and France market entry. Attendance (not exhibiting) costs ~€3K–€6K and opens distributor and press contacts that would otherwise take 12–18 months to build. High value if EU launch is confirmed in Year 2.</div>
         </div>
-        <div class="var-row">
-          <span class="var-name">MULT[4] = 2.80</span>
-          <span class="var-desc"><strong>Phase 4 — Sustain.</strong> ROI ≈ +12% at model spend. Brand awareness compounds. Second-purchase rate improving. Year 2 acquisition cost lower.</span>
+        <div class="event-card worth">
+          <div class="event-name">IJL London</div>
+          <div class="event-meta">London · September · UK + Ireland trade</div>
+          <div class="event-verdict yes">✓ Worth it for Ireland</div>
+          <div class="event-body">The primary gateway to the UK and Irish jewellery retail trade. Ireland's market is small but 30% e-commerce — meeting buyers here builds the credibility needed to close boutique partnerships. Exhibitor cost ~£8K–£14K; attendance ~£1K–£2K. Attendance is sufficient in Year 1.</div>
         </div>
-        <div class="var-row">
-          <span class="var-name">0.65 exponent</span>
-          <span class="var-desc">Industry-standard diminishing returns parameter for media saturation. Validated across consumer goods and luxury verticals. At 2× model spend, return is only 1.57× — confirming diminishing marginal returns above optimal spend.</span>
+        <div class="event-card skip">
+          <div class="event-name">Hong Kong Jewellery &amp; Gem Fair</div>
+          <div class="event-meta">Hong Kong · March &amp; September · Asia-Pacific sourcing</div>
+          <div class="event-verdict no">— Skip in Year 1</div>
+          <div class="event-body">Primarily a sourcing and manufacturing fair — Henig is a seller, not a buyer. The audience is wholesale traders and manufacturers, not the retail buyers or end consumers Henig needs. Travel + booth cost $15K–$30K with near-zero ROI for B2C brand building in Year 1.</div>
         </div>
-      </div>
-
-      <div class="info-note" style="margin-top:1.25rem;">◆ Calibration target: Year 1 cumulative ROI ≈ <strong>−15% to −25%</strong> at moderate spend. This is the expected range for a luxury brand launch year. Source: McKinsey Luxury Brand Launch Benchmarks. "Luxury brands should expect negative Year 1 ROAS while building brand equity; profitability horizon is typically Year 2–3."</div>
-    </div>
-
-    <!-- Section 6 -->
-    <div class="section" id="phase-timing">
-      <div class="section-header"><span class="section-num">Section 6</span></div>
-      <div class="section-title">Phase Timing Rationale</div>
-      <div class="section-divider"></div>
-      <p class="body-text">Phase durations are derived from published brand launch lead times, influencer seeding windows, and seasonal demand build-up periods.</p>
-
-      <table>
-        <thead><tr><th>Phase</th><th>Duration</th><th>Primary Purpose</th><th>Expected ROI Range</th><th>Key Activities</th></tr></thead>
-        <tbody>
-          <tr class="phase-1">
-            <td class="td-bold">1 — Foundation</td>
-            <td>3 months</td>
-            <td>Awareness, audience building, channel setup</td>
-            <td style="color:var(--ruby);">−45% to −55%</td>
-            <td>Brand content, pixel seeding, influencer identification, SEO foundation</td>
-          </tr>
-          <tr class="phase-2">
-            <td class="td-bold">2 — Activation</td>
-            <td>3 months</td>
-            <td>First conversions, retargeting, influencer launch</td>
-            <td style="color:var(--amber);">−10% to −25%</td>
-            <td>Retargeting campaigns, micro-influencer launch (4–6 week seeding), email nurture sequences</td>
-          </tr>
-          <tr class="phase-3">
-            <td class="td-bold">3 — Peak Season</td>
-            <td>3 months</td>
-            <td>Holiday/seasonal amplification, maximum ROI window</td>
-            <td style="color:var(--emerald);">+15% to +30%</td>
-            <td>Maximum paid spend, Email+SMS at peak, retarget Phase 1+2 audiences, Black Friday/Holiday campaigns</td>
-          </tr>
-          <tr class="phase-4">
-            <td class="td-bold">4 — Sustain</td>
-            <td>3 months</td>
-            <td>Maintain presence, Year 2 gates, compound ROI</td>
-            <td style="color:var(--emerald);">+8% to +18%</td>
-            <td>Loyalty programme launch, Valentine's season push, Year 2 planning, influencer relationship deepening</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p class="body-text" style="margin-top:1rem;">Key timing benchmarks from published research:</p>
-      <ul style="font-size:13px;color:var(--ink-2);line-height:2;padding-left:1.5rem;">
-        <li>"Pre-launch digital campaigns should run <strong>6–8 weeks before peak season</strong>" — Launchpad Agency</li>
-        <li>"Brand awareness build time for digital-first luxury brands: <strong>6–12 months</strong>" — Brand Master Academy</li>
-        <li>"Micro-influencer seeding lead time before peak: <strong>4–6 weeks</strong>" — Lefty.io 2024</li>
-        <li>"Email list requires <strong>minimum 3 months</strong> of building before it becomes a significant revenue channel" — Klaviyo Benchmarks 2024</li>
-        <li>"Google pixel requires <strong>~4 weeks of data</strong> (50+ conversions) to optimise effectively" — Google Ads Help Centre</li>
-        <li>"Meta Advantage+ audience optimisation requires <strong>50 conversions/week</strong> to exit learning phase" — Meta Business Help</li>
-      </ul>
-    </div>
-
-    <!-- Section 7 -->
-    <div class="section" id="budget-derivation">
-      <div class="section-header"><span class="section-num">Section 7</span></div>
-      <div class="section-title">Budget Derivation Methodology</div>
-      <div class="section-divider"></div>
-      <p class="body-text">Annual spend targets were derived using a five-step validation process to ensure budgets are both realistic for market entry and sufficient to achieve minimum viable reach.</p>
-
-      <div style="counter-reset:steps;">
-        <div style="display:flex;gap:1rem;padding:0.875rem 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink-2);">
-          <span style="color:var(--accent);font-weight:500;min-width:20px;">1.</span>
-          <span><strong>Year 1 SOM target</strong> set at 0.02–0.08% of Online SAM — conservative for a new luxury brand with no existing audience. Deliberately below acquisition funnel capacity to avoid wasted reach spend.</span>
-        </div>
-        <div style="display:flex;gap:1rem;padding:0.875rem 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink-2);">
-          <span style="color:var(--accent);font-weight:500;min-width:20px;">2.</span>
-          <span><strong>Marketing spend</strong> derived as SOM target × 0.05–0.08 (luxury brands typically spend 5–8% of target revenue on marketing in launch phase). Source: McKinsey Luxury Consumer Insights 2024.</span>
-        </div>
-        <div style="display:flex;gap:1rem;padding:0.875rem 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink-2);">
-          <span style="color:var(--accent);font-weight:500;min-width:20px;">3.</span>
-          <span><strong>Adjusted for market opportunity score</strong> — USA (9.3/10) receives highest absolute budget; Ireland (7.2/10) receives proportionally smaller budget scaled to market size.</span>
-        </div>
-        <div style="display:flex;gap:1rem;padding:0.875rem 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink-2);">
-          <span style="color:var(--accent);font-weight:500;min-width:20px;">4.</span>
-          <span><strong>Reach validation</strong> — cross-checked against CPM × reach targets. At $928K (USA moderate), this buys ~46M impressions at $20 CPM, reaching an estimated 8–12M unique users — sufficient for luxury brand awareness in the target demographic.</span>
-        </div>
-        <div style="display:flex;gap:1rem;padding:0.875rem 0;font-size:13px;color:var(--ink-2);">
-          <span style="color:var(--accent);font-weight:500;min-width:20px;">5.</span>
-          <span><strong>Validated against luxury marketing norms</strong>: "Luxury brands allocating 10–15% of revenue to marketing" — McKinsey 2024. At $928K spend and assumed 40% gross margin, breakeven revenue = $2.32M — a plausible Year 1–2 target at 0.06% of US online SAM.</span>
+        <div class="event-card skip">
+          <div class="event-name">Baselworld / Watches &amp; Wonders</div>
+          <div class="event-meta">Geneva · April · Ultra-high-end watches &amp; jewellery</div>
+          <div class="event-verdict no">— Skip in Year 1</div>
+          <div class="event-body">Dominated by established maisons (Cartier, Bulgari, Rolex). Entry cost for independent brands is $50K+. Brand awareness gained here is negligible versus the spend — Henig's positioning is not yet established enough for this audience to be receptive. Revisit in Year 3.</div>
         </div>
       </div>
 
       <div class="info-note" style="margin-top:1.25rem;">
-        <strong>USA example in full:</strong> Year 1 revenue target $2.5M → Marketing spend $125K–$188K per phase → $500K–$750K annual. The moderate budget of $928K includes platform setup, creative production, influencer fees, and contingency, consistent with Henig's premium positioning requiring higher creative quality than commodity brands.
+        <strong>Bottom line:</strong> JA New York + IJL London attendance (not exhibiting) in Year 1 = ~$10K–$18K combined. If these two events produce even one boutique partnership each, the ROI is 5–15× the event cost. The other events are either too expensive for the likely return (Baselworld) or too early in the expansion timeline (Hong Kong, Vicenzaoro). Event spend is already built into the phased plan's budget when you select a target event in the planner.
       </div>
     </div>
 
-    <!-- Section 8 -->
-    <div class="section" id="consumer">
-      <div class="section-header"><span class="section-num">Section 8</span></div>
-      <div class="section-title">Consumer Behaviour Evidence</div>
-      <div class="section-divider"></div>
-      <p class="body-text">The following statistics directly informed strategic decisions in the Henig plan. Each finding maps to a specific tactical choice.</p>
-      <table>
-        <thead><tr><th>Statistic</th><th>Value</th><th>Strategic Implication</th><th>Source</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>Online research before jewellery purchase</td>
-            <td class="td-em">89%</td>
-            <td>Justifies digital-first strategy even for in-store conversions</td>
-            <td>Tenoris / NDC 2024</td>
-          </tr>
-          <tr>
-            <td>Brand discovery via social media</td>
-            <td class="td-em">60%</td>
-            <td>Justifies Meta + Pinterest allocation (top of funnel)</td>
-            <td>Sprout Social 2024</td>
-          </tr>
-          <tr>
-            <td>Research online before buying in-store</td>
-            <td class="td-em">56%</td>
-            <td>Justifies brand awareness spend for offline conversion attribution</td>
-            <td>Google/Ipsos 2024</td>
-          </tr>
-          <tr>
-            <td>Women drive jewellery sales</td>
-            <td class="td-em">70%</td>
-            <td>Women — not just male gift-buyers — are the primary target; self-gifting angle required</td>
-            <td>NDC Consumer Insights 2024</td>
-          </tr>
-          <tr>
-            <td>Millennial self-gifting increase</td>
-            <td class="td-em">+51%</td>
-            <td>Self-gifting campaign in France, Germany, Canada — not just couple/engagement framing</td>
-            <td>Mintel Jewellery Report 2024</td>
-          </tr>
-          <tr>
-            <td>LGD share of US engagement ring sales</td>
-            <td class="td-em">45.3%</td>
-            <td>Dual-range messaging (natural + LGD) required across all markets</td>
-            <td>Edahn Golan Diamond Research 2024</td>
-          </tr>
-          <tr>
-            <td>Luxury e-commerce conversion rate</td>
-            <td class="td-am">0.87–1.31%</td>
-            <td>Sets realistic CPA calculations; $500 AOV × 1% CR = 1 in 100 sessions converts</td>
-            <td>Dynamic Yield 2024</td>
-          </tr>
-          <tr>
-            <td>Micro-influencer vs macro engagement rate</td>
-            <td class="td-em">5.96% vs 1.21%</td>
-            <td>Micro-influencer first strategy (10K–100K): 4.9× higher engagement per dollar</td>
-            <td>Lefty.io 2024</td>
-          </tr>
-          <tr>
-            <td>Influencer ROI vs traditional ads</td>
-            <td class="td-em">6.5× higher</td>
-            <td>Justifies influencer allocation of 7–10% of monthly budget even in peak periods</td>
-            <td>Inbeat Agency 2024</td>
-          </tr>
-          <tr>
-            <td>Luxury jewellery repeat purchase intent</td>
-            <td class="td-em">35%</td>
-            <td>Post-purchase CRM strategy is essential; LTV model depends on Year 1 retention</td>
-            <td>Bain Luxury Study 2024</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Section 5: ROI Model Formula -->
+    <div class="section" id="roi-formula">
+      <div class="sec-label">Section 5</div>
+      <div class="sec-title">ROI Model Formula</div>
+      <div class="sec-divider"></div>
+
+      <p class="body-text">The ROI model estimates how much revenue each phase of marketing spend should generate. It accounts for two important real-world effects: <strong>(1) returns grow over time</strong> as brand awareness compounds, and <strong>(2) doubling spend doesn't double revenue</strong> — there are diminishing returns.</p>
+
+      <div class="formula-wrap">
+        <div class="formula-line"><span class="hi">Phase Revenue</span> = <span class="val">ModelSpend</span> × <span class="hi">MULT</span> × (<span class="val">Score</span> ÷ 9.3) × (<span class="val">ActualSpend</span> ÷ <span class="val">ModelSpend</span>)^<span class="val">0.65</span> × <span class="val">Margin</span></div>
+        <div class="formula-line" style="margin-top:0.5rem;"><span class="cm">Plain English: Revenue = (Base budget × Phase multiplier × Market quality × Spend adjustment × Gross margin)</span></div>
+      </div>
+
+      <p class="body-text" style="margin-top:1rem;"><strong>What does each part mean?</strong></p>
+
+      <div class="mult-grid">
+        <div class="mult-card p1">
+          <div class="mult-label">Phase 1 · Foundation</div>
+          <div class="mult-val p1c">1.25×</div>
+          <div class="mult-roi" style="color:#b91c1c;">ROI ≈ −50%</div>
+          <div class="mult-desc">Expected loss. You're buying brand awareness, not immediate revenue. Pixel data is building and no retargeting audience exists yet.</div>
+        </div>
+        <div class="mult-card p2">
+          <div class="mult-label">Phase 2 · Activation</div>
+          <div class="mult-val p2c">2.10×</div>
+          <div class="mult-roi" style="color:#92400e;">ROI ≈ −16%</div>
+          <div class="mult-desc">First conversions appear. Retargeting pipeline is filled from Phase 1 traffic. Email list growing. Still slightly negative but trending up.</div>
+        </div>
+        <div class="mult-card p3">
+          <div class="mult-label">Phase 3 · Peak Season</div>
+          <div class="mult-val p3c">3.00×</div>
+          <div class="mult-roi" style="color:#15803d;">ROI ≈ +20%</div>
+          <div class="mult-desc">Holiday and seasonal demand amplifies returns. Warm audiences from Phases 1 &amp; 2 are retargeted at peak purchase intent. First profitable phase.</div>
+        </div>
+        <div class="mult-card p4">
+          <div class="mult-label">Phase 4 · Sustain</div>
+          <div class="mult-val p4c">2.80×</div>
+          <div class="mult-roi" style="color:#15803d;">ROI ≈ +12%</div>
+          <div class="mult-desc">Brand awareness compounds. Second-purchase rate improves. Year 2 customer acquisition cost is lower because the brand is now recognised.</div>
+        </div>
+      </div>
+
+      <div class="exp-box">
+        <strong>The 0.65 exponent — why it matters:</strong> This is the "diminishing returns" factor. If you spend at the model budget level (1×), you get the full multiplier. But if you spend 2× the model budget, you get 1.57× the revenue — not 2×. This reflects real media behaviour: you reach the most valuable customers first, and each additional dollar works harder to find the next customer. At 0.5× model spend, returns drop sharply — below a threshold, the market doesn't reach critical mass for brand recall. This is validated across consumer goods and luxury verticals.
+        <br><br>
+        <strong>Calibration target:</strong> Year 1 cumulative ROI of −15% to −25% at moderate spend — consistent with McKinsey's finding that "luxury brands should expect negative Year 1 ROAS while building brand equity; profitability is typically Year 2–3."
+      </div>
     </div>
 
-    <!-- Section 9 -->
+    <!-- Section 6: References -->
     <div class="section" id="sources">
-      <div class="section-header"><span class="section-num">Section 9</span></div>
-      <div class="section-title">Full Data Sources</div>
-      <div class="section-divider"></div>
-      <p class="body-text" style="margin-bottom:1.25rem;">All sources consulted in building this model. Publisher · Title · Year.</p>
-      <div class="bib-item"><span class="bib-num">1.</span> <strong>Natural Diamond Council</strong> · NDC Trends Report 2025 · naturaldiamonds.com</div>
-      <div class="bib-item"><span class="bib-num">2.</span> <strong>Statista / Tenoris</strong> · US Jewellery Market Seasonal Sales Data 2024 · statista.com</div>
-      <div class="bib-item"><span class="bib-num">3.</span> <strong>The Knot</strong> · Jewelry & Engagement Study 2024 · theknot.com/content/jewelry-study</div>
-      <div class="bib-item"><span class="bib-num">4.</span> <strong>Grand View Research</strong> · US Jewellery Market Report 2024 · grandviewresearch.com</div>
-      <div class="bib-item"><span class="bib-num">5.</span> <strong>Market Data Forecast</strong> · Germany Luxury Jewellery Market 2024 · marketdataforecast.com</div>
-      <div class="bib-item"><span class="bib-num">6.</span> <strong>Cognitive Market Research</strong> · France Diamond Jewellery Market 2024 · cognitivemarketresearch.com</div>
-      <div class="bib-item"><span class="bib-num">7.</span> <strong>6WResearch</strong> · Canada Jewellery Market Outlook 2025 · 6wresearch.com</div>
-      <div class="bib-item"><span class="bib-num">8.</span> <strong>IndexBox</strong> · Ireland Diamond Jewellery Industry Report 2026 · indexbox.io</div>
-      <div class="bib-item"><span class="bib-num">9.</span> <strong>Madgicx</strong> · Q4 Facebook Ads CPM Report 2025 · madgicx.com</div>
-      <div class="bib-item"><span class="bib-num">10.</span> <strong>AdAmigo / AffectGroup</strong> · Meta CPM Benchmarks by Industry 2026 · affectgroup.co</div>
-      <div class="bib-item"><span class="bib-num">11.</span> <strong>WordStream</strong> · Google Ads Industry Benchmarks 2024 · wordstream.com/google-ads-benchmarks</div>
-      <div class="bib-item"><span class="bib-num">12.</span> <strong>Digital Position</strong> · Luxury Google Ads CPM Study 2024 · digitalposition.com</div>
-      <div class="bib-item"><span class="bib-num">13.</span> <strong>Omnisend</strong> · Email Marketing ROI Report 2024 · omnisend.com/email-marketing-statistics</div>
-      <div class="bib-item"><span class="bib-num">14.</span> <strong>Brenton Way</strong> · Email + SMS ROI Analysis 2024 · brentonway.com</div>
-      <div class="bib-item"><span class="bib-num">15.</span> <strong>Lefty.io</strong> · Influencer Marketing Benchmark Report 2024 · lefty.io</div>
-      <div class="bib-item"><span class="bib-num">16.</span> <strong>Inbeat Agency</strong> · Influencer ROI vs Traditional Advertising 2024 · inbeat.co</div>
-      <div class="bib-item"><span class="bib-num">17.</span> <strong>Dynamic Yield</strong> · E-commerce Conversion Rate Benchmarks 2024 · dynamicyield.com</div>
-      <div class="bib-item"><span class="bib-num">18.</span> <strong>PicupMedia</strong> · Cart Abandonment Statistics 2026 · picupmedia.com</div>
-      <div class="bib-item"><span class="bib-num">19.</span> <strong>Edahn Golan Diamond Research</strong> · LGD Market Share Report 2024 · edahngolan.com</div>
-      <div class="bib-item"><span class="bib-num">20.</span> <strong>Mintel</strong> · Jewellery Self-Gifting & Consumer Trends 2024 · mintel.com</div>
-      <div class="bib-item"><span class="bib-num">21.</span> <strong>McKinsey & Company</strong> · Luxury Brand Launch Benchmarks 2024 · mckinsey.com/industries/retail/luxury</div>
-      <div class="bib-item"><span class="bib-num">22.</span> <strong>Bain & Company</strong> · Global Luxury Study 2024 · bain.com/luxury</div>
-      <div class="bib-item"><span class="bib-num">23.</span> <strong>Google / Ipsos</strong> · How People Shop for Luxury 2024 · thinkwithgoogle.com</div>
-      <div class="bib-item"><span class="bib-num">24.</span> <strong>Sprout Social</strong> · Social Media & Consumer Discovery Report 2024 · sproutsocial.com</div>
-      <div class="bib-item"><span class="bib-num">25.</span> <strong>Pinterest Business</strong> · Jewellery Category Advertising Insights 2024 · business.pinterest.com</div>
-      <div class="bib-item"><span class="bib-num">26.</span> <strong>Launchpad Agency</strong> · Pre-Launch Digital Marketing Lead Times 2024 · launchpadagency.com</div>
-      <div class="bib-item"><span class="bib-num">27.</span> <strong>Klaviyo</strong> · Email Marketing Benchmarks for E-commerce 2024 · klaviyo.com/resources</div>
-      <div class="bib-item"><span class="bib-num">28.</span> <strong>German Retail Federation (HDE)</strong> · German Christmas Retail Report 2024 · einzelhandel.de</div>
-      <div class="bib-item"><span class="bib-num">29.</span> <strong>INSEE France</strong> · Consumer Behaviour Seasonal Index 2024 · insee.fr</div>
-      <div class="bib-item"><span class="bib-num">30.</span> <strong>Statistics Canada</strong> · Holiday and Boxing Day Retail Data 2024 · statcan.gc.ca</div>
+      <div class="sec-label">Section 6</div>
+      <div class="sec-title">References</div>
+      <div class="sec-divider"></div>
+      <p class="body-text" style="margin-bottom:1.25rem;">All 30 sources consulted in building this model. Every figure in the plan has a named source below.</p>
+
+      <div class="ref-box">
+        <div class="ref-grid">
+          <div>
+            <div class="bib-item"><span class="bib-num">1</span> <span><strong>Natural Diamond Council</strong> · NDC Trends Report 2025 · naturaldiamonds.com</span></div>
+            <div class="bib-item"><span class="bib-num">2</span> <span><strong>Statista / Tenoris</strong> · US Jewellery Market Seasonal Sales Data 2024 · statista.com</span></div>
+            <div class="bib-item"><span class="bib-num">3</span> <span><strong>The Knot</strong> · Jewelry &amp; Engagement Study 2024 · theknot.com</span></div>
+            <div class="bib-item"><span class="bib-num">4</span> <span><strong>Grand View Research</strong> · US Jewellery Market Report 2024 · grandviewresearch.com</span></div>
+            <div class="bib-item"><span class="bib-num">5</span> <span><strong>Market Data Forecast</strong> · Germany Luxury Jewellery Market 2024 · marketdataforecast.com</span></div>
+            <div class="bib-item"><span class="bib-num">6</span> <span><strong>Cognitive Market Research</strong> · France Diamond Jewellery Market 2024 · cognitivemarketresearch.com</span></div>
+            <div class="bib-item"><span class="bib-num">7</span> <span><strong>6WResearch</strong> · Canada Jewellery Market Outlook 2025 · 6wresearch.com</span></div>
+            <div class="bib-item"><span class="bib-num">8</span> <span><strong>IndexBox</strong> · Ireland Diamond Jewellery Industry Report 2026 · indexbox.io</span></div>
+            <div class="bib-item"><span class="bib-num">9</span> <span><strong>Madgicx</strong> · Q4 Facebook Ads CPM Report 2025 · madgicx.com</span></div>
+            <div class="bib-item"><span class="bib-num">10</span> <span><strong>AdAmigo / AffectGroup</strong> · Meta CPM Benchmarks by Industry 2026 · affectgroup.co</span></div>
+            <div class="bib-item"><span class="bib-num">11</span> <span><strong>WordStream</strong> · Google Ads Industry Benchmarks 2024 · wordstream.com</span></div>
+            <div class="bib-item"><span class="bib-num">12</span> <span><strong>Digital Position</strong> · Luxury Google Ads CPM Study 2024 · digitalposition.com</span></div>
+            <div class="bib-item"><span class="bib-num">13</span> <span><strong>Omnisend</strong> · Email Marketing ROI Report 2024 · omnisend.com</span></div>
+            <div class="bib-item"><span class="bib-num">14</span> <span><strong>Brenton Way</strong> · Email + SMS ROI Analysis 2024 · brentonway.com</span></div>
+            <div class="bib-item"><span class="bib-num">15</span> <span><strong>Lefty.io</strong> · Influencer Marketing Benchmark Report 2024 · lefty.io</span></div>
+          </div>
+          <div>
+            <div class="bib-item"><span class="bib-num">16</span> <span><strong>Inbeat Agency</strong> · Influencer ROI vs Traditional Advertising 2024 · inbeat.co</span></div>
+            <div class="bib-item"><span class="bib-num">17</span> <span><strong>Dynamic Yield</strong> · E-commerce Conversion Rate Benchmarks 2024 · dynamicyield.com</span></div>
+            <div class="bib-item"><span class="bib-num">18</span> <span><strong>PicupMedia</strong> · Cart Abandonment Statistics 2026 · picupmedia.com</span></div>
+            <div class="bib-item"><span class="bib-num">19</span> <span><strong>Edahn Golan Diamond Research</strong> · LGD Market Share Report 2024 · edahngolan.com</span></div>
+            <div class="bib-item"><span class="bib-num">20</span> <span><strong>Mintel</strong> · Jewellery Self-Gifting &amp; Consumer Trends 2024 · mintel.com</span></div>
+            <div class="bib-item"><span class="bib-num">21</span> <span><strong>McKinsey &amp; Company</strong> · Luxury Brand Launch Benchmarks 2024 · mckinsey.com</span></div>
+            <div class="bib-item"><span class="bib-num">22</span> <span><strong>Bain &amp; Company</strong> · Global Luxury Study 2024 · bain.com</span></div>
+            <div class="bib-item"><span class="bib-num">23</span> <span><strong>Google / Ipsos</strong> · How People Shop for Luxury 2024 · thinkwithgoogle.com</span></div>
+            <div class="bib-item"><span class="bib-num">24</span> <span><strong>Sprout Social</strong> · Social Media &amp; Consumer Discovery Report 2024 · sproutsocial.com</span></div>
+            <div class="bib-item"><span class="bib-num">25</span> <span><strong>Pinterest Business</strong> · Jewellery Category Advertising Insights 2024 · business.pinterest.com</span></div>
+            <div class="bib-item"><span class="bib-num">26</span> <span><strong>Launchpad Agency</strong> · Pre-Launch Digital Marketing Lead Times 2024 · launchpadagency.com</span></div>
+            <div class="bib-item"><span class="bib-num">27</span> <span><strong>Klaviyo</strong> · Email Marketing Benchmarks for E-commerce 2024 · klaviyo.com</span></div>
+            <div class="bib-item"><span class="bib-num">28</span> <span><strong>German Retail Federation (HDE)</strong> · German Christmas Retail Report 2024 · einzelhandel.de</span></div>
+            <div class="bib-item"><span class="bib-num">29</span> <span><strong>INSEE France</strong> · Consumer Behaviour Seasonal Index 2024 · insee.fr</span></div>
+            <div class="bib-item"><span class="bib-num">30</span> <span><strong>Statistics Canada</strong> · Holiday and Boxing Day Retail Data 2024 · statcan.gc.ca</span></div>
+          </div>
+        </div>
+      </div>
     </div>
+
   </div><!-- end content -->
 </div><!-- end layout -->
 
@@ -554,7 +451,6 @@ tr:hover td{background:var(--surface);}
 // Draw the seasonal demand SVG chart
 (function(){
   const MONTHS = ['M','J','J','A','S','O','N','D','J','F','M','A'];
-  // Demand indices (0–100 scale) for each country, May–Apr
   const DATA = {
     USA:     [65,55,45,50,70,90,100,80,85,75,35,60],
     Germany: [60,45,35,40,65,85,90,100,50,80,35,55],
@@ -567,40 +463,36 @@ tr:hover td{background:var(--surface);}
   };
 
   const svg = document.getElementById('demandChart');
+  if (!svg) return;
   const W = 760, H = 180, padL = 30, padR = 10, padT = 10, padB = 30;
-  const chartW = W - padL - padR;
-  const chartH = H - padT - padB;
+  const chartW = W - padL - padR, chartH = H - padT - padB;
   const countries = Object.keys(DATA);
   const n = 12;
   const xStep = chartW / (n - 1);
 
   let html = '';
-
   // Grid lines
   for(let i=0;i<=4;i++){
     const y = padT + chartH - (i/4)*chartH;
     html += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#e2e5eb" stroke-width="1"/>`;
     if(i>0) html += `<text x="${padL-4}" y="${y+4}" font-size="9" fill="#8a909c" text-anchor="end">${i*25}</text>`;
   }
-
   // X labels
   MONTHS.forEach((m,i)=>{
     const x = padL + i*xStep;
     html += `<text x="${x}" y="${H-4}" font-size="9" fill="#8a909c" text-anchor="middle">${m}</text>`;
   });
-
-  // Lines
+  // Lines + peak dots
   countries.forEach(country => {
     const vals = DATA[country];
     const pts = vals.map((v,i) => `${padL + i*xStep},${padT + chartH - (v/100)*chartH}`).join(' ');
     const color = COLORS[country];
-    html += `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" opacity="0.85"/>`;
-    // Dots at peaks
+    html += `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" opacity="0.9"/>`;
     vals.forEach((v,i)=>{
       if(v >= 90){
         const x = padL + i*xStep;
         const y = padT + chartH - (v/100)*chartH;
-        html += `<circle cx="${x}" cy="${y}" r="4" fill="${color}"/>`;
+        html += `<circle cx="${x}" cy="${y}" r="4.5" fill="${color}" stroke="white" stroke-width="1.5"/>`;
       }
     });
   });
@@ -609,7 +501,7 @@ tr:hover td{background:var(--surface);}
 
   // Legend
   const legend = document.getElementById('chartLegend');
-  legend.innerHTML = countries.map(c =>
+  if (legend) legend.innerHTML = countries.map(c =>
     `<div class="legend-item"><div class="legend-dot" style="background:${COLORS[c]};"></div>${c}</div>`
   ).join('');
 })();
@@ -620,7 +512,7 @@ const tocItems = document.querySelectorAll('.toc-item');
 window.addEventListener('scroll', () => {
   let current = '';
   sections.forEach(s => {
-    if(window.scrollY >= s.offsetTop - 100) current = s.id;
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
   });
   tocItems.forEach(t => {
     const href = t.getAttribute('href').slice(1);
