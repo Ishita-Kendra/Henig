@@ -527,7 +527,7 @@ const COUNTRY_META = {
   Ireland: {
     flag:'🇮🇪', name:'Ireland', segment:'Luxury',
     score: 6.9, tam: '$0.26B', yoy: '+18.2%', asp: '$2,800',
-    annualSpend: {low:48000, mid:108000, high:168000},
+    annualSpend: {low:47000, mid:108000, high:168000},
     tier: 5, tierColor: '#0891b2',
     rec: 'Lowest-risk EU proof-of-concept — fully digital, no physical store infrastructure needed. Ideal low-cost test before committing to France. Fastest growth rate of all 5 markets at 18.2% per year.',
     recLabel: 'EU Proof-of-Concept',
@@ -1422,7 +1422,7 @@ const TARGET_EVENTS_ONLINE = {
   France: [
     {id:'christmas_fr',label:'Christmas Season — December',month:12, leadMonths:7, badge:'★ Peak season'},
     {id:'valentines_fr',label:"Valentine's Day — February",month:2, leadMonths:9, badge:'♥ Gifting peak'},
-    {id:'pfw_jan', label:'Paris Fashion Week — January',   month:1,  leadMonths:4, badge:'✦ Fashion Week'},
+    {id:'pfw_jan', label:'Paris Fashion Week — January',   month:1,  leadMonths:8, badge:'✦ Fashion Week'},
     {id:'custom_fr', label:'Custom / Other festival...',   month:null,leadMonths:null, badge:''},
   ],
   Canada: [
@@ -1446,7 +1446,7 @@ const TARGET_EVENTS = {
     {id:'jany',    label:'JA New York — August',          month:8,  leadMonths:3, badge:'◆ Trade show'},
     {id:'holiday', label:'Holiday Peak — Nov–Dec',         month:12, leadMonths:7, badge:'★ Peak season'},
     {id:'valentines',label:"Valentine's Day — February",  month:2,  leadMonths:9, badge:'♥ Gifting peak'},
-    {id:'couture', label:'Couture Las Vegas — June',       month:6,  leadMonths:1, badge:'◆ Trade show (tight!)'},
+    {id:'couture', label:'Couture Las Vegas — June',       month:6,  leadMonths:6, badge:'◆ Trade show'},
     {id:'mothers', label:"Mother's Day — May",             month:5,  leadMonths:9, badge:'♡ Gifting peak'},
     {id:'engagement',label:'Engagement Season — Jul',     month:7,  leadMonths:3, badge:'💍 Bridal season'},
     {id:'custom',  label:'Custom / Other festival...',     month:null,leadMonths:null, badge:''},
@@ -1521,7 +1521,7 @@ const SEGMENT_META = {
       Germany: {segment:'Luxury',score:8.3,tam:'$1.71B',yoy:'+4.3%',asp:'$2,800',annualSpend:{low:108000,mid:234000,high:361000},tier:2,recLabel:'2nd Priority — EU Anchor',rec:'Launch in parallel with USA — adds only 20% to combined spend. EU April 2025 conflict-free sourcing regulations are a one-time access advantage.',salesModel:'⚠️ Strong in-store buying country. ~70% of German luxury jewellery purchases happen in Goldschmiede boutiques. Online ads drive awareness; boutique partnerships are essential.'},
       France:  {segment:'Luxury',score:7.7,tam:'$1.06B',yoy:'+6.0%',asp:'$2,900',annualSpend:{low:108000,mid:234000,high:360000},tier:3,recLabel:'3rd Priority — Year 2',rec:'Year 2 priority — highest EU growth at 6.0% per year. Haute couture narrative and GIA certification are the core entry credentials.',salesModel:'⚠️ In-store buying preference. French luxury consumers prefer boutiques — Galeries Lafayette and Parisian independents. Online ads build awareness; boutique partnerships drive conversion.'},
       Canada:  {segment:'Luxury',score:7.2,tam:'$0.83B',yoy:'+5.1%',asp:'$2,700',annualSpend:{low:108000,mid:234000,high:360000},tier:4,recLabel:'USA Fast-Follow',rec:'USA fast-follow — mirrors USA luxury trends with a 6–12 month lag and 15–20% lower ASPs. Unlock at end of Phase 2 if USA is on-plan.',salesModel:'Mix of online and boutique. Primarily direct via henigdiamonds.com. Toronto and Vancouver boutiques add credibility for customers who prefer buying in-store.'},
-      Ireland: {segment:'Luxury',score:6.9,tam:'$0.26B',yoy:'+18.2%',asp:'$2,800',annualSpend:{low:48000,mid:108000,high:168000},tier:5,recLabel:'EU Proof-of-Concept',rec:'Lowest-risk EU proof-of-concept — fully digital, no physical store infrastructure needed. Fastest growth of all 5 markets at 18.2% per year.',salesModel:'✓ Online-first country. Direct sales via henigdiamonds.com are primary. Highest e-commerce rate in the EU (30%).'},
+      Ireland: {segment:'Luxury',score:6.9,tam:'$0.26B',yoy:'+18.2%',asp:'$2,800',annualSpend:{low:47000,mid:108000,high:168000},tier:5,recLabel:'EU Proof-of-Concept',rec:'Lowest-risk EU proof-of-concept — fully digital, no physical store infrastructure needed. Fastest growth of all 5 markets at 18.2% per year.',salesModel:'✓ Online-first country. Direct sales via henigdiamonds.com are primary. Highest e-commerce rate in the EU (30%).'},
     }
   },
   'Mid-Luxury': {
@@ -1915,8 +1915,8 @@ function computePhaseWindows(eventMonth, leadMonths) {
   let p1Year  = 2026;
   while (p1Month <= 0)  { p1Month += 12; p1Year--; }
   while (p1Month > 12)  { p1Month -= 12; p1Year++; }
-  // If Phase 1 start is already past April 2026, advance 1 year
-  if (p1Year < 2026 || (p1Year === 2026 && p1Month < 4)) {
+  // If Phase 1 start is before May 2026 (current month), advance 1 year
+  if (p1Year < 2026 || (p1Year === 2026 && p1Month < 5)) {
     p1Year++;
   }
   const windows = [];
@@ -1938,7 +1938,7 @@ function computePhaseWindows(eventMonth, leadMonths) {
 }
 
 function monthsUntil(m, y) {
-  const now = new Date(2026, 3, 28);
+  const now = new Date();
   const target = new Date(y, m - 1, 1);
   const diff = (target.getFullYear() - now.getFullYear()) * 12 + (target.getMonth() - now.getMonth());
   return diff;
@@ -1982,8 +1982,8 @@ function renderCustomTimeline(eventMonth, eventName) {
   let y = 2026;
   while (m <= 0) { m += 12; y--; }
   while (m > 12) { m -= 12; y++; }
-  // Advance to at least April 2026
-  if (y < 2026 || (y === 2026 && m < 4)) { y++; }
+  // Advance to at least May 2026 (current month)
+  if (y < 2026 || (y === 2026 && m < 5)) { y++; }
 
   const phases = [];
   for (let i = 0; i < 4; i++) {
@@ -2060,7 +2060,8 @@ function render() {
     rationaleEl.style.display = rationale ? '' : 'none';
   }
 
-  const annualMain = segData.annualSpend[currentBudget];
+  // Compute actual year-1 spend from phase totals (more accurate than annualSpend lookup)
+  const annualMain = phases.reduce((sum, ph, i) => sum + Math.round(ph.total[currentBudget] * getPhaseRatio(i)), 0);
 
   document.getElementById('bannerStats').innerHTML = `
     <div class="banner-stat"><div class="banner-stat-val accent">${meta.score}/10</div><div class="banner-stat-lbl">Opportunity Score</div></div>
@@ -2228,13 +2229,21 @@ function renderAll() {
   ];
   const PHASE_NAMES = ['Foundation','Activation','Peak Season','Sustain + Review'];
 
-  // Phase totals per country — segment scaled
+  // Phase totals per country — segment scaled (computed from actual phase sums, not annualSpend)
   const phaseSpends = [0,1,2,3].map(pi =>
     KEYS.reduce((sum, k) => sum + Math.round(PHASE_TEMPLATES_ONLINE[k][pi].total[currentBudget] * getPhaseRatio(pi, k)), 0)
   );
-  const totalY1  = Y1.reduce((sum, k) => sum + getSegMeta(k).annualSpend[currentBudget], 0);
-  const totalAll = KEYS.reduce((sum, k) => sum + getSegMeta(k).annualSpend[currentBudget], 0);
+  const totalY1  = Y1.reduce((sum, k) => [0,1,2,3].reduce((s,pi) => s + Math.round(PHASE_TEMPLATES_ONLINE[k][pi].total[currentBudget] * getPhaseRatio(pi,k)), 0), 0);
+  const totalAll = KEYS.reduce((sum, k) => sum + [0,1,2,3].reduce((s,pi) => s + Math.round(PHASE_TEMPLATES_ONLINE[k][pi].total[currentBudget] * getPhaseRatio(pi,k)), 0), 0);
   const budgetLabel = currentBudget==='low'?'conservative':currentBudget==='mid'?'moderate':'aggressive';
+
+  // Dynamic start month
+  const now = new Date();
+  let p1m = now.getMonth() + 1; // current month as start
+  if (p1m < 5) p1m = 5; // minimum May
+  const p1y = now.getFullYear();
+  const p1Label = MONTHS_FULL[p1m - 1] + ' ' + p1y;
+  const tight = monthsUntil(p1m, p1y) < 2;
 
   /* Banner */
   document.getElementById('bannerInner').className = 'banner-inner tier-1';
@@ -2243,8 +2252,8 @@ function renderAll() {
     'Year 1 recommended: USA + Germany (' + fmt(totalY1) + ' at ' + budgetLabel + ' · ' + segLabel + '). ' +
     'France, Canada, and Ireland are Year 2 expansions pending USA Phase 2 results.';
   const sp = document.getElementById('startPill');
-  sp.textContent = 'Start Phase 1: May 2026 — across all active markets';
-  sp.className = 'start-pill';
+  sp.textContent = 'Start Phase 1: ' + p1Label + ' — across all active markets' + (tight ? ' · tight timeline' : '');
+  sp.className = 'start-pill' + (tight ? ' tight' : '');
   const rEl = document.getElementById('eventRationale');
   if (rEl) rEl.style.display = 'none';
 
@@ -2352,6 +2361,7 @@ function renderAll() {
    EVENT HANDLERS
    ============================================================ */
 function onSegmentChange() {
+  clearPhaseOverrides();
   currentSegment = document.getElementById('segmentSel').value;
   if (currentCountry === 'all') renderAll();
   else render();
@@ -2378,6 +2388,7 @@ function onCountryChange() {
 }
 
 function onEventChange() {
+  clearPhaseOverrides();
   render();
 }
 

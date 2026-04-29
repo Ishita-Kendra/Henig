@@ -885,6 +885,8 @@ const BUDGET_PRESETS = {
 let cfgMarket = null;   // e.g. 'Germany'
 let cfgSeg    = null;   // e.g. 'Mid-Luxury'
 let cfgSpend  = { meta:0, google:0, tiktok:0, pinterest:0, email:0, influencer:0 };
+let marginApplied = false; // true only after "Apply to main sliders" is clicked
+let budgetFinderHasResults = false; // true if budget finder has been run
 
 // ── INIT: Build country grid ──────────────────────────────────────────────────
 function cfgInit() {
@@ -917,6 +919,13 @@ function cfgSelectMarket(market) {
 function cfgSelectSeg(market, seg) {
   cfgMarket = market;
   cfgSeg    = seg;
+
+  // Reset margin to default when switching country/segment
+  marginApplied = false;
+  const marginSlider = document.getElementById('cfgMargin');
+  if (marginSlider) { marginSlider.value = 40; }
+  const marginVal = document.getElementById('cfgMarginVal');
+  if (marginVal) marginVal.textContent = '40%';
 
   // Update country button active states
   document.querySelectorAll('.cfg-country-btn').forEach(b => b.classList.remove('active'));
@@ -1083,14 +1092,19 @@ function syncToMainSliders() {
 }
 
 function cfgApplyToSliders() {
+  marginApplied = true;
   syncToMainSliders();
+  // Re-run budget finder if it has results, so ROI numbers update with new margin
+  if (budgetFinderHasResults) {
+    runBudgetFinder();
+  }
   // Flash confirmation
   const btn = document.querySelector('.cfg-apply-btn');
   if (btn) {
     const orig = btn.textContent;
-    btn.textContent = '✓ Applied!';
+    btn.textContent = '✓ Applied to all calculations!';
     btn.style.background = 'var(--emerald)';
-    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1500);
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1800);
   }
 }
 
@@ -1180,9 +1194,11 @@ function runBudgetFinder() {
     .sort((a,b) => b.roi.blended - a.roi.blended);
 
   if (!viable.length) {
+    budgetFinderHasResults = false;
     container.innerHTML = `<div class="bf-no-match">No markets are viable at $${budget.toLocaleString()}/mo. Minimum: 🇮🇪 Ireland Mid-Luxury at $1,800/mo.</div>`;
     return;
   }
+  budgetFinderHasResults = true;
 
   const solo = viable[0];
   function roiColor(v) { return v>=100?'#166534':v>=0?'#92400e':'#991b1b'; }
@@ -1339,6 +1355,7 @@ function clearRtBudget() {
   const panel = document.getElementById('spendDistPanel');
   if (panel) panel.style.display = 'none';
   lastSdpState = null;
+  budgetFinderHasResults = false;
 }
 
 function getRtBudgetFilter() {
