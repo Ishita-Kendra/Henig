@@ -352,10 +352,12 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
     </div>
   </div>
   <div class="custom-event-row" id="customRow">
-    <span style="font-size:12px;color:var(--ink-3);">Custom event:</span>
-    <input type="text" id="customName" placeholder="e.g. Diwali, Eid, Passover..." oninput="render()">
-    <div style="display:flex;flex-direction:column;gap:4px;">
-      <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">Event month</span>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">Event name</span>
+      <input type="text" id="customName" placeholder="e.g. Diwali, Eid, Passover..." oninput="render()" style="font-family:'DM Sans',sans-serif;font-size:13px;border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--ink);background:var(--white);width:200px;">
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">Target month</span>
       <select id="customMonth" onchange="render()">
         <option value="1">January</option><option value="2">February</option><option value="3">March</option>
         <option value="4">April</option><option value="5">May</option><option value="6">June</option>
@@ -363,14 +365,7 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
         <option value="10">October</option><option value="11">November</option><option value="12">December</option>
       </select>
     </div>
-    <div style="display:flex;flex-direction:column;gap:4px;">
-      <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3);">Peak in phase</span>
-      <select id="customAnchor" onchange="render()">
-        <option value="2">Phase 2 — Activation</option>
-        <option value="3">Phase 3 — Peak</option>
-        <option value="4" selected>Phase 4 — Final push</option>
-      </select>
-    </div>
+    <div id="customTimelinePreview" style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;"></div>
   </div>
 </section>
 
@@ -1976,6 +1971,40 @@ function resolveChannels(phase, budget) {
 /* ============================================================
    RENDER
    ============================================================ */
+function renderCustomTimeline(eventMonth, eventName) {
+  const el = document.getElementById('customTimelinePreview');
+  if (!el) return;
+  const MO = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const COLORS = ['#2563eb','#15803d','#7c3aed','#b45309'];
+  const NAMES = ['Foundation','Activation','Peak push','Event 🎯'];
+  // Phase 1 starts 9 months before event
+  let m = eventMonth - 9;
+  let y = 2026;
+  while (m <= 0) { m += 12; y--; }
+  while (m > 12) { m -= 12; y++; }
+  // Advance to at least April 2026
+  if (y < 2026 || (y === 2026 && m < 4)) { y++; }
+
+  const phases = [];
+  for (let i = 0; i < 4; i++) {
+    const start = MO[m - 1];
+    let em = m + 2; let ey = y;
+    if (em > 12) { em -= 12; ey++; }
+    phases.push({ label: NAMES[i], range: `${start}–${MO[em-1]} ${ey}`, color: COLORS[i], isEvent: i === 3 });
+    m = em + 1; if (m > 12) { m -= 12; y = ey + 1; } else { y = ey; }
+  }
+
+  el.innerHTML = phases.map((p, i) =>
+    `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+      <div style="font-size:9px;font-weight:600;color:${p.color};text-transform:uppercase;letter-spacing:0.08em;">Ph.${i+1}</div>
+      <div style="background:${p.color}${p.isEvent?'':'22'};color:${p.isEvent?'#fff':p.color};border-radius:6px;padding:3px 8px;font-size:10px;font-weight:${p.isEvent?'600':'400'};white-space:nowrap;">
+        ${p.isEvent ? (eventName || 'Event') + ' · ' : ''}${p.range}
+      </div>
+    </div>
+    ${i < 3 ? '<span style="color:var(--ink-3);font-size:10px;margin-top:10px;">→</span>' : ''}`
+  ).join('');
+}
+
 function render() {
   const baseMeta = COUNTRY_META[currentCountry];
   const segData  = getSegMeta(currentCountry);
@@ -1993,12 +2022,13 @@ function render() {
   let isCustom     = (ev.id === 'custom' || ev.id.startsWith('custom_'));
 
   if (isCustom) {
-    eventMonth  = parseInt(document.getElementById('customMonth').value);
-    const anchor = parseInt(document.getElementById('customAnchor').value);
-    leadMonths  = (anchor - 1) * 3;
+    eventMonth = parseInt(document.getElementById('customMonth').value);
+    leadMonths = 9; // always 9 months: event falls in Phase 4 (the final push)
     const cn = document.getElementById('customName').value.trim();
-    eventLabel  = cn || 'Custom event';
+    eventLabel = cn || 'Custom event';
     document.getElementById('customRow').classList.add('visible');
+    // Update live timeline preview
+    renderCustomTimeline(eventMonth, cn);
   } else {
     document.getElementById('customRow').classList.remove('visible');
   }
