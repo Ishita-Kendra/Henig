@@ -226,12 +226,20 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
     <div class="ctrl">
       <div class="ctrl-lbl">Country</div>
       <select id="countrySel" onchange="onCountryChange()">
-        <option value="all">🌍 All 5 Countries — Full Programme</option>
-        <option value="USA">🇺🇸 USA — Luxury</option>
-        <option value="Germany">🇩🇪 Germany — Luxury</option>
-        <option value="France">🇫🇷 France — Luxury</option>
-        <option value="Canada">🇨🇦 Canada — Luxury</option>
-        <option value="Ireland">🇮🇪 Ireland — Luxury</option>
+        <option value="all">🌍 All 5 Countries</option>
+        <option value="USA">🇺🇸 USA</option>
+        <option value="Germany">🇩🇪 Germany</option>
+        <option value="France">🇫🇷 France</option>
+        <option value="Canada">🇨🇦 Canada</option>
+        <option value="Ireland">🇮🇪 Ireland</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-lbl">Segment</div>
+      <select id="segmentSel" onchange="onSegmentChange()">
+        <option value="Luxury">Luxury</option>
+        <option value="Mid-Luxury">Mid-Luxury</option>
+        <option value="Mix">Mid-Luxury → Luxury</option>
       </select>
     </div>
     <div class="ctrl" id="eventCtrl">
@@ -893,11 +901,65 @@ const TARGET_EVENTS = {
 
 
 /* ============================================================
+   SEGMENT META — overrides per country per segment
+   ============================================================ */
+const SEGMENT_META = {
+  'Luxury': {
+    label:'Luxury', badge:'◆ Luxury',
+    countries:{
+      USA:     {segment:'Luxury',score:9.3,tam:'$13.5B',yoy:'+5.1%',asp:'$3,500',annualSpend:{low:346000,mid:928000,high:1508000},tier:1,recLabel:'1st Priority Launch',rec:'Launch here first — largest market at $13.5B. Highest opportunity score 9.3/10. USA Phase 1 & 2 results determine whether other markets are unlocked.',salesModel:'Primarily direct via henigdiamonds.com. Trade show contacts (Couture LV, JA New York) open boutique and jeweller partnerships as a secondary revenue stream.'},
+      Germany: {segment:'Luxury',score:8.3,tam:'$1.71B',yoy:'+4.3%',asp:'$2,800',annualSpend:{low:108000,mid:234000,high:361000},tier:2,recLabel:'2nd Priority — EU Anchor',rec:'Launch in parallel with USA — adds only 20% to combined spend. EU April 2025 conflict-free sourcing regulations are a one-time access advantage.',salesModel:'⚠️ Strong in-store buying country. ~70% of German luxury jewellery purchases happen in Goldschmiede boutiques. Online ads drive awareness; boutique partnerships are essential.'},
+      France:  {segment:'Luxury',score:7.7,tam:'$1.06B',yoy:'+6.0%',asp:'$2,900',annualSpend:{low:108000,mid:234000,high:360000},tier:3,recLabel:'3rd Priority — Year 2',rec:'Year 2 priority — highest EU growth at 6.0% per year. Haute couture narrative and GIA certification are the core entry credentials.',salesModel:'⚠️ In-store buying preference. French luxury consumers prefer boutiques — Galeries Lafayette and Parisian independents. Online ads build awareness; boutique partnerships drive conversion.'},
+      Canada:  {segment:'Luxury',score:7.2,tam:'$0.83B',yoy:'+5.1%',asp:'$2,700',annualSpend:{low:108000,mid:234000,high:360000},tier:4,recLabel:'USA Fast-Follow',rec:'USA fast-follow — mirrors USA luxury trends with a 6–12 month lag and 15–20% lower ASPs. Unlock at end of Phase 2 if USA is on-plan.',salesModel:'Mix of online and boutique. Primarily direct via henigdiamonds.com. Toronto and Vancouver boutiques add credibility for customers who prefer buying in-store.'},
+      Ireland: {segment:'Luxury',score:6.9,tam:'$0.26B',yoy:'+18.2%',asp:'$2,800',annualSpend:{low:48000,mid:108000,high:168000},tier:5,recLabel:'EU Proof-of-Concept',rec:'Lowest-risk EU proof-of-concept — fully digital, no physical store infrastructure needed. Fastest growth of all 5 markets at 18.2% per year.',salesModel:'✓ Online-first country. Direct sales via henigdiamonds.com are primary. Highest e-commerce rate in the EU (30%).'},
+    }
+  },
+  'Mid-Luxury': {
+    label:'Mid-Luxury', badge:'◇ Mid-Luxury',
+    countries:{
+      USA:     {segment:'Mid-Luxury',score:8.0,tam:'$11.2B',yoy:'+4.7%',asp:'$1,200',annualSpend:{low:120000,mid:288000,high:456000},tier:1,recLabel:'Mid-Luxury Priority',rec:'Accessible $11.2B market. Professional women 30–45 are repeat buyers. LGD penetration 55% — lead with choice and value messaging. Lower ASP drives higher volume and repeat purchases.',salesModel:'Primarily direct via henigdiamonds.com. Social commerce (Instagram Shop, Pinterest discovery) highly effective for this segment. Micro-influencers ($200–$700/post) build community trust at lower cost.'},
+      Germany: {segment:'Mid-Luxury',score:8.0,tam:'$1.71B',yoy:'+4.9%',asp:'$1,400',annualSpend:{low:60000,mid:126000,high:192000},tier:2,recLabel:'EU Mid-Luxury Anchor',rec:'Best ROI-per-dollar in EU. RJC + Kimberley Process credentials = instant access. ESG and sustainability narrative strongly favours mid-luxury LGD positioning.',salesModel:'Mix of online and boutique. Goldschmiede carry mid-range product lines alongside luxury. Google and Meta ads drive direct website sales; boutique introductions build long-term distribution.'},
+      France:  {segment:'Mid-Luxury',score:6.6,tam:'$0.74B',yoy:'+4.2%',asp:'$1,300',annualSpend:{low:48000,mid:108000,high:168000},tier:3,recLabel:'Year 2 Mid-Luxury',rec:'ESG-conscious buyers are receptive to LGD at this price point. Necklaces outperform earrings — unique to France. Lower-risk entry before committing to luxury positioning.',salesModel:'Online-first approach viable at mid-luxury ASP. Instagram and Meta ads effective. Local micro-influencers (€200–€500/post) build community trust before boutique introductions.'},
+      Canada:  {segment:'Mid-Luxury',score:7.2,tam:'$0.83B',yoy:'+6.4%',asp:'$1,100',annualSpend:{low:60000,mid:126000,high:192000},tier:4,recLabel:'Mid-Luxury Fast-Follow',rec:'Fastest-growing mid-luxury market in the programme at +6.4% YoY. 50% LGD penetration. Mirrors USA at accessible price points and lower entry cost.',salesModel:'Strong e-commerce market. Primarily direct via henigdiamonds.com. Add Pinterest discovery ($1.5–$3 CPC) for gift shoppers. Boutique introductions supportive but not essential at this ASP.'},
+      Ireland: {segment:'Mid-Luxury',score:6.0,tam:'$0.19B',yoy:'+18.8%',asp:'$1,100',annualSpend:{low:21600,mid:49800,high:78000},tier:5,recLabel:'Lowest-Cost EU Test',rec:'Fastest mid-luxury growth at 18.8% YoY. Lowest-cost entry in the programme — ideal test market before scaling to larger EU markets.',salesModel:'✓ Fully online-first. Direct sales via henigdiamonds.com are sufficient. Micro-influencers (€150–€400/post) and Meta ads are enough to build the mid-luxury segment.'},
+    }
+  },
+  'Mix': {
+    label:'Mid-Luxury → Luxury', badge:'◈ Transitioning',
+    countries:{
+      USA:     {segment:'Mid-Luxury → Luxury',score:8.7,tam:'$13.5B',yoy:'+5.1%',asp:'$2,200',annualSpend:{low:233000,mid:608000,high:982000},tier:1,recLabel:'Phased Segment Upgrade',rec:'Phases 1–2 use Mid-Luxury positioning at $1,200 ASP to build brand recognition and accumulate data. Phases 3–4 introduce luxury products ($3,500 ASP) with boutique partnerships and macro-influencer campaigns. Blended approach maximises reach while protecting premium positioning.',salesModel:'Phases 1–2: Online-first, volume-driven at Mid-Luxury ASP. Phases 3–4: Luxury products introduced alongside mid-luxury continuity — boutique partnerships and trade show contacts activated in Phase 3.'},
+      Germany: {segment:'Mid-Luxury → Luxury',score:8.2,tam:'$1.71B',yoy:'+4.6%',asp:'$2,100',annualSpend:{low:84000,mid:180000,high:277000},tier:2,recLabel:'EU Transition Strategy',rec:'Phases 1–2 establish Henig at mid-luxury price points with ESG positioning. Phases 3–4 introduce luxury lines through Goldschmiede boutique partnerships built during the mid-luxury phase.',salesModel:'Phases 1–2: Online ads + micro-influencers at mid-luxury ASP. Phases 3–4: Goldschmiede partnerships activated — luxury product range introduced alongside mid-luxury continuity.'},
+      France:  {segment:'Mid-Luxury → Luxury',score:7.2,tam:'$1.06B',yoy:'+5.1%',asp:'$2,100',annualSpend:{low:78000,mid:171000,high:264000},tier:3,recLabel:'Gradual Luxury Entry',rec:'Mid-luxury entry in Phases 1–2 builds brand recognition without requiring boutique partnerships immediately. Luxury positioning and Parisian boutique introductions follow in Phases 3–4 once the brand is established.',salesModel:'Phases 1–2: Instagram and Meta at mid-luxury ASP, local influencers (€200–€500/post). Phases 3–4: Luxury products introduced, Paris boutique agent engaged, haute couture positioning activated.'},
+      Canada:  {segment:'Mid-Luxury → Luxury',score:7.2,tam:'$0.83B',yoy:'+5.8%',asp:'$1,900',annualSpend:{low:84000,mid:180000,high:276000},tier:4,recLabel:'Transition Market',rec:'Canada is ideal for the mixed strategy — consumers trade up naturally and brand loyalty is high once established. Mid-luxury Phases 1–2 seed awareness for the luxury Phase 3–4 transition.',salesModel:'Phases 1–2: e-commerce focus at mid-luxury ASP. Phases 3–4: Toronto and Vancouver boutique introductions for the luxury product range — mirrors USA luxury model at lower cost.'},
+      Ireland: {segment:'Mid-Luxury → Luxury',score:6.5,tam:'$0.26B',yoy:'+18.5%',asp:'$1,950',annualSpend:{low:34800,mid:78900,high:123000},tier:5,recLabel:'Test & Upgrade Path',rec:'Start mid-luxury to capture the fast-growing digital market at 18.5% YoY, then upgrade key customers to luxury lines in Phases 3–4. Excellent brand-building at low cost before EU expansion.',salesModel:'Phases 1–2: Fully online, mid-luxury focus. Phases 3–4: Luxury lines introduced with premium content — Grafton Street boutique introduction as a light-touch addition.'},
+    }
+  }
+};
+
+function getSegMeta(country) {
+  return (SEGMENT_META[currentSegment] && SEGMENT_META[currentSegment].countries[country])
+    || SEGMENT_META['Luxury'].countries[country];
+}
+
+function getPhaseRatio(phaseIndex, country) {
+  const c = country || currentCountry;
+  if (currentSegment === 'Luxury') return 1.0;
+  if (currentSegment === 'Mix') {
+    const useSeg = phaseIndex < 2 ? 'Mid-Luxury' : 'Luxury';
+    return SEGMENT_META[useSeg].countries[c].annualSpend[currentBudget] /
+           COUNTRY_META[c].annualSpend[currentBudget];
+  }
+  return SEGMENT_META[currentSegment].countries[c].annualSpend[currentBudget] /
+         COUNTRY_META[c].annualSpend[currentBudget];
+}
+
+/* ============================================================
    STATE
    ============================================================ */
-let currentCountry = 'USA';
-let currentBudget  = 'mid';
-let currentEvent   = null;
+let currentCountry  = 'USA';
+let currentBudget   = 'mid';
+let currentEvent    = null;
+let currentSegment  = 'Luxury';
 
 /* ============================================================
    CALENDAR HELPERS
@@ -964,8 +1026,10 @@ function resolveChannels(phase, budget) {
    RENDER
    ============================================================ */
 function render() {
-  const meta   = COUNTRY_META[currentCountry];
-  const phases = PHASE_TEMPLATES[currentCountry];
+  const baseMeta = COUNTRY_META[currentCountry];
+  const segData  = getSegMeta(currentCountry);
+  const meta     = { ...baseMeta, ...segData };
+  const phases   = PHASE_TEMPLATES[currentCountry];
   const events = TARGET_EVENTS[currentCountry];
 
   // Resolve current event
@@ -1008,7 +1072,7 @@ function render() {
   startPill.textContent = 'Start Phase 1: ' + MONTHS_FULL[p1.startM-1] + ' ' + p1.startY + (tight ? ' — tight timeline' : '');
   startPill.className = 'start-pill' + (tight ? ' tight' : '');
 
-  const annualMain = meta.annualSpend[currentBudget];
+  const annualMain = segData.annualSpend[currentBudget];
 
   document.getElementById('bannerStats').innerHTML = `
     <div class="banner-stat"><div class="banner-stat-val accent">${meta.score}/10</div><div class="banner-stat-lbl">Opportunity Score</div></div>
@@ -1019,8 +1083,9 @@ function render() {
 
   /* --- Timeline --- */
   const tlHTML = windows.map((w, i) => {
-    const ph = phases[i];
-    const total = ph.total[currentBudget];
+    const ph    = phases[i];
+    const ratio = getPhaseRatio(i);
+    const total = Math.round(ph.total[currentBudget] * ratio);
     return `<div class="tl-phase" onclick="scrollToPhase(${i})">
       <div class="tl-num">Phase ${i+1}</div>
       <div class="tl-name">${ph.name}${w.hasEvent ? `<span class="tl-event-dot"></span>` : ''}</div>
@@ -1032,10 +1097,15 @@ function render() {
 
   /* --- Phase Cards --- */
   const phaseCardsHTML = phases.map((ph, i) => {
-    const w = windows[i];
-    const channels = resolveChannels(ph, currentBudget);
-    const maxCost  = Math.max(...channels.map(c => c.cost));
-    const phaseTotal = ph.total[currentBudget];
+    const w          = windows[i];
+    const ratio      = getPhaseRatio(i);
+    const rawChans   = resolveChannels(ph, currentBudget);
+    const channels   = rawChans.map(ch => ({ ...ch, cost: Math.round(ch.cost * ratio) }));
+    const maxCost    = Math.max(...channels.map(c => c.cost));
+    const phaseTotal = Math.round(ph.total[currentBudget] * ratio);
+    const segLabel   = currentSegment === 'Mix'
+      ? (i < 2 ? 'Mid-Luxury phase' : 'Luxury phase')
+      : SEGMENT_META[currentSegment].label + ' phase';
 
     const evBadge = w.hasEvent && ev.badge ? `<span class="phase-event-badge" style="background:${meta.tierColor}22;color:${meta.tierColor}">${ev.badge}</span>` : '';
 
@@ -1058,6 +1128,7 @@ function render() {
         <div class="phase-num-row">
           <span class="phase-num">Phase ${i+1} of 4</span>
           ${evBadge}
+          ${currentSegment !== 'Luxury' ? `<span style="font-size:10px;letter-spacing:0.08em;padding:2px 8px;border-radius:100px;background:var(--accent-pale);color:var(--accent);font-weight:500;">${segLabel}</span>` : ''}
         </div>
         <div class="phase-name">${ph.name}</div>
         <div class="phase-window">${w.label}</div>
@@ -1087,14 +1158,15 @@ function render() {
   document.getElementById('phasesGrid').innerHTML = phaseCardsHTML;
 
   /* --- Summary Table --- */
-  const mainTotals = phases.map(ph => ph.total[currentBudget]);
+  const mainTotals = phases.map((ph, i) => Math.round(ph.total[currentBudget] * getPhaseRatio(i)));
   const mainY1     = mainTotals.reduce((a,b)=>a+b,0);
+  const segLabel   = SEGMENT_META[currentSegment].label;
 
-  document.getElementById('summaryTitle').textContent = `${meta.flag} ${meta.name} ${meta.segment} — Year 1 Programme`;
+  document.getElementById('summaryTitle').textContent = `${meta.flag} ${meta.name} ${segLabel} — Year 1 Programme`;
   document.getElementById('summaryTotal').textContent = fmt(mainY1);
 
   document.getElementById('summaryBody').innerHTML = `<tr>
-    <td>${meta.flag} ${meta.name} ${meta.segment}</td>
+    <td>${meta.flag} ${meta.name} <span style="font-size:11px;color:var(--ink-3);">${segLabel}</span></td>
     ${mainTotals.map(t=>`<td>${fmt(t)}</td>`).join('')}
     <td>${fmt(mainY1)}</td>
   </tr>`;
@@ -1128,6 +1200,7 @@ function renderAll() {
   const KEYS = ['USA','Germany','France','Canada','Ireland'];
   const Y1   = ['USA','Germany'];
   const Y2   = ['France','Canada','Ireland'];
+  const segLabel = SEGMENT_META[currentSegment].label;
 
   const ALL_WINDOWS = [
     {label:'May–Jul 2026'},
@@ -1137,19 +1210,19 @@ function renderAll() {
   ];
   const PHASE_NAMES = ['Foundation','Activation','Peak Season','Sustain + Review'];
 
-  // Phase totals per country
+  // Phase totals per country — segment scaled
   const phaseSpends = [0,1,2,3].map(pi =>
-    KEYS.reduce((sum, k) => sum + PHASE_TEMPLATES[k][pi].total[currentBudget], 0)
+    KEYS.reduce((sum, k) => sum + Math.round(PHASE_TEMPLATES[k][pi].total[currentBudget] * getPhaseRatio(pi, k)), 0)
   );
-  const totalY1 = Y1.reduce((sum, k) => sum + COUNTRY_META[k].annualSpend[currentBudget], 0);
-  const totalAll = KEYS.reduce((sum, k) => sum + COUNTRY_META[k].annualSpend[currentBudget], 0);
+  const totalY1  = Y1.reduce((sum, k) => sum + getSegMeta(k).annualSpend[currentBudget], 0);
+  const totalAll = KEYS.reduce((sum, k) => sum + getSegMeta(k).annualSpend[currentBudget], 0);
   const budgetLabel = currentBudget==='low'?'conservative':currentBudget==='mid'?'moderate':'aggressive';
 
   /* Banner */
   document.getElementById('bannerInner').className = 'banner-inner tier-1';
-  document.getElementById('bannerTitle').textContent = '🌍 All 5 Countries — Full Marketing Programme';
+  document.getElementById('bannerTitle').textContent = `🌍 All 5 Countries — ${segLabel} Programme`;
   document.getElementById('bannerNote').textContent =
-    'Year 1 recommended: USA + Germany (' + fmt(totalY1) + ' at ' + budgetLabel + '). ' +
+    'Year 1 recommended: USA + Germany (' + fmt(totalY1) + ' at ' + budgetLabel + ' · ' + segLabel + '). ' +
     'France, Canada, and Ireland are Year 2 expansions pending USA Phase 2 results.';
   const sp = document.getElementById('startPill');
   sp.textContent = 'Start Phase 1: May 2026 — across all active markets';
@@ -1172,16 +1245,16 @@ function renderAll() {
   ).join('');
 
   /* Phase cards */
-  document.getElementById('phasesLabel').textContent = 'Phase-by-phase breakdown — all 5 countries';
+  document.getElementById('phasesLabel').textContent = `Phase-by-phase breakdown — all 5 countries · ${segLabel}`;
   document.getElementById('phasesGrid').innerHTML = [0,1,2,3].map(pi => {
     const w = ALL_WINDOWS[pi];
     const phaseTotal = phaseSpends[pi];
     const usaKpi = PHASE_TEMPLATES.USA[pi].kpi;
 
     const countryBlocks = KEYS.map(k => {
-      const meta = COUNTRY_META[k];
-      const ph   = PHASE_TEMPLATES[k][pi];
-      const spend = ph.total[currentBudget];
+      const meta  = COUNTRY_META[k];
+      const ph    = PHASE_TEMPLATES[k][pi];
+      const spend = Math.round(ph.total[currentBudget] * getPhaseRatio(pi, k));
       const isY2  = Y2.includes(k);
       const y2tag = isY2 ? ' <span style="font-size:10px;color:var(--ink-3);font-weight:400;">(Year 2)</span>' : '';
       const acts  = ph.activities.slice(0,3).map(a =>
@@ -1200,7 +1273,7 @@ function renderAll() {
         <div class="phase-num-row"><span class="phase-num">Phase ${pi+1} of 4</span></div>
         <div class="phase-name">${PHASE_NAMES[pi]}</div>
         <div class="phase-window">${w.label}</div>
-        <div class="phase-tagline">All 5 countries — combined activities and spend</div>
+        <div class="phase-tagline">All 5 countries — combined activities and spend · ${segLabel}</div>
       </div>
       <div class="phase-body">
         <div class="channels-label">Country-by-country activities &amp; spend</div>
@@ -1220,14 +1293,14 @@ function renderAll() {
   }).join('');
 
   /* Summary table */
-  document.getElementById('summaryTitle').textContent = '🌍 All 5 Countries — Year 1 Programme';
+  document.getElementById('summaryTitle').textContent = `🌍 All 5 Countries — ${segLabel} Year 1 Programme`;
   document.getElementById('summaryTotal').textContent = fmt(totalAll);
 
   const rows = KEYS.map(k => {
-    const meta = COUNTRY_META[k];
-    const spends = [0,1,2,3].map(i => PHASE_TEMPLATES[k][i].total[currentBudget]);
-    const tot = spends.reduce((a,b)=>a+b,0);
-    const isY2 = Y2.includes(k);
+    const meta   = COUNTRY_META[k];
+    const spends = [0,1,2,3].map(i => Math.round(PHASE_TEMPLATES[k][i].total[currentBudget] * getPhaseRatio(i, k)));
+    const tot    = spends.reduce((a,b)=>a+b,0);
+    const isY2   = Y2.includes(k);
     return `<tr${isY2?' style="color:var(--ink-3);"':''}>
       <td>${meta.flag} ${meta.name}${isY2?' <em style="font-size:10px;">(Year 2)</em>':''}</td>
       ${spends.map(s=>`<td>${fmt(s)}</td>`).join('')}
@@ -1258,6 +1331,12 @@ function renderAll() {
 /* ============================================================
    EVENT HANDLERS
    ============================================================ */
+function onSegmentChange() {
+  currentSegment = document.getElementById('segmentSel').value;
+  if (currentCountry === 'all') renderAll();
+  else render();
+}
+
 function onCountryChange() {
   currentCountry = document.getElementById('countrySel').value;
 
