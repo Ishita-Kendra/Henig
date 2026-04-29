@@ -717,52 +717,11 @@ footer .footer-brand {
 <section class="hero">
   <div class="hero-tag">◆ Strategic Expansion Analysis</div>
   <h1>Where should Henig<br>launch <em>first?</em></h1>
-  <p class="hero-sub">Follow the flow: set your filters → enter your budget → see which markets fit → configure your ad spend → view the full market analysis and ROI breakdown.</p>
-</section>
-
-<section class="controls-section">
-  <div class="step-label"><span class="step-num">1</span> Set your filters</div>
-  <div class="controls-bar">
-    <div class="ctrl">
-      <div class="ctrl-lbl">Country focus</div>
-      <select id="countrySel" onchange="onCountryChange()">
-        <option value="all">All countries</option>
-        <option value="USA">🇺🇸 USA</option>
-        <option value="Germany">🇩🇪 Germany</option>
-        <option value="France">🇫🇷 France</option>
-        <option value="Canada">🇨🇦 Canada</option>
-        <option value="Ireland">🇮🇪 Ireland</option>
-      </select>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-lbl">Segment</div>
-      <div class="seg-pills">
-        <button class="pill active" onclick="setSeg('both',this)">Luxury + Mid-Luxury</button>
-        <button class="pill" onclick="setSeg('luxury',this)">Luxury only</button>
-        <button class="pill" onclick="setSeg('mid',this)">Mid-Luxury only</button>
-      </div>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-lbl">Budget scenario</div>
-      <select id="budgetSel" onchange="applyScenario()">
-        <option value="low">Conservative (low-end)</option>
-        <option value="mid" selected>Moderate (midpoint)</option>
-        <option value="high">Aggressive (high-end)</option>
-        <option value="custom">Custom — set below</option>
-      </select>
-    </div>
-    <div class="ctrl">
-      <div class="ctrl-lbl">Gross margin</div>
-      <div class="margin-ctrl">
-        <input type="range" id="marginSlider" min="20" max="65" value="40" step="1" oninput="document.getElementById('marginOut').textContent=this.value+'%'; render()">
-        <span class="margin-val" id="marginOut">40%</span>
-      </div>
-    </div>
-  </div>
+  <p class="hero-sub">Enter your monthly budget → see which markets fit → configure your ad spend by country and channel → view the full ROI breakdown.</p>
 </section>
 
 <section class="budget-finder-section">
-  <div class="step-label"><span class="step-num">2</span> Enter your monthly budget</div>
+  <div class="step-label"><span class="step-num">1</span> Enter your monthly budget</div>
   <div class="budget-finder-card">
     <div class="bf-left">
       <div class="section-label" style="margin-bottom:6px;">Budget finder</div>
@@ -794,7 +753,7 @@ footer .footer-brand {
 </section>
 
 <section class="adspend-section">
-  <div class="step-label"><span class="step-num">3</span> Configure ad spend by country, channel &amp; ROI</div>
+  <div class="step-label"><span class="step-num">2</span> Configure ad spend by country, channel &amp; ROI</div>
 
   <!-- Country + Segment Selector -->
   <div class="cfg-row">
