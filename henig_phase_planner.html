@@ -469,6 +469,109 @@ footer .footer-brand { font-family: 'Playfair Display', serif; font-size: 13px; 
   </div>
 </section>
 
+<section id="formulaSection" style="padding:0 3rem 3rem;">
+  <div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;">ROI Formula &amp; Methodology</div>
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;">
+
+    <!-- Header -->
+    <div style="padding:1.25rem 1.75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:18px;margin-bottom:3px;">Power Response Function</div>
+        <div style="font-size:11px;color:var(--ink-3);">The proven diminishing-returns model — used in Nielsen MMM, Meta Robyn &amp; Google Meridian</div>
+      </div>
+      <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:var(--accent-pale);color:var(--accent);padding:4px 12px;border-radius:100px;border:1px solid var(--accent-mid);">β = 0.65 · advertising elasticity</div>
+    </div>
+
+    <!-- Formulas + variable table -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+      <div style="padding:1.5rem 1.75rem;border-right:1px solid var(--border);">
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1.1rem;">Three expressions</div>
+        <div style="margin-bottom:1.25rem;">
+          <div style="font-size:10px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;">Revenue</div>
+          <div style="font-family:'Courier New',monospace;font-size:24px;font-weight:600;color:var(--ink);background:var(--surface);padding:11px 16px;border-radius:8px;border:1px solid var(--border);">R = α · S<sup style="font-size:14px;">β</sup></div>
+        </div>
+        <div style="margin-bottom:1.25rem;">
+          <div style="font-size:10px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;">Return on investment</div>
+          <div style="font-family:'Courier New',monospace;font-size:17px;color:var(--ink);background:var(--surface);padding:11px 16px;border-radius:8px;border:1px solid var(--border);">ROI = ( R·m − S ) / S</div>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;">Break-even spend S*</div>
+          <div style="font-family:'Courier New',monospace;font-size:17px;color:var(--ink);background:var(--surface);padding:11px 16px;border-radius:8px;border:1px solid var(--border);">S* = (α·m)<sup style="font-size:11px;">1/(1−β)</sup></div>
+        </div>
+      </div>
+      <div style="padding:1.5rem 1.75rem;">
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1.1rem;">What each symbol means</div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--surface-2);">
+              <td style="padding:9px 0;font-family:'Courier New',monospace;font-size:17px;color:var(--accent);font-weight:700;width:28px;">R</td>
+              <td style="padding:9px 12px;font-weight:500;color:var(--ink);">Revenue ($)</td>
+              <td style="padding:9px 0;color:var(--ink-3);line-height:1.4;">Estimated phase revenue</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--surface-2);">
+              <td style="padding:9px 0;font-family:'Courier New',monospace;font-size:17px;color:var(--accent);font-weight:700;">S</td>
+              <td style="padding:9px 12px;font-weight:500;color:var(--ink);">Spend ($)</td>
+              <td style="padding:9px 0;color:var(--ink-3);line-height:1.4;">Your phase marketing budget</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--surface-2);">
+              <td style="padding:9px 0;font-family:'Courier New',monospace;font-size:17px;color:var(--accent);font-weight:700;">α</td>
+              <td style="padding:9px 12px;font-weight:500;color:var(--ink);">Alpha — efficiency</td>
+              <td style="padding:9px 0;color:var(--ink-3);line-height:1.4;">Phase multiplier × market score × modelSpend<sup style="font-size:9px;">0.35</sup>. Unique per country &amp; phase.</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--surface-2);">
+              <td style="padding:9px 0;font-family:'Courier New',monospace;font-size:17px;color:var(--accent);font-weight:700;">β</td>
+              <td style="padding:9px 12px;font-weight:500;color:var(--ink);">Beta — elasticity</td>
+              <td style="padding:9px 0;color:var(--ink-3);line-height:1.4;"><strong style="color:var(--ink);">Fixed at 0.65.</strong> Range 0.5–0.8 for new luxury DTC brands. Source: Sethuraman et al. 2011.</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 0;font-family:'Courier New',monospace;font-size:17px;color:var(--accent);font-weight:700;">m</td>
+              <td style="padding:9px 12px;font-weight:500;color:var(--ink);">Margin (%)</td>
+              <td style="padding:9px 0;color:var(--ink-3);line-height:1.4;">Gross margin from your slider</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Live values — updates with country / segment / budget changes -->
+    <div style="padding:1.1rem 1.75rem;background:var(--surface);border-bottom:1px solid var(--border);">
+      <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;">Live values — <span id="formulaCtxLabel">all 4 phases</span></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="formulaLiveChips"></div>
+    </div>
+
+    <!-- Plain-English explanation -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+      <div style="padding:1.25rem 1.75rem;border-right:1px solid var(--border);">
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">What β = 0.65 means in practice</div>
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.8;">
+          Double spend → revenue grows <strong>2<sup>0.65</sup> = 1.57×</strong> — not 2×.<br>
+          Triple spend → <strong>3<sup>0.65</sup> = 2.16×</strong> revenue — not 3×.<br>
+          The curve always bends right. You can never buy linear returns on advertising.
+        </div>
+      </div>
+      <div style="padding:1.25rem 1.75rem;">
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">Why α changes between phases</div>
+        <div style="font-size:12px;color:var(--ink-2);line-height:1.8;">
+          Phase 1 α is lowest — cold audience, brand unknown (1.25× multiplier).<br>
+          Phase 3 α is highest — warm retargeting, brand recall built (3.00× multiplier).<br>
+          Ireland α &lt; USA α because its market score is lower (6.9 vs 9.3/10).
+        </div>
+      </div>
+    </div>
+
+    <!-- Sources -->
+    <div style="padding:1rem 1.75rem;">
+      <div style="font-size:11px;color:var(--ink-3);line-height:1.7;">
+        <strong style="color:var(--ink-2);">Sources:</strong>
+        Dorfman &amp; Steiner (1954) "Optimal Advertising and Optimal Quality" ·
+        Sethuraman, Tellis &amp; Briesch (2011) "How Well Does Advertising Work?" — avg β = 0.22 mature brands, up to 0.65 for new luxury DTC launches ·
+        Nielsen Marketing Mix Modelling benchmarks 2023 · Meta Robyn open-source MMM · Google LightweightMMM (2024)
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <footer>
   <span class="footer-brand">HENIG DIAMONDS</span>
   <span>Spend based on launch plan (May 2026–Apr 2027). Moderate = recommended scenario. All campaigns via henigdiamonds.com. Sources: Henig Launch Plan · B2C App · VR Try-On Addendum · 2026</span>
@@ -2203,7 +2306,7 @@ function render() {
     </div>`;
   }).join('');
   document.getElementById('barChartRows').innerHTML = barRows;
-
+  updateFormulaSection();
 }
 
 function scrollToPhase(i) {
@@ -2361,6 +2464,7 @@ function renderAll() {
       <span class="bar-chart-val">${fmt(t)}</span>
     </div>`
   ).join('');
+  updateFormulaSection();
 }
 
 
@@ -2414,6 +2518,63 @@ function populateEventDropdown() {
   sel.innerHTML = evs.map(e => `<option value="${e.id}">${e.label}</option>`).join('');
   // Default to first non-custom
   sel.value = evs[0].id;
+}
+
+/* ============================================================
+   FORMULA SECTION — live values
+   ============================================================ */
+function updateFormulaSection() {
+  const ctxEl   = document.getElementById('formulaCtxLabel');
+  const chipsEl = document.getElementById('formulaLiveChips');
+  if (!ctxEl || !chipsEl) return;
+
+  const refCountry  = currentCountry === 'all' ? 'USA' : currentCountry;
+  const segLabel    = (SEGMENT_META[currentSegment] || {}).label || 'Luxury';
+  const budgetLabel = currentBudget === 'low' ? 'Conservative' : currentBudget === 'mid' ? 'Moderate' : 'Aggressive';
+  const beta        = 0.65;
+  const phColors    = ['#2563eb','#92400e','#15803d','#0891b2'];
+  const phNames     = ['Foundation','Activation','Peak','Sustain'];
+
+  ctxEl.textContent = `All 4 phases · ${refCountry} · ${segLabel} · ${budgetLabel}`;
+
+  chipsEl.innerHTML = PHASE_REV_MULT.map((mult, pi) => {
+    const meta       = getSegMeta(refCountry);
+    const score      = parseFloat(meta.score) || 7.0;
+    const scoreAdj   = score / 9.3;
+    const ph         = PHASE_TEMPLATES_ONLINE[refCountry][pi];
+    const modelSpend = Math.round(ph.total[currentBudget] * getPhaseRatio(pi, refCountry));
+    const alpha      = mult * scoreAdj * Math.pow(modelSpend, 1 - beta);
+    const margin     = getPhaseMargin(refCountry, pi) / 100;
+    const beMult     = mult * scoreAdj * margin;
+    const beSpend    = beMult > 0 ? Math.round(modelSpend * Math.pow(beMult, 1 / 0.35)) : null;
+
+    return `
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:10px 14px;min-width:130px;flex:1;">
+        <div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:${phColors[pi]};margin-bottom:8px;font-weight:600;">Phase ${pi+1} · ${phNames[pi]}</div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:12px;">
+            <span style="font-family:'Courier New',monospace;color:var(--ink-3);">α</span>
+            <strong style="color:var(--ink);">${alpha.toFixed(1)}</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:12px;">
+            <span style="font-family:'Courier New',monospace;color:var(--ink-3);">β</span>
+            <strong style="color:var(--accent);">0.65</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:12px;">
+            <span style="font-family:'Courier New',monospace;color:var(--ink-3);">m</span>
+            <strong style="color:var(--gold);">${(margin*100).toFixed(0)}%</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:12px;">
+            <span style="font-family:'Courier New',monospace;color:var(--ink-3);">S</span>
+            <strong style="color:var(--ink-2);">${fmt(modelSpend)}</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:12px;border-top:1px solid var(--surface-2);padding-top:5px;margin-top:2px;">
+            <span style="font-family:'Courier New',monospace;color:var(--ink-3);">S*</span>
+            <strong style="color:var(--ruby);">${beSpend ? fmt(beSpend) : '—'}</strong>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
 }
 
 /* ============================================================
