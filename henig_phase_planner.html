@@ -1862,6 +1862,17 @@ function buildROIInner(country, pi) {
   const margin = getPhaseMargin(country, pi);
   const roi    = computePhaseROI(pi, spend, country);
 
+  // Formula substitution values
+  const _meta       = getSegMeta(country);
+  const _score      = parseFloat(_meta.score) || 7.0;
+  const _scoreAdj   = _score / 9.3;
+  const _ph         = PHASE_TEMPLATES_ONLINE[country][pi];
+  const _modelSpend = Math.round(_ph.total[currentBudget] * getPhaseRatio(pi, country));
+  const _mult       = PHASE_REV_MULT[pi];
+  const _alpha      = _mult * _scoreAdj * Math.pow(_modelSpend, 0.35);
+  const _roiColor   = roi.roi >= 0 ? 'var(--emerald)' : roi.roi >= -40 ? 'var(--amber)' : 'var(--ruby)';
+  const _roiStr     = roi.insufficient ? '—' : (roi.roi >= 0 ? '+' : '') + roi.roi.toFixed(0) + '%';
+
   const roiCls  = roi.roi >= 0 ? 'green' : roi.roi >= -40 ? 'amber' : 'red';
   const roiSign = roi.roi >= 0 ? '+' : '';
 
@@ -1920,7 +1931,50 @@ function buildROIInner(country, pi) {
   <div class="dim-graph-wrap">
     <div class="dim-graph-label">Diminishing returns — ROI vs. spend</div>
     ${dimGraph}
-  </div>`;
+  </div>
+  <details style="margin-top:0.75rem;border-top:1px solid var(--border);padding-top:0.75rem;">
+    <summary style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);cursor:pointer;user-select:none;display:flex;align-items:center;gap:6px;list-style:none;">
+      <span style="font-size:12px;">▶</span> How is this calculated?
+    </summary>
+    <div style="margin-top:0.875rem;background:var(--surface);border-radius:10px;padding:14px 16px;font-size:12px;">
+
+      <div style="font-family:'Courier New',monospace;font-size:18px;font-weight:700;color:var(--ink);margin-bottom:14px;letter-spacing:-.02em;">
+        R = α · S<sup style="font-size:11px;">β</sup>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+
+        <div style="padding-bottom:12px;border-bottom:1px solid var(--border);">
+          <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;font-weight:600;">Step 1 — expand α (efficiency)</div>
+          <div style="font-family:'Courier New',monospace;color:var(--ink-2);line-height:2;font-size:11px;">
+            α &nbsp;= Mult × (Score ÷ 9.3) × S₀<sup style="font-size:8px;">0.35</sup><br>
+            α &nbsp;= ${_mult.toFixed(2)} × (${_score.toFixed(1)} ÷ 9.3) × ${fmt(_modelSpend)}<sup style="font-size:8px;">0.35</sup><br>
+            α &nbsp;= ${_mult.toFixed(2)} × ${_scoreAdj.toFixed(3)} × ${Math.pow(_modelSpend, 0.35).toFixed(1)}<br>
+            <span style="color:var(--accent);font-weight:700;">α &nbsp;= ${_alpha.toFixed(2)}</span>
+          </div>
+        </div>
+
+        <div style="padding-bottom:12px;border-bottom:1px solid var(--border);">
+          <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--emerald);margin-bottom:6px;font-weight:600;">Step 2 — revenue &nbsp;(β = 0.65 fixed)</div>
+          <div style="font-family:'Courier New',monospace;color:var(--ink-2);line-height:2;font-size:11px;">
+            R &nbsp;= α · S<sup style="font-size:8px;">0.65</sup><br>
+            R &nbsp;= ${_alpha.toFixed(2)} · ${fmt(spend)}<sup style="font-size:8px;">0.65</sup><br>
+            <span style="color:var(--emerald);font-weight:700;">R &nbsp;= ${roi.insufficient ? '—' : fmt(Math.round(roi.revenue))}</span>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:6px;font-weight:600;">Step 3 — ROI</div>
+          <div style="font-family:'Courier New',monospace;color:var(--ink-2);line-height:2;font-size:11px;">
+            ROI = (R · m − S) ÷ S<br>
+            ROI = (${roi.insufficient ? '—' : fmt(Math.round(roi.revenue))} · ${margin}% − ${fmt(spend)}) ÷ ${fmt(spend)}<br>
+            <span style="color:${_roiColor};font-weight:700;">ROI = ${_roiStr}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </details>`;
 }
 
 function refreshPhaseROI(country, pi) {
