@@ -1214,12 +1214,17 @@ function runBudgetFinder() {
   function roiBg(v) { return v>=100?'#dcfce7':v>=0?'#fef3c7':'#fee2e2'; }
   const segBadge = (s) => `<span style="font-size:9px;font-weight:600;letter-spacing:.08em;background:${s==='Luxury'?'#eff4ff':'#dcfce7'};color:${s==='Luxury'?'#2563eb':'#15803d'};padding:2px 7px;border-radius:100px;margin-left:5px;">${s}</span>`;
 
+  const maxTam = Math.max(...viable.slice(0,6).map(p => p.size));
   container.innerHTML = `
     <div class="bf-verdict bf-verdict-solo">
       <div class="bf-verdict-icon">◆</div>
       <div class="bf-verdict-body">
         <div class="bf-verdict-title">Best ROI — ${solo.flag} ${solo.market} · ${solo.seg}</div>
         <div class="bf-verdict-sub">${solo.why} <strong style="color:var(--emerald);">✓ Loaded into configurator below ↓</strong></div>
+        <div style="margin-top:6px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+          <span style="font-size:11px;color:var(--ink-3);">Segment TAM <strong style="color:var(--accent);font-size:13px;">${fmtUSD(solo.size*1e9)}</strong></span>
+          <span style="font-size:11px;color:var(--ink-3);">Est. capture <strong style="color:var(--ink-2);">~${(solo.roi.rev1/(solo.size*1e9)*100).toFixed(3)}%</strong> of TAM</span>
+        </div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;">
         <div class="bf-verdict-roi" style="background:${roiBg(solo.roi.blended)};color:${roiColor(solo.roi.blended)};">
@@ -1229,21 +1234,34 @@ function runBudgetFinder() {
     </div>
     <div class="bf-ranked-title">All viable markets — ranked by ROI at $${fmtShort(budget)}/mo &nbsp;·&nbsp; click any to switch</div>
     <div class="bf-country-list">
-      ${viable.slice(0,6).map((p,i) => `
+      ${viable.slice(0,6).map((p,i) => {
+        const capPct = (p.roi.rev1/(p.size*1e9)*100).toFixed(3);
+        const tamBarW = Math.round(p.size/maxTam*100);
+        return `
         <div class="bf-country-item ${i===0?'bf-top':''}" onclick="applyBudgetCountry('${p.market}','${p.seg}',${Math.round(Math.min(budget,p.maxMonthly))})">
           <div class="bf-rank ${i===0?'gold':i===1?'':' muted'}">${i+1}</div>
           <div class="bf-country-body">
             <div class="bf-country-name">${p.flag} ${p.market}${segBadge(p.seg)} ${i===0?'<span style="font-size:9px;background:var(--emerald-pale);color:var(--emerald);padding:2px 7px;border-radius:100px;margin-left:4px;">Applied ✓</span>':''}</div>
             <div class="bf-country-meta">$${fmtShort(Math.round(p.monthly))}/mo · Score ${p.score}/10 · ASP $${p.asp.toLocaleString()} · YoY +${p.yoy}%</div>
-            <div class="bf-country-why">${p.why}</div>
+            <div style="margin-top:5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);">TAM</span>
+              <strong style="font-size:13px;color:var(--accent);">${fmtUSD(p.size*1e9)}</strong>
+              <div style="flex:1;min-width:60px;max-width:110px;height:5px;background:var(--surface-2);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${tamBarW}%;background:var(--accent);border-radius:3px;opacity:.6;"></div></div>
+              <span style="font-size:10px;color:var(--ink-3);">~${capPct}% capture</span>
+            </div>
+            <div class="bf-country-why" style="margin-top:4px;">${p.why}</div>
           </div>
-          <div style="flex-shrink:0;text-align:right;">
+          <div style="flex-shrink:0;text-align:right;display:flex;flex-direction:column;gap:5px;align-items:flex-end;">
             <div style="display:inline-flex;flex-direction:column;align-items:center;background:${roiBg(p.roi.blended)};color:${roiColor(p.roi.blended)};padding:6px 10px;border-radius:8px;min-width:60px;">
               <span style="font-size:15px;font-weight:700;">${p.roi.blended>=0?'+':''}${p.roi.blended.toFixed(0)}%</span>
               <span style="font-size:9px;opacity:.75;">ROI</span>
             </div>
+            <div style="display:inline-flex;flex-direction:column;align-items:center;background:var(--accent-pale);color:var(--accent);padding:5px 10px;border-radius:8px;min-width:60px;">
+              <span style="font-size:13px;font-weight:700;">${fmtUSD(p.size*1e9)}</span>
+              <span style="font-size:9px;color:var(--ink-3);">Seg. TAM</span>
+            </div>
           </div>
-        </div>`).join('')}
+        </div>`}).join('')}
     </div>
     <div class="bf-apply-row">Click any other market above to load it into the configurator instead.</div>
   `;
