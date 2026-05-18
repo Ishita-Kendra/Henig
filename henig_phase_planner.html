@@ -2065,7 +2065,7 @@ function render() {
 
   document.getElementById('bannerStats').innerHTML = `
     <div class="banner-stat"><div class="banner-stat-val accent">${meta.score}/10</div><div class="banner-stat-lbl">Opportunity Score</div></div>
-    <div class="banner-stat"><div class="banner-stat-val">${meta.tam}</div><div class="banner-stat-lbl">Market Size 2025</div></div>
+    <div class="banner-stat"><div class="banner-stat-val">${meta.tam}</div><div class="banner-stat-lbl">Segment TAM</div></div>
     <div class="banner-stat"><div class="banner-stat-val">${meta.yoy}</div><div class="banner-stat-lbl">Annual Growth Rate</div></div>
     <div class="banner-stat"><div class="banner-stat-val accent">${fmt(annualMain)}</div><div class="banner-stat-lbl">Year 1 ${currentBudget==='low'?'conservative':currentBudget==='mid'?'moderate':'aggressive'}</div></div>
   `;
@@ -2257,9 +2257,16 @@ function renderAll() {
   const rEl = document.getElementById('eventRationale');
   if (rEl) rEl.style.display = 'none';
 
+  const _segData = SEGMENT_META[currentSegment] || SEGMENT_META['Luxury'];
+  const _combinedTamB = ['USA','Germany','France','Canada','Ireland'].reduce((sum, c) => {
+    const t = (_segData.countries[c] || {}).tam || '$0B';
+    return sum + parseFloat(t.replace(/[$B]/g, ''));
+  }, 0);
+
   document.getElementById('bannerStats').innerHTML = `
     <div class="banner-stat"><div class="banner-stat-val accent">${fmt(totalY1)}</div><div class="banner-stat-lbl">Year 1 Budget (USA + Germany)</div></div>
     <div class="banner-stat"><div class="banner-stat-val">${fmt(totalAll)}</div><div class="banner-stat-lbl">All 5 Countries Combined</div></div>
+    <div class="banner-stat"><div class="banner-stat-val">$${_combinedTamB.toFixed(2)}B</div><div class="banner-stat-lbl">Combined Segment TAM</div></div>
     <div class="banner-stat"><div class="banner-stat-val green">5</div><div class="banner-stat-lbl">Target Markets</div></div>
   `;
 
